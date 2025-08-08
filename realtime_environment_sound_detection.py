@@ -9,12 +9,13 @@ SAMPLE_RATE = 16000     # 샘플링 레이트
 REF_RMS = 0.1           # 기준 RMS (94 dB SPL에 해당하는 RMS)
 
 # === 감지 임계값 ===
+# 스크림 파일 분석 결과를 바탕으로 업데이트된 임계값
 SCREAM_THRESHOLDS = {
-    "rms": 0.02,
-    "centroid": 3000,
-    "flatness_max": 0.3,
-    "zcr": 0.15,
-    "hnr": 10
+    "rms": 0.1,           # 실제 스크림은 0.26 평균, 보수적으로 0.18
+    "centroid": 1400,      # 실제 스크림은 1790Hz 평균, 보수적으로 1400Hz
+    "flatness_max": 0.01,  # 실제 스크림은 0.0056 평균, 스크림은 매우 톤적
+    "zcr": 0.12,           # 실제 스크림은 0.14 평균, 보수적으로 0.12
+    "hnr": 5               # 실제 스크림은 12.84dB 평균, 다양성 고려해 5dB
 }
 
 EXPLOSION_THRESHOLDS = {
