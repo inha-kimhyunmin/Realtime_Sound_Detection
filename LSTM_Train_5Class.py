@@ -1,6 +1,6 @@
 """
-5클래스 LSTM 모델 학습 스크립트
-================================
+5클래스 LSTM 모델 학습 스크립트 v1.3
+=====================================
 
 이 스크립트는 YAMNet + LSTM을 사용하여 5개 클래스(무음, 정상, 화재, 가스누출, 비명)를  
 분류하는 모델을 학습합니다.
@@ -10,7 +10,9 @@
 - SILENCE_SAMPLES: 무음 데이터 샘플 수
 - NORMAL_SAMPLES: 정상(공장소음) 데이터 샘플 수  
 - TRANSITION_SAMPLES: 무음→공장소리 전환 데이터 샘플 수
-- DANGER_TRANSITION_SAMPLES: 무음→위험소리 전환 데이터 샘플 수 (새로 추가)
+- DANGER_TRANSITION_SAMPLES: 무음→위험소리 전환 데이터 샘플 수
+- FACTORY_TRANSITION_SAMPLES: 공장소리→다른공장소리 전환 데이터 샘플 수 (v1.3 신규)
+- SILENCE_VARIATION_SAMPLES: 무음→다른무음 변화 데이터 샘플 수 (v1.3 신규)
 - AUTO_WEIGHT_CALCULATION: 자동 가중치 계산 여부
   - True: envsound 폴더의 파일 개수를 기반으로 자동 계산
   - False: MANUAL_DANGER_WEIGHTS 사용
@@ -19,9 +21,22 @@
   - 'gas': 가스누출 소음 가중치  
   - 'scream': 비명 소음 가중치
 
-새로 추가된 전환 데이터:
+v1.3 새로 추가된 훈련 데이터:
+1. 공장소리→다른공장소리 전환:
+   - 서로 다른 공장소리 파일 간의 전환 시나리오
+   - 30~70% 지점에서 0.5초 페이드 전환
+   - 모든 프레임이 정상(공장) 클래스로 라벨링
+   - 목적: 공장소리 변화 시에도 안정적으로 "정상" 판단
+
+2. 무음 변화 (다양한 배경소음):
+   - 순수무음 ↔ 저잡음 ↔ 화이트노이즈 간 변화
+   - 20~80% 지점에서 0.2초 페이드 전환
+   - 모든 프레임이 무음 클래스로 라벨링
+   - 목적: 다양한 배경소음 패턴에서도 안정적으로 "무음" 판단
+
+기존 전환 데이터:
 - 무음 상태에서 갑자기 공장 소리가 시작되는 현실적인 시나리오
-- 무음 상태에서 갑자기 위험 소리가 시작되는 긴급 상황 시나리오 (새로 추가)
+- 무음 상태에서 갑자기 위험 소리가 시작되는 긴급 상황 시나리오
 - 전체 길이의 20~80% 지점에서 무음→공장소리/위험소리 전환
 - 0.5초 페이드인 효과로 자연스러운 전환 구현
 - 무음 구간은 클래스 0, 전환 후 구간은 해당 클래스로 라벨링
@@ -39,7 +54,7 @@
 - summary_{VERSION}.json: 요약 정보 (성능, 설정값 등)
 
 폴더 구조:
-model_results_{VERSION}_{YYYYMMDD_HHMMSS}/
+model_results_{VERSION}/
 ├── yamnet_lstm_model_{VERSION}.h5
 ├── model_info_{VERSION}.pkl  
 ├── model_performance_{VERSION}.txt
@@ -73,12 +88,16 @@ NORMAL_SAMPLES = 180       # 정상(공장소음) 데이터 샘플 수 (증가)
 TRANSITION_SAMPLES = 100   # 무음→공장소리 전환 데이터 샘플 수 (증가)
 DANGER_TRANSITION_SAMPLES = 90  # 무음→위험소리 전환 데이터 샘플 수 (증가)
 
+# v1.3 새로 추가된 데이터 타입
+FACTORY_TRANSITION_SAMPLES = 80  # 공장소리→다른공장소리 전환 데이터 샘플 수
+SILENCE_VARIATION_SAMPLES = 60   # 무음→다른무음 변화 데이터 샘플 수
+
 # 버전 관리 설정
-VERSION = "v1.2"  # 모델 버전 (결과물 폴더명에 사용)
+VERSION = "v1.3"  # 모델 버전 (결과물 폴더명에 사용)
 
 # 위험 소음별 가중치 (파일당 생성할 샘플 수)
 # 자동 계산 또는 수동 설정 가능
-AUTO_WEIGHT_CALCULATION = True  # True: 파일 개수 기반 자동 계산, False: 수동 설정
+AUTO_WEIGHT_CALCULATION = False  # True: 파일 개수 기반 자동 계산, False: 수동 설정
 
 # 수동 설정시 사용되는 가중치 (소수점 조절 가능)
 MANUAL_DANGER_WEIGHTS = {
@@ -158,9 +177,7 @@ def create_version_folder(version):
     Returns:
         str: 생성된 폴더 경로
     """
-    from datetime import datetime
-    current_time = datetime.now().strftime("%Y%m%d_%H%M%S")
-    folder_name = f"model_results_{version}_{current_time}"
+    folder_name = f"model_results_{version}"
     
     if not os.path.exists(folder_name):
         os.makedirs(folder_name)
@@ -489,6 +506,165 @@ def generate_danger_transition_labels(transition_start_sec, transition_end_sec, 
     
     return labels
 
+def create_factory_to_factory_transition(factory_audio1, factory_audio2, sr, total_duration=10.0):
+    """
+    공장소리에서 다른 공장소리로 전환되는 오디오 생성
+    
+    Args:
+        factory_audio1: 첫 번째 공장소리 오디오
+        factory_audio2: 두 번째 공장소리 오디오
+        sr: 샘플링 레이트
+        total_duration: 총 오디오 길이 (초)
+    
+    Returns:
+        tuple: (전환 오디오, 전환 시점(초))
+    """
+    total_samples = int(total_duration * sr)
+    
+    # 전환 시점을 30~70% 사이에서 랜덤 선택
+    transition_ratio = random.uniform(0.3, 0.7)
+    transition_start_sec = total_duration * transition_ratio
+    transition_samples = int(transition_start_sec * sr)
+    
+    # 페이드 전환 길이 (0.5초)
+    fade_duration = 0.5
+    fade_samples = int(fade_duration * sr)
+    
+    # 결과 오디오 초기화
+    result_audio = np.zeros(total_samples)
+    
+    # 첫 번째 공장소리로 시작 부분 채우기
+    if len(factory_audio1) > 0:
+        factory1_repeated = np.tile(factory_audio1, (transition_samples // len(factory_audio1)) + 1)
+        result_audio[:transition_samples] = factory1_repeated[:transition_samples]
+    
+    # 두 번째 공장소리로 나머지 부분 채우기
+    if len(factory_audio2) > 0:
+        remaining_samples = total_samples - transition_samples
+        factory2_repeated = np.tile(factory_audio2, (remaining_samples // len(factory_audio2)) + 1)
+        second_part = factory2_repeated[:remaining_samples]
+        
+        # 페이드 전환 적용
+        if transition_samples + fade_samples <= total_samples:
+            # 첫 번째 소리 페이드 아웃
+            fade_start = max(0, transition_samples - fade_samples)
+            fade_end = transition_samples
+            fade_length = fade_end - fade_start
+            if fade_length > 0:
+                fade_out = np.linspace(1, 0, fade_length)
+                result_audio[fade_start:fade_end] *= fade_out
+            
+            # 두 번째 소리 페이드 인
+            second_fade_start = transition_samples
+            second_fade_end = min(total_samples, transition_samples + fade_samples)
+            second_fade_length = second_fade_end - second_fade_start
+            if second_fade_length > 0:
+                fade_in = np.linspace(0, 1, second_fade_length)
+                second_part[:second_fade_length] *= fade_in
+        
+        result_audio[transition_samples:] = second_part
+    
+    return result_audio, transition_start_sec
+
+def create_silence_variation_transition(sr, total_duration=10.0):
+    """
+    다양한 무음/배경소음 변화 오디오 생성
+    
+    Args:
+        sr: 샘플링 레이트
+        total_duration: 총 오디오 길이 (초)
+    
+    Returns:
+        tuple: (변화 오디오, 변화 시점(초))
+    """
+    total_samples = int(total_duration * sr)
+    
+    # 변화 시점을 20~80% 사이에서 랜덤 선택
+    transition_ratio = random.uniform(0.2, 0.8)
+    transition_start_sec = total_duration * transition_ratio
+    transition_samples = int(transition_start_sec * sr)
+    
+    # 결과 오디오 초기화
+    result_audio = np.zeros(total_samples)
+    
+    # 첫 번째 무음/배경소음 타입
+    silence_type1 = random.choice(['pure_silence', 'low_noise', 'white_noise'])
+    if silence_type1 == 'pure_silence':
+        first_part = np.zeros(transition_samples)
+    elif silence_type1 == 'low_noise':
+        first_part = generate_background_noise(transition_start_sec, sr)
+    else:  # white_noise
+        first_part = np.random.normal(0, 0.001, transition_samples)
+    
+    # 두 번째 무음/배경소음 타입 (첫 번째와 다르게)
+    remaining_duration = total_duration - transition_start_sec
+    remaining_samples = total_samples - transition_samples
+    
+    silence_types = ['pure_silence', 'low_noise', 'white_noise']
+    silence_types.remove(silence_type1)  # 첫 번째와 다른 타입 선택
+    silence_type2 = random.choice(silence_types)
+    
+    if silence_type2 == 'pure_silence':
+        second_part = np.zeros(remaining_samples)
+    elif silence_type2 == 'low_noise':
+        second_part = generate_background_noise(remaining_duration, sr)
+    else:  # white_noise
+        second_part = np.random.normal(0, 0.001, remaining_samples)
+    
+    # 페이드 전환 적용 (0.2초)
+    fade_duration = 0.2
+    fade_samples = int(fade_duration * sr)
+    
+    if transition_samples >= fade_samples and remaining_samples >= fade_samples:
+        # 첫 번째 부분 페이드 아웃
+        fade_start = transition_samples - fade_samples
+        fade_out = np.linspace(1, 0, fade_samples)
+        first_part[fade_start:] *= fade_out
+        
+        # 두 번째 부분 페이드 인
+        fade_in = np.linspace(0, 1, fade_samples)
+        second_part[:fade_samples] *= fade_in
+    
+    # 결합
+    result_audio[:transition_samples] = first_part
+    result_audio[transition_samples:] = second_part
+    
+    return result_audio, transition_start_sec
+
+def generate_factory_transition_labels(transition_start_sec, total_duration=10.0, frame_length=0.48):
+    """
+    공장소리→다른공장소리 전환에 대한 프레임별 라벨 생성
+    (전체 구간이 모두 정상 공장소리이므로 모든 프레임이 클래스 1)
+    
+    Args:
+        transition_start_sec: 전환 시작 시점 (초)
+        total_duration: 총 오디오 길이 (초)
+        frame_length: 프레임 길이 (초)
+    
+    Returns:
+        numpy.array: 프레임별 클래스 라벨 (모두 1=정상공장소리)
+    """
+    num_frames = int(total_duration / frame_length)
+    labels = np.ones(num_frames, dtype=int)  # 모든 프레임이 정상 공장소리 (1)
+    return labels
+
+def generate_silence_variation_labels(transition_start_sec, total_duration=10.0, frame_length=0.48):
+    """
+    무음 변화에 대한 프레임별 라벨 생성
+    (전체 구간이 모두 무음이므로 모든 프레임이 클래스 0)
+    
+    Args:
+        transition_start_sec: 변화 시작 시점 (초)
+        total_duration: 총 오디오 길이 (초)
+        frame_length: 프레임 길이 (초)
+    
+    Returns:
+        numpy.array: 프레임별 클래스 라벨 (모두 0=무음)
+    """
+    num_frames = int(total_duration / frame_length)
+    labels = np.zeros(num_frames, dtype=int)  # 모든 프레임이 무음 (0)
+    return labels
+
 # ---------------------------
 # 13) 메인 실행 코드
 # ---------------------------
@@ -807,7 +983,75 @@ def main():
                 print(f"    파일 처리 중 오류 발생: {event_path}, 오류: {e}")
                 continue
     
-    # 9) 데이터 배열화 및 전처리
+    # 9) v1.3 새로 추가: 공장소리→다른공장소리 전환 데이터 생성
+    print(f"\n공장소리→다른공장소리 전환 데이터 생성 중... (총 {FACTORY_TRANSITION_SAMPLES}개 샘플)")
+    if len(factory_paths) >= 2:
+        for i in range(FACTORY_TRANSITION_SAMPLES):
+            try:
+                # 두 개의 서로 다른 공장소리 파일 선택
+                factory_files = random.sample(factory_paths, 2)
+                factory_audio1, _ = librosa.load(factory_files[0], sr=sr)
+                factory_audio2, _ = librosa.load(factory_files[1], sr=sr)
+                
+                # 전환 오디오 생성
+                transition_audio, transition_start_sec = create_factory_to_factory_transition(
+                    factory_audio1, factory_audio2, sr, total_duration
+                )
+                
+                # YAMNet 임베딩 추출
+                embeddings = extract_yamnet_embeddings(transition_audio, sr, yamnet_model)
+                labels = generate_factory_transition_labels(transition_start_sec, total_duration, frame_length)
+                
+                X_data.append(embeddings)
+                y_data.append(labels)
+                data_info.append({
+                    'class': 'factory_transition',
+                    'class_id': 1,  # 정상 공장소리
+                    'type': '공장소리전환',
+                    'factory_file1': os.path.basename(factory_files[0]),
+                    'factory_file2': os.path.basename(factory_files[1]),
+                    'transition_start_sec': transition_start_sec,
+                    'sample_index': i
+                })
+                
+                if (i + 1) % 10 == 0:
+                    print(f"    공장 전환 데이터 진행률: {i+1}/{FACTORY_TRANSITION_SAMPLES}")
+                    
+            except Exception as e:
+                print(f"    공장 전환 데이터 처리 중 오류: {e}")
+                continue
+    else:
+        print("    경고: 공장소리 파일이 2개 미만입니다. 공장소리 전환 데이터를 생성할 수 없습니다.")
+    
+    # 10) v1.3 새로 추가: 무음 변화 데이터 생성
+    print(f"\n무음 변화 데이터 생성 중... (총 {SILENCE_VARIATION_SAMPLES}개 샘플)")
+    for i in range(SILENCE_VARIATION_SAMPLES):
+        try:
+            # 다양한 무음/배경소음 변화 오디오 생성
+            variation_audio, transition_start_sec = create_silence_variation_transition(sr, total_duration)
+            
+            # YAMNet 임베딩 추출
+            embeddings = extract_yamnet_embeddings(variation_audio, sr, yamnet_model)
+            labels = generate_silence_variation_labels(transition_start_sec, total_duration, frame_length)
+            
+            X_data.append(embeddings)
+            y_data.append(labels)
+            data_info.append({
+                'class': 'silence_variation',
+                'class_id': 0,  # 무음
+                'type': '무음변화',
+                'transition_start_sec': transition_start_sec,
+                'sample_index': i
+            })
+            
+            if (i + 1) % 10 == 0:
+                print(f"    무음 변화 데이터 진행률: {i+1}/{SILENCE_VARIATION_SAMPLES}")
+                
+        except Exception as e:
+            print(f"    무음 변화 데이터 처리 중 오류: {e}")
+            continue
+
+    # 11) 데이터 배열화 및 전처리
     print(f"\n총 데이터 샘플 수: {len(X_data)}")
     
     if len(X_data) == 0:

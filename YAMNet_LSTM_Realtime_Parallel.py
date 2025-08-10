@@ -41,8 +41,8 @@ DANGER_THRESHOLD = 0.7        # 위험 감지 확률 임계값
 OVERLAP_RATIO = 0.5           # 세그먼트 간 겹침 비율 (0.5 = 50% 겹침)
 
 # 모델 파일 경로 (자동 탐색 또는 수동 설정)
-MODEL_PATH = None  # None이면 자동으로 최신 모델 탐색
-MODEL_INFO_PATH = None  # None이면 자동으로 탐색
+MODEL_PATH = 'model_results_v1.1_20250808_152941/yamnet_lstm_model_v1.1.h5'  # None이면 자동으로 최신 모델 탐색
+MODEL_INFO_PATH = 'model_results_v1.1_20250808_152941/model_info_v1.1.pkl'  # None이면 자동으로 탐색
 
 # 마이크 및 오디오 처리 설정
 AUTO_CALIBRATION_MODE = True    # True: 자동 캘리브레이션, False: 수동 설정 사용
@@ -288,6 +288,43 @@ class RealTimeAudioDetector:
         rms, max_val = self.get_audio_volume(audio)
         return rms < rms_threshold and max_val < max_threshold
     
+    def predict_sound_type(self, audio):
+        """캘리브레이션용 단일 오디오 세그먼트의 소리 유형 예측"""
+        try:
+            # YAMNet 임베딩 추출
+            embeddings = self.extract_yamnet_embeddings(audio)
+            if embeddings is None:
+                return 0, 0.0  # 무음으로 처리
+            
+            # LSTM 모델 입력 형태로 변환
+            expected_frames = self.lstm_model.input_shape[1]
+            if embeddings.shape[0] < expected_frames:
+                # 패딩
+                padding_needed = expected_frames - embeddings.shape[0]
+                embeddings = np.pad(embeddings, ((0, padding_needed), (0, 0)), mode='constant')
+            elif embeddings.shape[0] > expected_frames:
+                # 자르기
+                embeddings = embeddings[:expected_frames]
+            
+            # 배치 차원 추가
+            embeddings = np.expand_dims(embeddings, axis=0)  # (1, frames, 1024)
+            
+            # 모델 예측
+            predictions = self.lstm_model.predict(embeddings, verbose=0)
+            
+            # 전체 세그먼트에 대한 최종 예측 (마지막 프레임의 예측 사용)
+            # LSTM의 마지막 출력이 전체 시퀀스를 고려한 최종 판단
+            final_prediction = predictions[0][-1]  # (num_classes,) - 마지막 프레임의 예측
+            
+            predicted_class = np.argmax(final_prediction)
+            confidence = final_prediction[predicted_class]
+            
+            return predicted_class, confidence
+            
+        except Exception as e:
+            print(f"⚠️ 예측 오류: {e}")
+            return 0, 0.0  # 무음으로 처리
+    
     def perform_calibration(self):
         """캘리브레이션 수행"""
         if AUTO_CALIBRATION_MODE:
@@ -384,12 +421,43 @@ class RealTimeAudioDetector:
             print(f"   🔍 무음 여부: {'아니오' if is_not_silence else '예'}")
             
             if is_not_silence:
-                print(f"   ✅ 공장 소리 인식됨!")
-                optimal_gain = current_gain
-                factory_detected = True
-                attempt_result['factory_audio_levels'] = {'rms': rms, 'max_val': max_audio}
+                # AI 모델로 공장 소리인지 확인
+                try:
+                    ai_predicted_class, ai_confidence = self.predict_sound_type(processed_audio)
+                    
+                    # 정상(공장) 소리(클래스 1)로 분류되는지 확인
+                    if ai_predicted_class == 1 and ai_confidence > 0.5:  # 공장 소리로 인식
+                        factory_detected = True
+                        optimal_gain = current_gain
+                        attempt_result['ai_prediction'] = {
+                            'class': ai_predicted_class,
+                            'probability': ai_confidence,
+                            'class_name': CLASS_NAMES[ai_predicted_class]
+                        }
+                        # 공장 소리 크기 기록
+                        attempt_result['factory_audio_levels'] = {
+                            'rms': rms,
+                            'max_val': max_audio
+                        }
+                        print(f"   🎯 AI 예측: {CLASS_NAMES[ai_predicted_class]} (확률: {ai_confidence:.3f})")
+                        print(f"   📊 공장 소리 크기: RMS={rms:.4f}, Max={max_audio:.4f}")
+                        print(f"   ✅ 공장 소리 인식 성공!")
+                        break
+                    else:
+                        attempt_result['ai_prediction'] = {
+                            'class': ai_predicted_class,
+                            'probability': ai_confidence,
+                            'class_name': CLASS_NAMES[ai_predicted_class] if ai_predicted_class < len(CLASS_NAMES) else f"클래스{ai_predicted_class}"
+                        }
+                        print(f"   🎯 AI 예측: {attempt_result['ai_prediction']['class_name']} (확률: {ai_confidence:.3f})")
+                        print(f"   ⚠️ 공장 소리로 인식되지 않음. 감도를 높입니다...")
+                        
+                except Exception as e:
+                    print(f"   ❌ AI 예측 오류: {e}")
+                    attempt_result['ai_prediction'] = None
             else:
-                print(f"   ❌ 소리가 너무 작습니다. 감도를 높입니다.")
+                print(f"   ⚠️ 여전히 무음으로 감지됨. 감도를 높입니다...")
+                attempt_result['ai_prediction'] = None
             
             calibration_results['calibration_history'].append(attempt_result)
             

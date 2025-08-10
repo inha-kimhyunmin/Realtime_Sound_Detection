@@ -1,0 +1,7632 @@
+{
+  "train": [
+    {
+      "class": "scream",
+      "class_id": 4,
+      "type": "위험소음",
+      "factory_file": "mixture123.wav",
+      "event_file": "556976__marc3122__male-screams-1.mp3",
+      "event_start_sec": 1.2860625,
+      "event_end_sec": 7.7500625,
+      "sample_index": 2
+    },
+    {
+      "class": "factory_transition",
+      "class_id": 1,
+      "type": "공장소리전환",
+      "factory_file1": "mixture75.wav",
+      "factory_file2": "mixture244.wav",
+      "transition_start_sec": 3.9388326026759577,
+      "sample_index": 22
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "완전무음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 27
+    },
+    {
+      "class": "gas",
+      "class_id": 3,
+      "type": "위험소음",
+      "factory_file": "mixture40.wav",
+      "event_file": "655804__nathvandykowi__gas-going-off.wav",
+      "event_start_sec": 0.0,
+      "event_end_sec": 10.0,
+      "sample_index": 18
+    },
+    {
+      "class": "factory_transition",
+      "class_id": 1,
+      "type": "공장소리전환",
+      "factory_file1": "mixture77.wav",
+      "factory_file2": "mixture269.wav",
+      "transition_start_sec": 6.296023508409878,
+      "sample_index": 68
+    },
+    {
+      "class": "scream",
+      "class_id": 4,
+      "type": "위험소음",
+      "factory_file": "mixture329.wav",
+      "event_file": "07034126.wav",
+      "event_start_sec": 3.23025,
+      "event_end_sec": 8.19025,
+      "sample_index": 11
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "배경소음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 134
+    },
+    {
+      "class": "factory_transition",
+      "class_id": 1,
+      "type": "공장소리전환",
+      "factory_file1": "mixture76.wav",
+      "factory_file2": "mixture237.wav",
+      "transition_start_sec": 4.744795908339685,
+      "sample_index": 21
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture243.wav",
+      "event_file": null,
+      "sample_index": 5
+    },
+    {
+      "class": "transition",
+      "class_id": 1,
+      "type": "무음→공장소리 전환",
+      "factory_file": "mixture300.wav",
+      "event_file": null,
+      "transition_start_sec": 5.8760625,
+      "sample_index": 95
+    },
+    {
+      "class": "fire",
+      "class_id": 2,
+      "type": "위험소음",
+      "factory_file": "mixture308.wav",
+      "event_file": "fire_NHU05010073_108.wav",
+      "event_start_sec": 0.0,
+      "event_end_sec": 10.0,
+      "sample_index": 0
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "배경소음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 150
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture282.wav",
+      "event_file": null,
+      "sample_index": 14
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "완전무음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 28
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "완전무음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 51
+    },
+    {
+      "class": "factory_transition",
+      "class_id": 1,
+      "type": "공장소리전환",
+      "factory_file1": "mixture266.wav",
+      "factory_file2": "mixture329.wav",
+      "transition_start_sec": 5.802753753048428,
+      "sample_index": 61
+    },
+    {
+      "class": "factory_transition",
+      "class_id": 1,
+      "type": "공장소리전환",
+      "factory_file1": "mixture325.wav",
+      "factory_file2": "mixture159.wav",
+      "transition_start_sec": 3.886465305813114,
+      "sample_index": 9
+    },
+    {
+      "class": "danger_transition_scream",
+      "class_id": 4,
+      "type": "무음→scream 전환",
+      "factory_file": null,
+      "event_file": "07034117.wav",
+      "transition_start_sec": 4.6454375,
+      "transition_end_sec": 10.0,
+      "sample_index": 6
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "완전무음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 78
+    },
+    {
+      "class": "transition",
+      "class_id": 1,
+      "type": "무음→공장소리 전환",
+      "factory_file": "mixture192.wav",
+      "event_file": null,
+      "transition_start_sec": 4.11,
+      "sample_index": 69
+    },
+    {
+      "class": "scream",
+      "class_id": 4,
+      "type": "위험소음",
+      "factory_file": "mixture145.wav",
+      "event_file": "07034124.wav",
+      "event_start_sec": 4.902125,
+      "event_end_sec": 7.782125,
+      "sample_index": 10
+    },
+    {
+      "class": "factory_transition",
+      "class_id": 1,
+      "type": "공장소리전환",
+      "factory_file1": "mixture218.wav",
+      "factory_file2": "mixture351.wav",
+      "transition_start_sec": 6.300279360232814,
+      "sample_index": 25
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "배경소음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 132
+    },
+    {
+      "class": "scream",
+      "class_id": 4,
+      "type": "위험소음",
+      "factory_file": "mixture290.wav",
+      "event_file": "07034117.wav",
+      "event_start_sec": 0.107,
+      "event_end_sec": 9.995,
+      "sample_index": 9
+    },
+    {
+      "class": "factory_transition",
+      "class_id": 1,
+      "type": "공장소리전환",
+      "factory_file1": "mixture37.wav",
+      "factory_file2": "mixture195.wav",
+      "transition_start_sec": 6.359182332991615,
+      "sample_index": 69
+    },
+    {
+      "class": "factory_transition",
+      "class_id": 1,
+      "type": "공장소리전환",
+      "factory_file1": "mixture380.wav",
+      "factory_file2": "mixture305.wav",
+      "transition_start_sec": 6.39608235923128,
+      "sample_index": 45
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture320.wav",
+      "event_file": null,
+      "sample_index": 114
+    },
+    {
+      "class": "scream",
+      "class_id": 4,
+      "type": "위험소음",
+      "factory_file": "mixture296.wav",
+      "event_file": "07034117.wav",
+      "event_start_sec": 0.029625,
+      "event_end_sec": 9.917625,
+      "sample_index": 6
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture356.wav",
+      "event_file": null,
+      "sample_index": 46
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "완전무음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 22
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "완전무음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 93
+    },
+    {
+      "class": "fire",
+      "class_id": 2,
+      "type": "위험소음",
+      "factory_file": "mixture191.wav",
+      "event_file": "fire_07025148_029.wav",
+      "event_start_sec": 0.0,
+      "event_end_sec": 10.0,
+      "sample_index": 0
+    },
+    {
+      "class": "danger_transition_gas",
+      "class_id": 3,
+      "type": "무음→gas 전환",
+      "factory_file": null,
+      "event_file": "Gas_Leak_Sound_Effect.wav",
+      "transition_start_sec": 3.379875,
+      "transition_end_sec": 9.379875,
+      "sample_index": 27
+    },
+    {
+      "class": "factory_transition",
+      "class_id": 1,
+      "type": "공장소리전환",
+      "factory_file1": "mixture279.wav",
+      "factory_file2": "mixture351.wav",
+      "transition_start_sec": 5.838313099581532,
+      "sample_index": 75
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture127.wav",
+      "event_file": null,
+      "sample_index": 137
+    },
+    {
+      "class": "factory_transition",
+      "class_id": 1,
+      "type": "공장소리전환",
+      "factory_file1": "mixture165.wav",
+      "factory_file2": "mixture333.wav",
+      "transition_start_sec": 6.171189675738907,
+      "sample_index": 79
+    },
+    {
+      "class": "transition",
+      "class_id": 1,
+      "type": "무음→공장소리 전환",
+      "factory_file": "mixture225.wav",
+      "event_file": null,
+      "transition_start_sec": 2.336375,
+      "sample_index": 28
+    },
+    {
+      "class": "transition",
+      "class_id": 1,
+      "type": "무음→공장소리 전환",
+      "factory_file": "mixture30.wav",
+      "event_file": null,
+      "transition_start_sec": 6.1780625,
+      "sample_index": 40
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture358.wav",
+      "event_file": null,
+      "sample_index": 172
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "완전무음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 6
+    },
+    {
+      "class": "transition",
+      "class_id": 1,
+      "type": "무음→공장소리 전환",
+      "factory_file": "mixture263.wav",
+      "event_file": null,
+      "transition_start_sec": 4.44075,
+      "sample_index": 19
+    },
+    {
+      "class": "transition",
+      "class_id": 1,
+      "type": "무음→공장소리 전환",
+      "factory_file": "mixture284.wav",
+      "event_file": null,
+      "transition_start_sec": 4.240125,
+      "sample_index": 34
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture211.wav",
+      "event_file": null,
+      "sample_index": 102
+    },
+    {
+      "class": "transition",
+      "class_id": 1,
+      "type": "무음→공장소리 전환",
+      "factory_file": "mixture229.wav",
+      "event_file": null,
+      "transition_start_sec": 5.8185,
+      "sample_index": 3
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "배경소음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 127
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "배경소음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 136
+    },
+    {
+      "class": "factory_transition",
+      "class_id": 1,
+      "type": "공장소리전환",
+      "factory_file1": "mixture201.wav",
+      "factory_file2": "mixture155.wav",
+      "transition_start_sec": 5.204627043626923,
+      "sample_index": 15
+    },
+    {
+      "class": "scream",
+      "class_id": 4,
+      "type": "위험소음",
+      "factory_file": "mixture25.wav",
+      "event_file": "556976__marc3122__male-screams-1.mp3",
+      "event_start_sec": 1.341125,
+      "event_end_sec": 7.805125,
+      "sample_index": 9
+    },
+    {
+      "class": "factory_transition",
+      "class_id": 1,
+      "type": "공장소리전환",
+      "factory_file1": "mixture243.wav",
+      "factory_file2": "mixture293.wav",
+      "transition_start_sec": 5.755098610063803,
+      "sample_index": 34
+    },
+    {
+      "class": "factory_transition",
+      "class_id": 1,
+      "type": "공장소리전환",
+      "factory_file1": "mixture54.wav",
+      "factory_file2": "mixture339.wav",
+      "transition_start_sec": 4.823642379364585,
+      "sample_index": 56
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "완전무음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 17
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture25.wav",
+      "event_file": null,
+      "sample_index": 12
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture29.wav",
+      "event_file": null,
+      "sample_index": 72
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture74.wav",
+      "event_file": null,
+      "sample_index": 80
+    },
+    {
+      "class": "scream",
+      "class_id": 4,
+      "type": "위험소음",
+      "factory_file": "mixture36.wav",
+      "event_file": "328925__robinhood76__06101-scared-male-long-scream.wav",
+      "event_start_sec": 0.0584375,
+      "event_end_sec": 9.6904375,
+      "sample_index": 0
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "완전무음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 69
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture187.wav",
+      "event_file": null,
+      "sample_index": 28
+    },
+    {
+      "class": "fire",
+      "class_id": 2,
+      "type": "위험소음",
+      "factory_file": "mixture304.wav",
+      "event_file": "fire_07041025_055.wav",
+      "event_start_sec": 0.0,
+      "event_end_sec": 10.0,
+      "sample_index": 0
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture289.wav",
+      "event_file": null,
+      "sample_index": 145
+    },
+    {
+      "class": "danger_transition_scream",
+      "class_id": 4,
+      "type": "무음→scream 전환",
+      "factory_file": null,
+      "event_file": "328925__robinhood76__06101-scared-male-long-scream.wav",
+      "transition_start_sec": 5.7495,
+      "transition_end_sec": 10.0,
+      "sample_index": 27
+    },
+    {
+      "class": "danger_transition_scream",
+      "class_id": 4,
+      "type": "무음→scream 전환",
+      "factory_file": null,
+      "event_file": "328925__robinhood76__06101-scared-male-long-scream.wav",
+      "transition_start_sec": 4.7134375,
+      "transition_end_sec": 10.0,
+      "sample_index": 17
+    },
+    {
+      "class": "transition",
+      "class_id": 1,
+      "type": "무음→공장소리 전환",
+      "factory_file": "mixture389.wav",
+      "event_file": null,
+      "transition_start_sec": 2.514625,
+      "sample_index": 75
+    },
+    {
+      "class": "scream",
+      "class_id": 4,
+      "type": "위험소음",
+      "factory_file": "mixture299.wav",
+      "event_file": "07034126.wav",
+      "event_start_sec": 1.205125,
+      "event_end_sec": 6.165125,
+      "sample_index": 0
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture397.wav",
+      "event_file": null,
+      "sample_index": 58
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "배경소음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 147
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "완전무음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 46
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "배경소음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 183
+    },
+    {
+      "class": "gas",
+      "class_id": 3,
+      "type": "위험소음",
+      "factory_file": "mixture64.wav",
+      "event_file": "655804__nathvandykowi__gas-going-off.wav",
+      "event_start_sec": 0.0,
+      "event_end_sec": 10.0,
+      "sample_index": 10
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture181.wav",
+      "event_file": null,
+      "sample_index": 99
+    },
+    {
+      "class": "factory_transition",
+      "class_id": 1,
+      "type": "공장소리전환",
+      "factory_file1": "mixture382.wav",
+      "factory_file2": "mixture170.wav",
+      "transition_start_sec": 3.5545674228807074,
+      "sample_index": 47
+    },
+    {
+      "class": "scream",
+      "class_id": 4,
+      "type": "위험소음",
+      "factory_file": "mixture31.wav",
+      "event_file": "07034117.wav",
+      "event_start_sec": 0.095375,
+      "event_end_sec": 9.983375,
+      "sample_index": 10
+    },
+    {
+      "class": "danger_transition_scream",
+      "class_id": 4,
+      "type": "무음→scream 전환",
+      "factory_file": null,
+      "event_file": "07034124.wav",
+      "transition_start_sec": 5.03375,
+      "transition_end_sec": 7.91375,
+      "sample_index": 20
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "완전무음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 8
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "배경소음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 173
+    },
+    {
+      "class": "fire",
+      "class_id": 2,
+      "type": "위험소음",
+      "factory_file": "mixture196.wav",
+      "event_file": "fire_NHU05010073_104.wav",
+      "event_start_sec": 0.0,
+      "event_end_sec": 10.0,
+      "sample_index": 0
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "완전무음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 76
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture351.wav",
+      "event_file": null,
+      "sample_index": 19
+    },
+    {
+      "class": "transition",
+      "class_id": 1,
+      "type": "무음→공장소리 전환",
+      "factory_file": "mixture213.wav",
+      "event_file": null,
+      "transition_start_sec": 3.5064375,
+      "sample_index": 1
+    },
+    {
+      "class": "danger_transition_scream",
+      "class_id": 4,
+      "type": "무음→scream 전환",
+      "factory_file": null,
+      "event_file": "328925__robinhood76__06101-scared-male-long-scream.wav",
+      "transition_start_sec": 3.70975,
+      "transition_end_sec": 9.70975,
+      "sample_index": 7
+    },
+    {
+      "class": "danger_transition_gas",
+      "class_id": 3,
+      "type": "무음→gas 전환",
+      "factory_file": null,
+      "event_file": "655804__nathvandykowi__gas-going-off.wav",
+      "transition_start_sec": 5.2180625,
+      "transition_end_sec": 10.0,
+      "sample_index": 4
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "완전무음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 0
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture114.wav",
+      "event_file": null,
+      "sample_index": 29
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture280.wav",
+      "event_file": null,
+      "sample_index": 132
+    },
+    {
+      "class": "scream",
+      "class_id": 4,
+      "type": "위험소음",
+      "factory_file": "mixture283.wav",
+      "event_file": "338935__natemarler__human-male-scream-scared-pain.wav",
+      "event_start_sec": 5.319125,
+      "event_end_sec": 7.111125,
+      "sample_index": 3
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture105.wav",
+      "event_file": null,
+      "sample_index": 6
+    },
+    {
+      "class": "gas",
+      "class_id": 3,
+      "type": "위험소음",
+      "factory_file": "mixture176.wav",
+      "event_file": "GAS_LEAK.wav",
+      "event_start_sec": 0.0,
+      "event_end_sec": 10.0,
+      "sample_index": 1
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture278.wav",
+      "event_file": null,
+      "sample_index": 13
+    },
+    {
+      "class": "transition",
+      "class_id": 1,
+      "type": "무음→공장소리 전환",
+      "factory_file": "mixture143.wav",
+      "event_file": null,
+      "transition_start_sec": 4.123625,
+      "sample_index": 0
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "완전무음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 96
+    },
+    {
+      "class": "transition",
+      "class_id": 1,
+      "type": "무음→공장소리 전환",
+      "factory_file": "mixture75.wav",
+      "event_file": null,
+      "transition_start_sec": 7.1013125,
+      "sample_index": 63
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "배경소음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 105
+    },
+    {
+      "class": "factory_transition",
+      "class_id": 1,
+      "type": "공장소리전환",
+      "factory_file1": "mixture200.wav",
+      "factory_file2": "mixture324.wav",
+      "transition_start_sec": 5.099993741006989,
+      "sample_index": 35
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "완전무음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 4
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture157.wav",
+      "event_file": null,
+      "sample_index": 17
+    },
+    {
+      "class": "danger_transition_scream",
+      "class_id": 4,
+      "type": "무음→scream 전환",
+      "factory_file": null,
+      "event_file": "328925__robinhood76__06101-scared-male-long-scream.wav",
+      "transition_start_sec": 5.253375,
+      "transition_end_sec": 10.0,
+      "sample_index": 0
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "완전무음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 70
+    },
+    {
+      "class": "danger_transition_gas",
+      "class_id": 3,
+      "type": "무음→gas 전환",
+      "factory_file": null,
+      "event_file": "Gas_Leak_Sound_Effect.wav",
+      "transition_start_sec": 2.309875,
+      "transition_end_sec": 8.309875,
+      "sample_index": 22
+    },
+    {
+      "class": "transition",
+      "class_id": 1,
+      "type": "무음→공장소리 전환",
+      "factory_file": "mixture103.wav",
+      "event_file": null,
+      "transition_start_sec": 4.415875,
+      "sample_index": 42
+    },
+    {
+      "class": "scream",
+      "class_id": 4,
+      "type": "위험소음",
+      "factory_file": "mixture135.wav",
+      "event_file": "07034126.wav",
+      "event_start_sec": 1.891625,
+      "event_end_sec": 6.851625,
+      "sample_index": 1
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "완전무음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 45
+    },
+    {
+      "class": "danger_transition_fire",
+      "class_id": 2,
+      "type": "무음→fire 전환",
+      "factory_file": null,
+      "event_file": "fire_07059050_068.wav",
+      "transition_start_sec": 5.6754375,
+      "transition_end_sec": 10.0,
+      "sample_index": 10
+    },
+    {
+      "class": "factory_transition",
+      "class_id": 1,
+      "type": "공장소리전환",
+      "factory_file1": "mixture112.wav",
+      "factory_file2": "mixture210.wav",
+      "transition_start_sec": 4.596723608240324,
+      "sample_index": 30
+    },
+    {
+      "class": "scream",
+      "class_id": 4,
+      "type": "위험소음",
+      "factory_file": "mixture355.wav",
+      "event_file": "338935__natemarler__human-male-scream-scared-pain.wav",
+      "event_start_sec": 4.2545625,
+      "event_end_sec": 6.0465625,
+      "sample_index": 4
+    },
+    {
+      "class": "transition",
+      "class_id": 1,
+      "type": "무음→공장소리 전환",
+      "factory_file": "mixture31.wav",
+      "event_file": null,
+      "transition_start_sec": 3.4150625,
+      "sample_index": 60
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture138.wav",
+      "event_file": null,
+      "sample_index": 35
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "배경소음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 110
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "완전무음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 41
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "배경소음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 194
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "배경소음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 197
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture102.wav",
+      "event_file": null,
+      "sample_index": 30
+    },
+    {
+      "class": "danger_transition_fire",
+      "class_id": 2,
+      "type": "무음→fire 전환",
+      "factory_file": null,
+      "event_file": "fire_NHU05002101_075.wav",
+      "transition_start_sec": 3.7448125,
+      "transition_end_sec": 9.7448125,
+      "sample_index": 27
+    },
+    {
+      "class": "factory_transition",
+      "class_id": 1,
+      "type": "공장소리전환",
+      "factory_file1": "mixture71.wav",
+      "factory_file2": "mixture322.wav",
+      "transition_start_sec": 5.801125664813566,
+      "sample_index": 48
+    },
+    {
+      "class": "transition",
+      "class_id": 1,
+      "type": "무음→공장소리 전환",
+      "factory_file": "mixture58.wav",
+      "event_file": null,
+      "transition_start_sec": 4.1223125,
+      "sample_index": 16
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture247.wav",
+      "event_file": null,
+      "sample_index": 165
+    },
+    {
+      "class": "gas",
+      "class_id": 3,
+      "type": "위험소음",
+      "factory_file": "mixture299.wav",
+      "event_file": "GAS_LEAK.wav",
+      "event_start_sec": 0.0,
+      "event_end_sec": 10.0,
+      "sample_index": 4
+    },
+    {
+      "class": "gas",
+      "class_id": 3,
+      "type": "위험소음",
+      "factory_file": "mixture73.wav",
+      "event_file": "655804__nathvandykowi__gas-going-off.wav",
+      "event_start_sec": 0.0,
+      "event_end_sec": 10.0,
+      "sample_index": 0
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture239.wav",
+      "event_file": null,
+      "sample_index": 69
+    },
+    {
+      "class": "transition",
+      "class_id": 1,
+      "type": "무음→공장소리 전환",
+      "factory_file": "mixture21.wav",
+      "event_file": null,
+      "transition_start_sec": 3.50175,
+      "sample_index": 22
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture265.wav",
+      "event_file": null,
+      "sample_index": 0
+    },
+    {
+      "class": "factory_transition",
+      "class_id": 1,
+      "type": "공장소리전환",
+      "factory_file1": "mixture54.wav",
+      "factory_file2": "mixture101.wav",
+      "transition_start_sec": 6.731765186357542,
+      "sample_index": 0
+    },
+    {
+      "class": "gas",
+      "class_id": 3,
+      "type": "위험소음",
+      "factory_file": "mixture153.wav",
+      "event_file": "GAS_LEAK.wav",
+      "event_start_sec": 0.0,
+      "event_end_sec": 10.0,
+      "sample_index": 7
+    },
+    {
+      "class": "silence_variation",
+      "class_id": 0,
+      "type": "무음변화",
+      "transition_start_sec": 7.339757622852188,
+      "sample_index": 51
+    },
+    {
+      "class": "fire",
+      "class_id": 2,
+      "type": "위험소음",
+      "factory_file": "mixture16.wav",
+      "event_file": "fire_NHU05002102_080.wav",
+      "event_start_sec": 2.186375,
+      "event_end_sec": 9.018375,
+      "sample_index": 0
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture227.wav",
+      "event_file": null,
+      "sample_index": 93
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "완전무음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 19
+    },
+    {
+      "class": "scream",
+      "class_id": 4,
+      "type": "위험소음",
+      "factory_file": "mixture387.wav",
+      "event_file": "338935__natemarler__human-male-scream-scared-pain.wav",
+      "event_start_sec": 3.16525,
+      "event_end_sec": 4.95725,
+      "sample_index": 10
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "배경소음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 177
+    },
+    {
+      "class": "danger_transition_fire",
+      "class_id": 2,
+      "type": "무음→fire 전환",
+      "factory_file": null,
+      "event_file": "fire_NHU05002102_091.wav",
+      "transition_start_sec": 4.7378125,
+      "transition_end_sec": 10.0,
+      "sample_index": 16
+    },
+    {
+      "class": "transition",
+      "class_id": 1,
+      "type": "무음→공장소리 전환",
+      "factory_file": "mixture76.wav",
+      "event_file": null,
+      "transition_start_sec": 2.171375,
+      "sample_index": 32
+    },
+    {
+      "class": "factory_transition",
+      "class_id": 1,
+      "type": "공장소리전환",
+      "factory_file1": "mixture347.wav",
+      "factory_file2": "mixture99.wav",
+      "transition_start_sec": 5.007228388596776,
+      "sample_index": 51
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture253.wav",
+      "event_file": null,
+      "sample_index": 49
+    },
+    {
+      "class": "fire",
+      "class_id": 2,
+      "type": "위험소음",
+      "factory_file": "mixture394.wav",
+      "event_file": "fire_NHU10242809_110.wav",
+      "event_start_sec": 0.3153125,
+      "event_end_sec": 9.8993125,
+      "sample_index": 0
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "배경소음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 131
+    },
+    {
+      "class": "silence_variation",
+      "class_id": 0,
+      "type": "무음변화",
+      "transition_start_sec": 5.516388571779634,
+      "sample_index": 21
+    },
+    {
+      "class": "danger_transition_gas",
+      "class_id": 3,
+      "type": "무음→gas 전환",
+      "factory_file": null,
+      "event_file": "Gas_Leak_Sound_Effect.wav",
+      "transition_start_sec": 2.60525,
+      "transition_end_sec": 8.60525,
+      "sample_index": 19
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture59.wav",
+      "event_file": null,
+      "sample_index": 51
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "완전무음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 53
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture62.wav",
+      "event_file": null,
+      "sample_index": 140
+    },
+    {
+      "class": "gas",
+      "class_id": 3,
+      "type": "위험소음",
+      "factory_file": "mixture145.wav",
+      "event_file": "655804__nathvandykowi__gas-going-off.wav",
+      "event_start_sec": 0.0,
+      "event_end_sec": 10.0,
+      "sample_index": 20
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture64.wav",
+      "event_file": null,
+      "sample_index": 155
+    },
+    {
+      "class": "fire",
+      "class_id": 2,
+      "type": "위험소음",
+      "factory_file": "mixture141.wav",
+      "event_file": "510763__keleti__fire_crackling_1.wav",
+      "event_start_sec": 0.0,
+      "event_end_sec": 10.0,
+      "sample_index": 0
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture251.wav",
+      "event_file": null,
+      "sample_index": 43
+    },
+    {
+      "class": "transition",
+      "class_id": 1,
+      "type": "무음→공장소리 전환",
+      "factory_file": "mixture376.wav",
+      "event_file": null,
+      "transition_start_sec": 4.40225,
+      "sample_index": 81
+    },
+    {
+      "class": "scream",
+      "class_id": 4,
+      "type": "위험소음",
+      "factory_file": "mixture244.wav",
+      "event_file": "07034124.wav",
+      "event_start_sec": 5.2628125,
+      "event_end_sec": 8.1428125,
+      "sample_index": 12
+    },
+    {
+      "class": "silence_variation",
+      "class_id": 0,
+      "type": "무음변화",
+      "transition_start_sec": 6.351854701241764,
+      "sample_index": 37
+    },
+    {
+      "class": "gas",
+      "class_id": 3,
+      "type": "위험소음",
+      "factory_file": "mixture98.wav",
+      "event_file": "655804__nathvandykowi__gas-going-off.wav",
+      "event_start_sec": 0.0,
+      "event_end_sec": 10.0,
+      "sample_index": 15
+    },
+    {
+      "class": "factory_transition",
+      "class_id": 1,
+      "type": "공장소리전환",
+      "factory_file1": "mixture312.wav",
+      "factory_file2": "mixture247.wav",
+      "transition_start_sec": 4.62702047700291,
+      "sample_index": 19
+    },
+    {
+      "class": "transition",
+      "class_id": 1,
+      "type": "무음→공장소리 전환",
+      "factory_file": "mixture136.wav",
+      "event_file": null,
+      "transition_start_sec": 6.715125,
+      "sample_index": 30
+    },
+    {
+      "class": "silence_variation",
+      "class_id": 0,
+      "type": "무음변화",
+      "transition_start_sec": 6.632919080264623,
+      "sample_index": 16
+    },
+    {
+      "class": "scream",
+      "class_id": 4,
+      "type": "위험소음",
+      "factory_file": "mixture249.wav",
+      "event_file": "328925__robinhood76__06101-scared-male-long-scream.wav",
+      "event_start_sec": 0.325,
+      "event_end_sec": 9.957,
+      "sample_index": 7
+    },
+    {
+      "class": "scream",
+      "class_id": 4,
+      "type": "위험소음",
+      "factory_file": "mixture327.wav",
+      "event_file": "07034124.wav",
+      "event_start_sec": 1.071625,
+      "event_end_sec": 3.951625,
+      "sample_index": 1
+    },
+    {
+      "class": "danger_transition_fire",
+      "class_id": 2,
+      "type": "무음→fire 전환",
+      "factory_file": null,
+      "event_file": "fire_07059050_073.wav",
+      "transition_start_sec": 3.192,
+      "transition_end_sec": 9.192,
+      "sample_index": 24
+    },
+    {
+      "class": "scream",
+      "class_id": 4,
+      "type": "위험소음",
+      "factory_file": "mixture133.wav",
+      "event_file": "07034126.wav",
+      "event_start_sec": 4.007,
+      "event_end_sec": 8.967,
+      "sample_index": 12
+    },
+    {
+      "class": "scream",
+      "class_id": 4,
+      "type": "위험소음",
+      "factory_file": "mixture47.wav",
+      "event_file": "07034117.wav",
+      "event_start_sec": 0.1029375,
+      "event_end_sec": 9.9909375,
+      "sample_index": 0
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "완전무음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 79
+    },
+    {
+      "class": "danger_transition_fire",
+      "class_id": 2,
+      "type": "무음→fire 전환",
+      "factory_file": null,
+      "event_file": "fire_07025148_036.wav",
+      "transition_start_sec": 4.1280625,
+      "transition_end_sec": 10.0,
+      "sample_index": 15
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "배경소음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 175
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "배경소음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 122
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture260.wav",
+      "event_file": null,
+      "sample_index": 108
+    },
+    {
+      "class": "scream",
+      "class_id": 4,
+      "type": "위험소음",
+      "factory_file": "mixture197.wav",
+      "event_file": "07034117.wav",
+      "event_start_sec": 0.0193125,
+      "event_end_sec": 9.9073125,
+      "sample_index": 4
+    },
+    {
+      "class": "fire",
+      "class_id": 2,
+      "type": "위험소음",
+      "factory_file": "mixture160.wav",
+      "event_file": "fire_NHU05002102_091.wav",
+      "event_start_sec": 0.0,
+      "event_end_sec": 10.0,
+      "sample_index": 0
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "배경소음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 193
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture252.wav",
+      "event_file": null,
+      "sample_index": 97
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture300.wav",
+      "event_file": null,
+      "sample_index": 179
+    },
+    {
+      "class": "transition",
+      "class_id": 1,
+      "type": "무음→공장소리 전환",
+      "factory_file": "mixture220.wav",
+      "event_file": null,
+      "transition_start_sec": 3.5345,
+      "sample_index": 21
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture275.wav",
+      "event_file": null,
+      "sample_index": 87
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture9.wav",
+      "event_file": null,
+      "sample_index": 136
+    },
+    {
+      "class": "transition",
+      "class_id": 1,
+      "type": "무음→공장소리 전환",
+      "factory_file": "mixture389.wav",
+      "event_file": null,
+      "transition_start_sec": 7.9738125,
+      "sample_index": 84
+    },
+    {
+      "class": "silence_variation",
+      "class_id": 0,
+      "type": "무음변화",
+      "transition_start_sec": 2.9887122985271866,
+      "sample_index": 0
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "배경소음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 186
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture35.wav",
+      "event_file": null,
+      "sample_index": 76
+    },
+    {
+      "class": "factory_transition",
+      "class_id": 1,
+      "type": "공장소리전환",
+      "factory_file1": "mixture246.wav",
+      "factory_file2": "mixture277.wav",
+      "transition_start_sec": 6.5908101632694365,
+      "sample_index": 42
+    },
+    {
+      "class": "scream",
+      "class_id": 4,
+      "type": "위험소음",
+      "factory_file": "mixture231.wav",
+      "event_file": "556976__marc3122__male-screams-1.mp3",
+      "event_start_sec": 2.4375625,
+      "event_end_sec": 8.9015625,
+      "sample_index": 11
+    },
+    {
+      "class": "scream",
+      "class_id": 4,
+      "type": "위험소음",
+      "factory_file": "mixture161.wav",
+      "event_file": "07034125.wav",
+      "event_start_sec": 0.023,
+      "event_end_sec": 3.895,
+      "sample_index": 1
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "배경소음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 145
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture129.wav",
+      "event_file": null,
+      "sample_index": 118
+    },
+    {
+      "class": "transition",
+      "class_id": 1,
+      "type": "무음→공장소리 전환",
+      "factory_file": "mixture351.wav",
+      "event_file": null,
+      "transition_start_sec": 3.36575,
+      "sample_index": 5
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture357.wav",
+      "event_file": null,
+      "sample_index": 156
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "완전무음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 42
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture27.wav",
+      "event_file": null,
+      "sample_index": 149
+    },
+    {
+      "class": "fire",
+      "class_id": 2,
+      "type": "위험소음",
+      "factory_file": "mixture143.wav",
+      "event_file": "fire_07025148_043.wav",
+      "event_start_sec": 0.0,
+      "event_end_sec": 10.0,
+      "sample_index": 0
+    },
+    {
+      "class": "fire",
+      "class_id": 2,
+      "type": "위험소음",
+      "factory_file": "mixture384.wav",
+      "event_file": "fire_0009042_011.wav",
+      "event_start_sec": 0.0,
+      "event_end_sec": 10.0,
+      "sample_index": 0
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture64.wav",
+      "event_file": null,
+      "sample_index": 123
+    },
+    {
+      "class": "scream",
+      "class_id": 4,
+      "type": "위험소음",
+      "factory_file": "mixture203.wav",
+      "event_file": "07034117.wav",
+      "event_start_sec": 0.1049375,
+      "event_end_sec": 9.9929375,
+      "sample_index": 7
+    },
+    {
+      "class": "danger_transition_scream",
+      "class_id": 4,
+      "type": "무음→scream 전환",
+      "factory_file": null,
+      "event_file": "07034124.wav",
+      "transition_start_sec": 2.1651875,
+      "transition_end_sec": 5.0451875,
+      "sample_index": 28
+    },
+    {
+      "class": "danger_transition_scream",
+      "class_id": 4,
+      "type": "무음→scream 전환",
+      "factory_file": null,
+      "event_file": "07034126.wav",
+      "transition_start_sec": 4.0710625,
+      "transition_end_sec": 9.0310625,
+      "sample_index": 14
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture62.wav",
+      "event_file": null,
+      "sample_index": 110
+    },
+    {
+      "class": "factory_transition",
+      "class_id": 1,
+      "type": "공장소리전환",
+      "factory_file1": "mixture263.wav",
+      "factory_file2": "mixture115.wav",
+      "transition_start_sec": 6.0361334448023385,
+      "sample_index": 63
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "배경소음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 199
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "배경소음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 185
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "완전무음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 94
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture83.wav",
+      "event_file": null,
+      "sample_index": 60
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "배경소음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 125
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "완전무음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 72
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "완전무음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 38
+    },
+    {
+      "class": "transition",
+      "class_id": 1,
+      "type": "무음→공장소리 전환",
+      "factory_file": "mixture59.wav",
+      "event_file": null,
+      "transition_start_sec": 6.842375,
+      "sample_index": 74
+    },
+    {
+      "class": "scream",
+      "class_id": 4,
+      "type": "위험소음",
+      "factory_file": "mixture154.wav",
+      "event_file": "07034126.wav",
+      "event_start_sec": 4.453,
+      "event_end_sec": 9.413,
+      "sample_index": 9
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture134.wav",
+      "event_file": null,
+      "sample_index": 33
+    },
+    {
+      "class": "factory_transition",
+      "class_id": 1,
+      "type": "공장소리전환",
+      "factory_file1": "mixture149.wav",
+      "factory_file2": "mixture358.wav",
+      "transition_start_sec": 3.7218960890360475,
+      "sample_index": 33
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture211.wav",
+      "event_file": null,
+      "sample_index": 18
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture60.wav",
+      "event_file": null,
+      "sample_index": 70
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "완전무음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 77
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "완전무음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 33
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture122.wav",
+      "event_file": null,
+      "sample_index": 20
+    },
+    {
+      "class": "danger_transition_gas",
+      "class_id": 3,
+      "type": "무음→gas 전환",
+      "factory_file": null,
+      "event_file": "GAS_LEAK.wav",
+      "transition_start_sec": 5.1763125,
+      "transition_end_sec": 10.0,
+      "sample_index": 8
+    },
+    {
+      "class": "transition",
+      "class_id": 1,
+      "type": "무음→공장소리 전환",
+      "factory_file": "mixture309.wav",
+      "event_file": null,
+      "transition_start_sec": 7.996375,
+      "sample_index": 41
+    },
+    {
+      "class": "danger_transition_gas",
+      "class_id": 3,
+      "type": "무음→gas 전환",
+      "factory_file": null,
+      "event_file": "GAS_LEAK.wav",
+      "transition_start_sec": 5.2261875,
+      "transition_end_sec": 10.0,
+      "sample_index": 5
+    },
+    {
+      "class": "danger_transition_scream",
+      "class_id": 4,
+      "type": "무음→scream 전환",
+      "factory_file": null,
+      "event_file": "338935__natemarler__human-male-scream-scared-pain.wav",
+      "transition_start_sec": 3.938625,
+      "transition_end_sec": 5.730625,
+      "sample_index": 9
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "완전무음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 11
+    },
+    {
+      "class": "danger_transition_gas",
+      "class_id": 3,
+      "type": "무음→gas 전환",
+      "factory_file": null,
+      "event_file": "GAS_LEAK.wav",
+      "transition_start_sec": 4.289875,
+      "transition_end_sec": 10.0,
+      "sample_index": 25
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture379.wav",
+      "event_file": null,
+      "sample_index": 39
+    },
+    {
+      "class": "scream",
+      "class_id": 4,
+      "type": "위험소음",
+      "factory_file": "mixture342.wav",
+      "event_file": "338935__natemarler__human-male-scream-scared-pain.wav",
+      "event_start_sec": 2.2131875,
+      "event_end_sec": 4.0051875,
+      "sample_index": 12
+    },
+    {
+      "class": "scream",
+      "class_id": 4,
+      "type": "위험소음",
+      "factory_file": "mixture69.wav",
+      "event_file": "07034125.wav",
+      "event_start_sec": 5.11725,
+      "event_end_sec": 8.98925,
+      "sample_index": 2
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture119.wav",
+      "event_file": null,
+      "sample_index": 9
+    },
+    {
+      "class": "scream",
+      "class_id": 4,
+      "type": "위험소음",
+      "factory_file": "mixture39.wav",
+      "event_file": "338935__natemarler__human-male-scream-scared-pain.wav",
+      "event_start_sec": 4.82225,
+      "event_end_sec": 6.61425,
+      "sample_index": 8
+    },
+    {
+      "class": "transition",
+      "class_id": 1,
+      "type": "무음→공장소리 전환",
+      "factory_file": "mixture60.wav",
+      "event_file": null,
+      "transition_start_sec": 6.969625,
+      "sample_index": 43
+    },
+    {
+      "class": "transition",
+      "class_id": 1,
+      "type": "무음→공장소리 전환",
+      "factory_file": "mixture93.wav",
+      "event_file": null,
+      "transition_start_sec": 6.2885625,
+      "sample_index": 54
+    },
+    {
+      "class": "factory_transition",
+      "class_id": 1,
+      "type": "공장소리전환",
+      "factory_file1": "mixture113.wav",
+      "factory_file2": "mixture363.wav",
+      "transition_start_sec": 3.6350147063407405,
+      "sample_index": 10
+    },
+    {
+      "class": "factory_transition",
+      "class_id": 1,
+      "type": "공장소리전환",
+      "factory_file1": "mixture266.wav",
+      "factory_file2": "mixture24.wav",
+      "transition_start_sec": 3.735579287183071,
+      "sample_index": 39
+    },
+    {
+      "class": "scream",
+      "class_id": 4,
+      "type": "위험소음",
+      "factory_file": "mixture342.wav",
+      "event_file": "328925__robinhood76__06101-scared-male-long-scream.wav",
+      "event_start_sec": 0.0695,
+      "event_end_sec": 9.7015,
+      "sample_index": 4
+    },
+    {
+      "class": "scream",
+      "class_id": 4,
+      "type": "위험소음",
+      "factory_file": "mixture363.wav",
+      "event_file": "07034124.wav",
+      "event_start_sec": 1.1500625,
+      "event_end_sec": 4.0300625,
+      "sample_index": 8
+    },
+    {
+      "class": "gas",
+      "class_id": 3,
+      "type": "위험소음",
+      "factory_file": "mixture10.wav",
+      "event_file": "655804__nathvandykowi__gas-going-off.wav",
+      "event_start_sec": 0.0,
+      "event_end_sec": 10.0,
+      "sample_index": 12
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "완전무음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 47
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "배경소음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 182
+    },
+    {
+      "class": "scream",
+      "class_id": 4,
+      "type": "위험소음",
+      "factory_file": "mixture350.wav",
+      "event_file": "328925__robinhood76__06101-scared-male-long-scream.wav",
+      "event_start_sec": 0.0719375,
+      "event_end_sec": 9.7039375,
+      "sample_index": 1
+    },
+    {
+      "class": "transition",
+      "class_id": 1,
+      "type": "무음→공장소리 전환",
+      "factory_file": "mixture163.wav",
+      "event_file": null,
+      "transition_start_sec": 4.005,
+      "sample_index": 31
+    },
+    {
+      "class": "scream",
+      "class_id": 4,
+      "type": "위험소음",
+      "factory_file": "mixture116.wav",
+      "event_file": "07034125.wav",
+      "event_start_sec": 5.0476875,
+      "event_end_sec": 8.9196875,
+      "sample_index": 8
+    },
+    {
+      "class": "factory_transition",
+      "class_id": 1,
+      "type": "공장소리전환",
+      "factory_file1": "mixture80.wav",
+      "factory_file2": "mixture154.wav",
+      "transition_start_sec": 3.8552275401575664,
+      "sample_index": 72
+    },
+    {
+      "class": "gas",
+      "class_id": 3,
+      "type": "위험소음",
+      "factory_file": "mixture38.wav",
+      "event_file": "Gas_Leak_Sound_Effect.wav",
+      "event_start_sec": 0.0,
+      "event_end_sec": 10.0,
+      "sample_index": 7
+    },
+    {
+      "class": "gas",
+      "class_id": 3,
+      "type": "위험소음",
+      "factory_file": "mixture397.wav",
+      "event_file": "Gas_Leak_Sound_Effect.wav",
+      "event_start_sec": 0.0,
+      "event_end_sec": 10.0,
+      "sample_index": 9
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture135.wav",
+      "event_file": null,
+      "sample_index": 31
+    },
+    {
+      "class": "danger_transition_fire",
+      "class_id": 2,
+      "type": "무음→fire 전환",
+      "factory_file": null,
+      "event_file": "fire_07025148_033.wav",
+      "transition_start_sec": 4.912,
+      "transition_end_sec": 10.0,
+      "sample_index": 7
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "완전무음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 68
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture17.wav",
+      "event_file": null,
+      "sample_index": 170
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "배경소음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 120
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "배경소음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 154
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "배경소음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 124
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "완전무음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 36
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "완전무음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 31
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture354.wav",
+      "event_file": null,
+      "sample_index": 176
+    },
+    {
+      "class": "danger_transition_fire",
+      "class_id": 2,
+      "type": "무음→fire 전환",
+      "factory_file": null,
+      "event_file": "fire_07025148_025.wav",
+      "transition_start_sec": 3.43175,
+      "transition_end_sec": 9.43175,
+      "sample_index": 25
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture376.wav",
+      "event_file": null,
+      "sample_index": 22
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "배경소음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 171
+    },
+    {
+      "class": "transition",
+      "class_id": 1,
+      "type": "무음→공장소리 전환",
+      "factory_file": "mixture158.wav",
+      "event_file": null,
+      "transition_start_sec": 4.54925,
+      "sample_index": 55
+    },
+    {
+      "class": "gas",
+      "class_id": 3,
+      "type": "위험소음",
+      "factory_file": "mixture110.wav",
+      "event_file": "GAS_LEAK.wav",
+      "event_start_sec": 0.0,
+      "event_end_sec": 10.0,
+      "sample_index": 8
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "배경소음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 159
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "배경소음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 198
+    },
+    {
+      "class": "gas",
+      "class_id": 3,
+      "type": "위험소음",
+      "factory_file": "mixture200.wav",
+      "event_file": "Gas_Leak_Sound_Effect.wav",
+      "event_start_sec": 0.0,
+      "event_end_sec": 10.0,
+      "sample_index": 10
+    },
+    {
+      "class": "fire",
+      "class_id": 2,
+      "type": "위험소음",
+      "factory_file": "mixture109.wav",
+      "event_file": "fire_NHU10242809_117.wav",
+      "event_start_sec": 0.0,
+      "event_end_sec": 10.0,
+      "sample_index": 0
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "배경소음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 190
+    },
+    {
+      "class": "transition",
+      "class_id": 1,
+      "type": "무음→공장소리 전환",
+      "factory_file": "mixture264.wav",
+      "event_file": null,
+      "transition_start_sec": 3.797,
+      "sample_index": 44
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "배경소음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 184
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture311.wav",
+      "event_file": null,
+      "sample_index": 116
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture368.wav",
+      "event_file": null,
+      "sample_index": 78
+    },
+    {
+      "class": "silence_variation",
+      "class_id": 0,
+      "type": "무음변화",
+      "transition_start_sec": 4.245492112630153,
+      "sample_index": 20
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture107.wav",
+      "event_file": null,
+      "sample_index": 92
+    },
+    {
+      "class": "gas",
+      "class_id": 3,
+      "type": "위험소음",
+      "factory_file": "mixture364.wav",
+      "event_file": "655804__nathvandykowi__gas-going-off.wav",
+      "event_start_sec": 0.0,
+      "event_end_sec": 10.0,
+      "sample_index": 11
+    },
+    {
+      "class": "danger_transition_fire",
+      "class_id": 2,
+      "type": "무음→fire 전환",
+      "factory_file": null,
+      "event_file": "fire_07025148_043.wav",
+      "transition_start_sec": 4.5025625,
+      "transition_end_sec": 10.0,
+      "sample_index": 22
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture376.wav",
+      "event_file": null,
+      "sample_index": 2
+    },
+    {
+      "class": "danger_transition_scream",
+      "class_id": 4,
+      "type": "무음→scream 전환",
+      "factory_file": null,
+      "event_file": "07034117.wav",
+      "transition_start_sec": 3.652625,
+      "transition_end_sec": 9.652625,
+      "sample_index": 10
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "완전무음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 35
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "배경소음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 113
+    },
+    {
+      "class": "gas",
+      "class_id": 3,
+      "type": "위험소음",
+      "factory_file": "mixture133.wav",
+      "event_file": "GAS_LEAK.wav",
+      "event_start_sec": 0.0,
+      "event_end_sec": 10.0,
+      "sample_index": 17
+    },
+    {
+      "class": "gas",
+      "class_id": 3,
+      "type": "위험소음",
+      "factory_file": "mixture316.wav",
+      "event_file": "GAS_LEAK.wav",
+      "event_start_sec": 0.0,
+      "event_end_sec": 10.0,
+      "sample_index": 13
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture15.wav",
+      "event_file": null,
+      "sample_index": 120
+    },
+    {
+      "class": "gas",
+      "class_id": 3,
+      "type": "위험소음",
+      "factory_file": "mixture222.wav",
+      "event_file": "GAS_LEAK.wav",
+      "event_start_sec": 0.0,
+      "event_end_sec": 10.0,
+      "sample_index": 18
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture135.wav",
+      "event_file": null,
+      "sample_index": 124
+    },
+    {
+      "class": "factory_transition",
+      "class_id": 1,
+      "type": "공장소리전환",
+      "factory_file1": "mixture283.wav",
+      "factory_file2": "mixture136.wav",
+      "transition_start_sec": 5.596469753571651,
+      "sample_index": 55
+    },
+    {
+      "class": "scream",
+      "class_id": 4,
+      "type": "위험소음",
+      "factory_file": "mixture347.wav",
+      "event_file": "07034126.wav",
+      "event_start_sec": 3.7331875,
+      "event_end_sec": 8.6931875,
+      "sample_index": 2
+    },
+    {
+      "class": "transition",
+      "class_id": 1,
+      "type": "무음→공장소리 전환",
+      "factory_file": "mixture261.wav",
+      "event_file": null,
+      "transition_start_sec": 2.5325625,
+      "sample_index": 53
+    },
+    {
+      "class": "scream",
+      "class_id": 4,
+      "type": "위험소음",
+      "factory_file": "mixture69.wav",
+      "event_file": "07034125.wav",
+      "event_start_sec": 3.1749375,
+      "event_end_sec": 7.0469375,
+      "sample_index": 0
+    },
+    {
+      "class": "silence_variation",
+      "class_id": 0,
+      "type": "무음변화",
+      "transition_start_sec": 4.598442630321072,
+      "sample_index": 15
+    },
+    {
+      "class": "danger_transition_fire",
+      "class_id": 2,
+      "type": "무음→fire 전환",
+      "factory_file": null,
+      "event_file": "510763__keleti__fire_crackling_1.wav",
+      "transition_start_sec": 2.4495625,
+      "transition_end_sec": 8.4495625,
+      "sample_index": 17
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "완전무음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 5
+    },
+    {
+      "class": "silence_variation",
+      "class_id": 0,
+      "type": "무음변화",
+      "transition_start_sec": 2.7118155352528763,
+      "sample_index": 55
+    },
+    {
+      "class": "transition",
+      "class_id": 1,
+      "type": "무음→공장소리 전환",
+      "factory_file": "mixture394.wav",
+      "event_file": null,
+      "transition_start_sec": 5.6715,
+      "sample_index": 11
+    },
+    {
+      "class": "scream",
+      "class_id": 4,
+      "type": "위험소음",
+      "factory_file": "mixture306.wav",
+      "event_file": "338935__natemarler__human-male-scream-scared-pain.wav",
+      "event_start_sec": 3.08825,
+      "event_end_sec": 4.88025,
+      "sample_index": 11
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "배경소음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 180
+    },
+    {
+      "class": "gas",
+      "class_id": 3,
+      "type": "위험소음",
+      "factory_file": "mixture206.wav",
+      "event_file": "Gas_Leak_Sound_Effect.wav",
+      "event_start_sec": 0.0,
+      "event_end_sec": 10.0,
+      "sample_index": 18
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "완전무음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 24
+    },
+    {
+      "class": "scream",
+      "class_id": 4,
+      "type": "위험소음",
+      "factory_file": "mixture3.wav",
+      "event_file": "07034125.wav",
+      "event_start_sec": 3.3288125,
+      "event_end_sec": 7.2008125,
+      "sample_index": 3
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "배경소음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 108
+    },
+    {
+      "class": "transition",
+      "class_id": 1,
+      "type": "무음→공장소리 전환",
+      "factory_file": "mixture101.wav",
+      "event_file": null,
+      "transition_start_sec": 6.089,
+      "sample_index": 39
+    },
+    {
+      "class": "fire",
+      "class_id": 2,
+      "type": "위험소음",
+      "factory_file": "mixture359.wav",
+      "event_file": "fire_NHU05002101_079.wav",
+      "event_start_sec": 0.57075,
+      "event_end_sec": 6.25075,
+      "sample_index": 0
+    },
+    {
+      "class": "gas",
+      "class_id": 3,
+      "type": "위험소음",
+      "factory_file": "mixture189.wav",
+      "event_file": "GAS_LEAK.wav",
+      "event_start_sec": 0.0,
+      "event_end_sec": 10.0,
+      "sample_index": 14
+    },
+    {
+      "class": "danger_transition_gas",
+      "class_id": 3,
+      "type": "무음→gas 전환",
+      "factory_file": null,
+      "event_file": "Gas_Leak_Sound_Effect.wav",
+      "transition_start_sec": 5.510875,
+      "transition_end_sec": 10.0,
+      "sample_index": 29
+    },
+    {
+      "class": "danger_transition_fire",
+      "class_id": 2,
+      "type": "무음→fire 전환",
+      "factory_file": null,
+      "event_file": "fire_NHU05002102_089.wav",
+      "transition_start_sec": 2.531375,
+      "transition_end_sec": 8.531375,
+      "sample_index": 14
+    },
+    {
+      "class": "scream",
+      "class_id": 4,
+      "type": "위험소음",
+      "factory_file": "mixture148.wav",
+      "event_file": "07034125.wav",
+      "event_start_sec": 2.7731875,
+      "event_end_sec": 6.6451875,
+      "sample_index": 4
+    },
+    {
+      "class": "gas",
+      "class_id": 3,
+      "type": "위험소음",
+      "factory_file": "mixture328.wav",
+      "event_file": "655804__nathvandykowi__gas-going-off.wav",
+      "event_start_sec": 0.0,
+      "event_end_sec": 10.0,
+      "sample_index": 7
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "배경소음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 114
+    },
+    {
+      "class": "transition",
+      "class_id": 1,
+      "type": "무음→공장소리 전환",
+      "factory_file": "mixture337.wav",
+      "event_file": null,
+      "transition_start_sec": 3.7779375,
+      "sample_index": 88
+    },
+    {
+      "class": "factory_transition",
+      "class_id": 1,
+      "type": "공장소리전환",
+      "factory_file1": "mixture127.wav",
+      "factory_file2": "mixture29.wav",
+      "transition_start_sec": 3.061272257643477,
+      "sample_index": 3
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture273.wav",
+      "event_file": null,
+      "sample_index": 75
+    },
+    {
+      "class": "factory_transition",
+      "class_id": 1,
+      "type": "공장소리전환",
+      "factory_file1": "mixture189.wav",
+      "factory_file2": "mixture181.wav",
+      "transition_start_sec": 4.549652684032196,
+      "sample_index": 24
+    },
+    {
+      "class": "danger_transition_fire",
+      "class_id": 2,
+      "type": "무음→fire 전환",
+      "factory_file": null,
+      "event_file": "fire_07059050_070.wav",
+      "transition_start_sec": 4.4935625,
+      "transition_end_sec": 10.0,
+      "sample_index": 11
+    },
+    {
+      "class": "silence_variation",
+      "class_id": 0,
+      "type": "무음변화",
+      "transition_start_sec": 5.425305033723641,
+      "sample_index": 40
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "완전무음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 59
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture308.wav",
+      "event_file": null,
+      "sample_index": 109
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture334.wav",
+      "event_file": null,
+      "sample_index": 86
+    },
+    {
+      "class": "gas",
+      "class_id": 3,
+      "type": "위험소음",
+      "factory_file": "mixture215.wav",
+      "event_file": "Gas_Leak_Sound_Effect.wav",
+      "event_start_sec": 0.0,
+      "event_end_sec": 10.0,
+      "sample_index": 8
+    },
+    {
+      "class": "transition",
+      "class_id": 1,
+      "type": "무음→공장소리 전환",
+      "factory_file": "mixture357.wav",
+      "event_file": null,
+      "transition_start_sec": 2.2495,
+      "sample_index": 66
+    },
+    {
+      "class": "factory_transition",
+      "class_id": 1,
+      "type": "공장소리전환",
+      "factory_file1": "mixture338.wav",
+      "factory_file2": "mixture179.wav",
+      "transition_start_sec": 3.9862016400927707,
+      "sample_index": 1
+    },
+    {
+      "class": "danger_transition_scream",
+      "class_id": 4,
+      "type": "무음→scream 전환",
+      "factory_file": null,
+      "event_file": "07034117.wav",
+      "transition_start_sec": 5.291375,
+      "transition_end_sec": 10.0,
+      "sample_index": 24
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "배경소음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 153
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture46.wav",
+      "event_file": null,
+      "sample_index": 100
+    },
+    {
+      "class": "transition",
+      "class_id": 1,
+      "type": "무음→공장소리 전환",
+      "factory_file": "mixture306.wav",
+      "event_file": null,
+      "transition_start_sec": 3.37975,
+      "sample_index": 59
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "배경소음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 170
+    },
+    {
+      "class": "gas",
+      "class_id": 3,
+      "type": "위험소음",
+      "factory_file": "mixture116.wav",
+      "event_file": "Gas_Leak_Sound_Effect.wav",
+      "event_start_sec": 0.0,
+      "event_end_sec": 10.0,
+      "sample_index": 2
+    },
+    {
+      "class": "danger_transition_gas",
+      "class_id": 3,
+      "type": "무음→gas 전환",
+      "factory_file": null,
+      "event_file": "GAS_LEAK.wav",
+      "transition_start_sec": 3.6165625,
+      "transition_end_sec": 9.6165625,
+      "sample_index": 12
+    },
+    {
+      "class": "factory_transition",
+      "class_id": 1,
+      "type": "공장소리전환",
+      "factory_file1": "mixture299.wav",
+      "factory_file2": "mixture69.wav",
+      "transition_start_sec": 6.016552562697093,
+      "sample_index": 37
+    },
+    {
+      "class": "danger_transition_scream",
+      "class_id": 4,
+      "type": "무음→scream 전환",
+      "factory_file": null,
+      "event_file": "07034124.wav",
+      "transition_start_sec": 2.606125,
+      "transition_end_sec": 5.486125,
+      "sample_index": 26
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "배경소음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 139
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture130.wav",
+      "event_file": null,
+      "sample_index": 57
+    },
+    {
+      "class": "factory_transition",
+      "class_id": 1,
+      "type": "공장소리전환",
+      "factory_file1": "mixture376.wav",
+      "factory_file2": "mixture38.wav",
+      "transition_start_sec": 4.178911432563605,
+      "sample_index": 38
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture325.wav",
+      "event_file": null,
+      "sample_index": 154
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "배경소음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 168
+    },
+    {
+      "class": "danger_transition_fire",
+      "class_id": 2,
+      "type": "무음→fire 전환",
+      "factory_file": null,
+      "event_file": "fire_07025148_025.wav",
+      "transition_start_sec": 4.804625,
+      "transition_end_sec": 10.0,
+      "sample_index": 3
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "완전무음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 7
+    },
+    {
+      "class": "factory_transition",
+      "class_id": 1,
+      "type": "공장소리전환",
+      "factory_file1": "mixture190.wav",
+      "factory_file2": "mixture301.wav",
+      "transition_start_sec": 4.314008670112058,
+      "sample_index": 53
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "완전무음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 9
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "배경소음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 167
+    },
+    {
+      "class": "scream",
+      "class_id": 4,
+      "type": "위험소음",
+      "factory_file": "mixture189.wav",
+      "event_file": "07034124.wav",
+      "event_start_sec": 0.4085,
+      "event_end_sec": 3.2885,
+      "sample_index": 5
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture188.wav",
+      "event_file": null,
+      "sample_index": 7
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "배경소음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 161
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "완전무음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 3
+    },
+    {
+      "class": "fire",
+      "class_id": 2,
+      "type": "위험소음",
+      "factory_file": "mixture210.wav",
+      "event_file": "fire_NHU05002102_081.wav",
+      "event_start_sec": 0.0,
+      "event_end_sec": 10.0,
+      "sample_index": 0
+    },
+    {
+      "class": "scream",
+      "class_id": 4,
+      "type": "위험소음",
+      "factory_file": "mixture123.wav",
+      "event_file": "07034124.wav",
+      "event_start_sec": 5.954,
+      "event_end_sec": 8.834,
+      "sample_index": 6
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "배경소음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 123
+    },
+    {
+      "class": "transition",
+      "class_id": 1,
+      "type": "무음→공장소리 전환",
+      "factory_file": "mixture299.wav",
+      "event_file": null,
+      "transition_start_sec": 2.218,
+      "sample_index": 7
+    },
+    {
+      "class": "transition",
+      "class_id": 1,
+      "type": "무음→공장소리 전환",
+      "factory_file": "mixture314.wav",
+      "event_file": null,
+      "transition_start_sec": 5.4806875,
+      "sample_index": 48
+    },
+    {
+      "class": "gas",
+      "class_id": 3,
+      "type": "위험소음",
+      "factory_file": "mixture332.wav",
+      "event_file": "655804__nathvandykowi__gas-going-off.wav",
+      "event_start_sec": 0.0,
+      "event_end_sec": 10.0,
+      "sample_index": 8
+    },
+    {
+      "class": "danger_transition_gas",
+      "class_id": 3,
+      "type": "무음→gas 전환",
+      "factory_file": null,
+      "event_file": "Gas_Leak_Sound_Effect.wav",
+      "transition_start_sec": 4.361875,
+      "transition_end_sec": 10.0,
+      "sample_index": 9
+    },
+    {
+      "class": "danger_transition_scream",
+      "class_id": 4,
+      "type": "무음→scream 전환",
+      "factory_file": null,
+      "event_file": "556976__marc3122__male-screams-1.mp3",
+      "transition_start_sec": 4.7991875,
+      "transition_end_sec": 10.0,
+      "sample_index": 19
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "완전무음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 89
+    },
+    {
+      "class": "transition",
+      "class_id": 1,
+      "type": "무음→공장소리 전환",
+      "factory_file": "mixture218.wav",
+      "event_file": null,
+      "transition_start_sec": 7.5835,
+      "sample_index": 47
+    },
+    {
+      "class": "danger_transition_fire",
+      "class_id": 2,
+      "type": "무음→fire 전환",
+      "factory_file": null,
+      "event_file": "fire_07025148_018.wav",
+      "transition_start_sec": 4.3200625,
+      "transition_end_sec": 10.0,
+      "sample_index": 13
+    },
+    {
+      "class": "gas",
+      "class_id": 3,
+      "type": "위험소음",
+      "factory_file": "mixture330.wav",
+      "event_file": "GAS_LEAK.wav",
+      "event_start_sec": 0.0,
+      "event_end_sec": 10.0,
+      "sample_index": 16
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture104.wav",
+      "event_file": null,
+      "sample_index": 64
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "완전무음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 2
+    },
+    {
+      "class": "factory_transition",
+      "class_id": 1,
+      "type": "공장소리전환",
+      "factory_file1": "mixture33.wav",
+      "factory_file2": "mixture351.wav",
+      "transition_start_sec": 5.114423565572368,
+      "sample_index": 43
+    },
+    {
+      "class": "factory_transition",
+      "class_id": 1,
+      "type": "공장소리전환",
+      "factory_file1": "mixture263.wav",
+      "factory_file2": "mixture165.wav",
+      "transition_start_sec": 6.9537645794086504,
+      "sample_index": 6
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "완전무음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 80
+    },
+    {
+      "class": "scream",
+      "class_id": 4,
+      "type": "위험소음",
+      "factory_file": "mixture46.wav",
+      "event_file": "328925__robinhood76__06101-scared-male-long-scream.wav",
+      "event_start_sec": 0.1633125,
+      "event_end_sec": 9.7953125,
+      "sample_index": 3
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture379.wav",
+      "event_file": null,
+      "sample_index": 122
+    },
+    {
+      "class": "gas",
+      "class_id": 3,
+      "type": "위험소음",
+      "factory_file": "mixture158.wav",
+      "event_file": "655804__nathvandykowi__gas-going-off.wav",
+      "event_start_sec": 0.0,
+      "event_end_sec": 10.0,
+      "sample_index": 14
+    },
+    {
+      "class": "scream",
+      "class_id": 4,
+      "type": "위험소음",
+      "factory_file": "mixture147.wav",
+      "event_file": "328925__robinhood76__06101-scared-male-long-scream.wav",
+      "event_start_sec": 0.12625,
+      "event_end_sec": 9.75825,
+      "sample_index": 11
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "완전무음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 64
+    },
+    {
+      "class": "transition",
+      "class_id": 1,
+      "type": "무음→공장소리 전환",
+      "factory_file": "mixture234.wav",
+      "event_file": null,
+      "transition_start_sec": 6.1141875,
+      "sample_index": 72
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "완전무음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 55
+    },
+    {
+      "class": "transition",
+      "class_id": 1,
+      "type": "무음→공장소리 전환",
+      "factory_file": "mixture252.wav",
+      "event_file": null,
+      "transition_start_sec": 3.2369375,
+      "sample_index": 38
+    },
+    {
+      "class": "transition",
+      "class_id": 1,
+      "type": "무음→공장소리 전환",
+      "factory_file": "mixture376.wav",
+      "event_file": null,
+      "transition_start_sec": 3.649375,
+      "sample_index": 23
+    },
+    {
+      "class": "transition",
+      "class_id": 1,
+      "type": "무음→공장소리 전환",
+      "factory_file": "mixture130.wav",
+      "event_file": null,
+      "transition_start_sec": 5.95275,
+      "sample_index": 87
+    },
+    {
+      "class": "transition",
+      "class_id": 1,
+      "type": "무음→공장소리 전환",
+      "factory_file": "mixture151.wav",
+      "event_file": null,
+      "transition_start_sec": 7.3913125,
+      "sample_index": 85
+    },
+    {
+      "class": "scream",
+      "class_id": 4,
+      "type": "위험소음",
+      "factory_file": "mixture395.wav",
+      "event_file": "556976__marc3122__male-screams-1.mp3",
+      "event_start_sec": 2.49325,
+      "event_end_sec": 8.95725,
+      "sample_index": 4
+    },
+    {
+      "class": "danger_transition_scream",
+      "class_id": 4,
+      "type": "무음→scream 전환",
+      "factory_file": null,
+      "event_file": "556976__marc3122__male-screams-1.mp3",
+      "transition_start_sec": 5.4898125,
+      "transition_end_sec": 10.0,
+      "sample_index": 1
+    },
+    {
+      "class": "gas",
+      "class_id": 3,
+      "type": "위험소음",
+      "factory_file": "mixture136.wav",
+      "event_file": "655804__nathvandykowi__gas-going-off.wav",
+      "event_start_sec": 0.0,
+      "event_end_sec": 10.0,
+      "sample_index": 5
+    },
+    {
+      "class": "transition",
+      "class_id": 1,
+      "type": "무음→공장소리 전환",
+      "factory_file": "mixture37.wav",
+      "event_file": null,
+      "transition_start_sec": 6.285625,
+      "sample_index": 4
+    },
+    {
+      "class": "factory_transition",
+      "class_id": 1,
+      "type": "공장소리전환",
+      "factory_file1": "mixture320.wav",
+      "factory_file2": "mixture251.wav",
+      "transition_start_sec": 5.196214284094123,
+      "sample_index": 74
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture1.wav",
+      "event_file": null,
+      "sample_index": 65
+    },
+    {
+      "class": "scream",
+      "class_id": 4,
+      "type": "위험소음",
+      "factory_file": "mixture283.wav",
+      "event_file": "328925__robinhood76__06101-scared-male-long-scream.wav",
+      "event_start_sec": 0.17525,
+      "event_end_sec": 9.80725,
+      "sample_index": 5
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "배경소음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 133
+    },
+    {
+      "class": "scream",
+      "class_id": 4,
+      "type": "위험소음",
+      "factory_file": "mixture18.wav",
+      "event_file": "07034126.wav",
+      "event_start_sec": 3.58575,
+      "event_end_sec": 8.54575,
+      "sample_index": 7
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "완전무음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 39
+    },
+    {
+      "class": "transition",
+      "class_id": 1,
+      "type": "무음→공장소리 전환",
+      "factory_file": "mixture395.wav",
+      "event_file": null,
+      "transition_start_sec": 3.553375,
+      "sample_index": 37
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "배경소음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 104
+    },
+    {
+      "class": "gas",
+      "class_id": 3,
+      "type": "위험소음",
+      "factory_file": "mixture4.wav",
+      "event_file": "655804__nathvandykowi__gas-going-off.wav",
+      "event_start_sec": 0.0,
+      "event_end_sec": 10.0,
+      "sample_index": 13
+    },
+    {
+      "class": "gas",
+      "class_id": 3,
+      "type": "위험소음",
+      "factory_file": "mixture188.wav",
+      "event_file": "655804__nathvandykowi__gas-going-off.wav",
+      "event_start_sec": 0.0,
+      "event_end_sec": 10.0,
+      "sample_index": 16
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture154.wav",
+      "event_file": null,
+      "sample_index": 83
+    },
+    {
+      "class": "danger_transition_gas",
+      "class_id": 3,
+      "type": "무음→gas 전환",
+      "factory_file": null,
+      "event_file": "GAS_LEAK.wav",
+      "transition_start_sec": 2.17,
+      "transition_end_sec": 8.17,
+      "sample_index": 21
+    },
+    {
+      "class": "silence_variation",
+      "class_id": 0,
+      "type": "무음변화",
+      "transition_start_sec": 7.052964418343775,
+      "sample_index": 32
+    },
+    {
+      "class": "transition",
+      "class_id": 1,
+      "type": "무음→공장소리 전환",
+      "factory_file": "mixture103.wav",
+      "event_file": null,
+      "transition_start_sec": 2.076625,
+      "sample_index": 26
+    },
+    {
+      "class": "factory_transition",
+      "class_id": 1,
+      "type": "공장소리전환",
+      "factory_file1": "mixture143.wav",
+      "factory_file2": "mixture220.wav",
+      "transition_start_sec": 3.6028023913249285,
+      "sample_index": 64
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture2.wav",
+      "event_file": null,
+      "sample_index": 173
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture73.wav",
+      "event_file": null,
+      "sample_index": 169
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "완전무음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 65
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture336.wav",
+      "event_file": null,
+      "sample_index": 4
+    },
+    {
+      "class": "gas",
+      "class_id": 3,
+      "type": "위험소음",
+      "factory_file": "mixture355.wav",
+      "event_file": "Gas_Leak_Sound_Effect.wav",
+      "event_start_sec": 0.0,
+      "event_end_sec": 10.0,
+      "sample_index": 17
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "완전무음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 13
+    },
+    {
+      "class": "danger_transition_gas",
+      "class_id": 3,
+      "type": "무음→gas 전환",
+      "factory_file": null,
+      "event_file": "Gas_Leak_Sound_Effect.wav",
+      "transition_start_sec": 2.4945,
+      "transition_end_sec": 8.4945,
+      "sample_index": 3
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "완전무음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 61
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture271.wav",
+      "event_file": null,
+      "sample_index": 27
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "배경소음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 166
+    },
+    {
+      "class": "fire",
+      "class_id": 2,
+      "type": "위험소음",
+      "factory_file": "mixture116.wav",
+      "event_file": "fire_NHU05010073_094.wav",
+      "event_start_sec": 0.0,
+      "event_end_sec": 10.0,
+      "sample_index": 0
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture397.wav",
+      "event_file": null,
+      "sample_index": 138
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture160.wav",
+      "event_file": null,
+      "sample_index": 89
+    },
+    {
+      "class": "transition",
+      "class_id": 1,
+      "type": "무음→공장소리 전환",
+      "factory_file": "mixture176.wav",
+      "event_file": null,
+      "transition_start_sec": 3.055875,
+      "sample_index": 67
+    },
+    {
+      "class": "transition",
+      "class_id": 1,
+      "type": "무음→공장소리 전환",
+      "factory_file": "mixture245.wav",
+      "event_file": null,
+      "transition_start_sec": 6.112,
+      "sample_index": 51
+    },
+    {
+      "class": "factory_transition",
+      "class_id": 1,
+      "type": "공장소리전환",
+      "factory_file1": "mixture139.wav",
+      "factory_file2": "mixture52.wav",
+      "transition_start_sec": 6.332005394419772,
+      "sample_index": 12
+    },
+    {
+      "class": "scream",
+      "class_id": 4,
+      "type": "위험소음",
+      "factory_file": "mixture250.wav",
+      "event_file": "07034125.wav",
+      "event_start_sec": 4.66075,
+      "event_end_sec": 8.53275,
+      "sample_index": 5
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture273.wav",
+      "event_file": null,
+      "sample_index": 148
+    },
+    {
+      "class": "danger_transition_scream",
+      "class_id": 4,
+      "type": "무음→scream 전환",
+      "factory_file": null,
+      "event_file": "07034117.wav",
+      "transition_start_sec": 3.71025,
+      "transition_end_sec": 9.71025,
+      "sample_index": 23
+    },
+    {
+      "class": "gas",
+      "class_id": 3,
+      "type": "위험소음",
+      "factory_file": "mixture187.wav",
+      "event_file": "Gas_Leak_Sound_Effect.wav",
+      "event_start_sec": 0.0,
+      "event_end_sec": 10.0,
+      "sample_index": 13
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture393.wav",
+      "event_file": null,
+      "sample_index": 73
+    },
+    {
+      "class": "transition",
+      "class_id": 1,
+      "type": "무음→공장소리 전환",
+      "factory_file": "mixture361.wav",
+      "event_file": null,
+      "transition_start_sec": 3.9773125,
+      "sample_index": 68
+    },
+    {
+      "class": "transition",
+      "class_id": 1,
+      "type": "무음→공장소리 전환",
+      "factory_file": "mixture217.wav",
+      "event_file": null,
+      "transition_start_sec": 3.6885,
+      "sample_index": 12
+    },
+    {
+      "class": "scream",
+      "class_id": 4,
+      "type": "위험소음",
+      "factory_file": "mixture167.wav",
+      "event_file": "07034117.wav",
+      "event_start_sec": 0.000875,
+      "event_end_sec": 9.888875,
+      "sample_index": 11
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "배경소음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 140
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "배경소음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 111
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "배경소음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 138
+    },
+    {
+      "class": "gas",
+      "class_id": 3,
+      "type": "위험소음",
+      "factory_file": "mixture285.wav",
+      "event_file": "655804__nathvandykowi__gas-going-off.wav",
+      "event_start_sec": 0.0,
+      "event_end_sec": 10.0,
+      "sample_index": 6
+    },
+    {
+      "class": "scream",
+      "class_id": 4,
+      "type": "위험소음",
+      "factory_file": "mixture53.wav",
+      "event_file": "07034125.wav",
+      "event_start_sec": 2.1120625,
+      "event_end_sec": 5.9840625,
+      "sample_index": 12
+    },
+    {
+      "class": "transition",
+      "class_id": 1,
+      "type": "무음→공장소리 전환",
+      "factory_file": "mixture296.wav",
+      "event_file": null,
+      "transition_start_sec": 5.170875,
+      "sample_index": 98
+    },
+    {
+      "class": "factory_transition",
+      "class_id": 1,
+      "type": "공장소리전환",
+      "factory_file1": "mixture12.wav",
+      "factory_file2": "mixture346.wav",
+      "transition_start_sec": 3.7565909757107194,
+      "sample_index": 77
+    },
+    {
+      "class": "scream",
+      "class_id": 4,
+      "type": "위험소음",
+      "factory_file": "mixture164.wav",
+      "event_file": "338935__natemarler__human-male-scream-scared-pain.wav",
+      "event_start_sec": 3.637125,
+      "event_end_sec": 5.429125,
+      "sample_index": 6
+    },
+    {
+      "class": "transition",
+      "class_id": 1,
+      "type": "무음→공장소리 전환",
+      "factory_file": "mixture374.wav",
+      "event_file": null,
+      "transition_start_sec": 6.74225,
+      "sample_index": 10
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "배경소음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 152
+    },
+    {
+      "class": "danger_transition_gas",
+      "class_id": 3,
+      "type": "무음→gas 전환",
+      "factory_file": null,
+      "event_file": "GAS_LEAK.wav",
+      "transition_start_sec": 5.871125,
+      "transition_end_sec": 10.0,
+      "sample_index": 10
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture206.wav",
+      "event_file": null,
+      "sample_index": 41
+    },
+    {
+      "class": "scream",
+      "class_id": 4,
+      "type": "위험소음",
+      "factory_file": "mixture318.wav",
+      "event_file": "07034124.wav",
+      "event_start_sec": 1.148375,
+      "event_end_sec": 4.028375,
+      "sample_index": 3
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture258.wav",
+      "event_file": null,
+      "sample_index": 96
+    },
+    {
+      "class": "fire",
+      "class_id": 2,
+      "type": "위험소음",
+      "factory_file": "mixture396.wav",
+      "event_file": "fire_07059050_073.wav",
+      "event_start_sec": 0.0,
+      "event_end_sec": 10.0,
+      "sample_index": 0
+    },
+    {
+      "class": "factory_transition",
+      "class_id": 1,
+      "type": "공장소리전환",
+      "factory_file1": "mixture194.wav",
+      "factory_file2": "mixture90.wav",
+      "transition_start_sec": 5.453281009288125,
+      "sample_index": 36
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "배경소음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 128
+    },
+    {
+      "class": "factory_transition",
+      "class_id": 1,
+      "type": "공장소리전환",
+      "factory_file1": "mixture396.wav",
+      "factory_file2": "mixture168.wav",
+      "transition_start_sec": 5.112904240069738,
+      "sample_index": 76
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture103.wav",
+      "event_file": null,
+      "sample_index": 164
+    },
+    {
+      "class": "danger_transition_fire",
+      "class_id": 2,
+      "type": "무음→fire 전환",
+      "factory_file": null,
+      "event_file": "fire_NHU05002102_087.wav",
+      "transition_start_sec": 3.029125,
+      "transition_end_sec": 9.029125,
+      "sample_index": 6
+    },
+    {
+      "class": "gas",
+      "class_id": 3,
+      "type": "위험소음",
+      "factory_file": "mixture46.wav",
+      "event_file": "GAS_LEAK.wav",
+      "event_start_sec": 0.0,
+      "event_end_sec": 10.0,
+      "sample_index": 2
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "배경소음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 100
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture18.wav",
+      "event_file": null,
+      "sample_index": 125
+    },
+    {
+      "class": "factory_transition",
+      "class_id": 1,
+      "type": "공장소리전환",
+      "factory_file1": "mixture263.wav",
+      "factory_file2": "mixture47.wav",
+      "transition_start_sec": 3.6127168552775215,
+      "sample_index": 20
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture268.wav",
+      "event_file": null,
+      "sample_index": 158
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "완전무음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 10
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "완전무음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 82
+    },
+    {
+      "class": "silence_variation",
+      "class_id": 0,
+      "type": "무음변화",
+      "transition_start_sec": 2.636086029924215,
+      "sample_index": 22
+    },
+    {
+      "class": "scream",
+      "class_id": 4,
+      "type": "위험소음",
+      "factory_file": "mixture336.wav",
+      "event_file": "07034124.wav",
+      "event_start_sec": 3.2621875,
+      "event_end_sec": 6.1421875,
+      "sample_index": 0
+    },
+    {
+      "class": "silence_variation",
+      "class_id": 0,
+      "type": "무음변화",
+      "transition_start_sec": 6.224417446530268,
+      "sample_index": 27
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture292.wav",
+      "event_file": null,
+      "sample_index": 129
+    },
+    {
+      "class": "fire",
+      "class_id": 2,
+      "type": "위험소음",
+      "factory_file": "mixture37.wav",
+      "event_file": "fire_07025148_044.wav",
+      "event_start_sec": 0.0,
+      "event_end_sec": 10.0,
+      "sample_index": 0
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture127.wav",
+      "event_file": null,
+      "sample_index": 11
+    },
+    {
+      "class": "factory_transition",
+      "class_id": 1,
+      "type": "공장소리전환",
+      "factory_file1": "mixture65.wav",
+      "factory_file2": "mixture55.wav",
+      "transition_start_sec": 4.607216181531919,
+      "sample_index": 31
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture149.wav",
+      "event_file": null,
+      "sample_index": 161
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "배경소음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 178
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "배경소음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 109
+    },
+    {
+      "class": "danger_transition_fire",
+      "class_id": 2,
+      "type": "무음→fire 전환",
+      "factory_file": null,
+      "event_file": "fire_NHU05002101_079.wav",
+      "transition_start_sec": 2.68625,
+      "transition_end_sec": 8.36625,
+      "sample_index": 21
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "완전무음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 84
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "배경소음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 148
+    },
+    {
+      "class": "scream",
+      "class_id": 4,
+      "type": "위험소음",
+      "factory_file": "mixture317.wav",
+      "event_file": "556976__marc3122__male-screams-1.mp3",
+      "event_start_sec": 1.475125,
+      "event_end_sec": 7.939125,
+      "sample_index": 1
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "배경소음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 181
+    },
+    {
+      "class": "transition",
+      "class_id": 1,
+      "type": "무음→공장소리 전환",
+      "factory_file": "mixture342.wav",
+      "event_file": null,
+      "transition_start_sec": 5.731125,
+      "sample_index": 90
+    },
+    {
+      "class": "transition",
+      "class_id": 1,
+      "type": "무음→공장소리 전환",
+      "factory_file": "mixture178.wav",
+      "event_file": null,
+      "transition_start_sec": 5.0654375,
+      "sample_index": 70
+    },
+    {
+      "class": "silence_variation",
+      "class_id": 0,
+      "type": "무음변화",
+      "transition_start_sec": 3.1318712789006655,
+      "sample_index": 12
+    },
+    {
+      "class": "silence_variation",
+      "class_id": 0,
+      "type": "무음변화",
+      "transition_start_sec": 5.513094142884945,
+      "sample_index": 10
+    },
+    {
+      "class": "danger_transition_gas",
+      "class_id": 3,
+      "type": "무음→gas 전환",
+      "factory_file": null,
+      "event_file": "GAS_LEAK.wav",
+      "transition_start_sec": 4.529125,
+      "transition_end_sec": 10.0,
+      "sample_index": 1
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture333.wav",
+      "event_file": null,
+      "sample_index": 48
+    },
+    {
+      "class": "scream",
+      "class_id": 4,
+      "type": "위험소음",
+      "factory_file": "mixture139.wav",
+      "event_file": "07034117.wav",
+      "event_start_sec": 0.038,
+      "event_end_sec": 9.926,
+      "sample_index": 5
+    },
+    {
+      "class": "silence_variation",
+      "class_id": 0,
+      "type": "무음변화",
+      "transition_start_sec": 7.064467445550024,
+      "sample_index": 49
+    },
+    {
+      "class": "transition",
+      "class_id": 1,
+      "type": "무음→공장소리 전환",
+      "factory_file": "mixture109.wav",
+      "event_file": null,
+      "transition_start_sec": 6.163875,
+      "sample_index": 6
+    },
+    {
+      "class": "scream",
+      "class_id": 4,
+      "type": "위험소음",
+      "factory_file": "mixture219.wav",
+      "event_file": "07034126.wav",
+      "event_start_sec": 3.147,
+      "event_end_sec": 8.107,
+      "sample_index": 5
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "배경소음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 117
+    },
+    {
+      "class": "factory_transition",
+      "class_id": 1,
+      "type": "공장소리전환",
+      "factory_file1": "mixture198.wav",
+      "factory_file2": "mixture340.wav",
+      "transition_start_sec": 5.120227498746221,
+      "sample_index": 13
+    },
+    {
+      "class": "gas",
+      "class_id": 3,
+      "type": "위험소음",
+      "factory_file": "mixture105.wav",
+      "event_file": "GAS_LEAK.wav",
+      "event_start_sec": 0.0,
+      "event_end_sec": 10.0,
+      "sample_index": 9
+    },
+    {
+      "class": "fire",
+      "class_id": 2,
+      "type": "위험소음",
+      "factory_file": "mixture89.wav",
+      "event_file": "fire_0009040_007.wav",
+      "event_start_sec": 0.0,
+      "event_end_sec": 10.0,
+      "sample_index": 0
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "완전무음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 75
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "완전무음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 98
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "배경소음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 143
+    },
+    {
+      "class": "danger_transition_scream",
+      "class_id": 4,
+      "type": "무음→scream 전환",
+      "factory_file": null,
+      "event_file": "328925__robinhood76__06101-scared-male-long-scream.wav",
+      "transition_start_sec": 5.458625,
+      "transition_end_sec": 10.0,
+      "sample_index": 5
+    },
+    {
+      "class": "scream",
+      "class_id": 4,
+      "type": "위험소음",
+      "factory_file": "mixture324.wav",
+      "event_file": "328925__robinhood76__06101-scared-male-long-scream.wav",
+      "event_start_sec": 0.019125,
+      "event_end_sec": 9.651125,
+      "sample_index": 2
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture171.wav",
+      "event_file": null,
+      "sample_index": 24
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture15.wav",
+      "event_file": null,
+      "sample_index": 106
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture223.wav",
+      "event_file": null,
+      "sample_index": 77
+    },
+    {
+      "class": "factory_transition",
+      "class_id": 1,
+      "type": "공장소리전환",
+      "factory_file1": "mixture373.wav",
+      "factory_file2": "mixture397.wav",
+      "transition_start_sec": 6.319515972301099,
+      "sample_index": 40
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "배경소음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 156
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture352.wav",
+      "event_file": null,
+      "sample_index": 113
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture51.wav",
+      "event_file": null,
+      "sample_index": 178
+    },
+    {
+      "class": "transition",
+      "class_id": 1,
+      "type": "무음→공장소리 전환",
+      "factory_file": "mixture279.wav",
+      "event_file": null,
+      "transition_start_sec": 3.3404375,
+      "sample_index": 99
+    },
+    {
+      "class": "factory_transition",
+      "class_id": 1,
+      "type": "공장소리전환",
+      "factory_file1": "mixture11.wav",
+      "factory_file2": "mixture142.wav",
+      "transition_start_sec": 3.4355803770440803,
+      "sample_index": 16
+    },
+    {
+      "class": "transition",
+      "class_id": 1,
+      "type": "무음→공장소리 전환",
+      "factory_file": "mixture77.wav",
+      "event_file": null,
+      "transition_start_sec": 3.4635625,
+      "sample_index": 58
+    },
+    {
+      "class": "factory_transition",
+      "class_id": 1,
+      "type": "공장소리전환",
+      "factory_file1": "mixture343.wav",
+      "factory_file2": "mixture15.wav",
+      "transition_start_sec": 3.0700088748917427,
+      "sample_index": 18
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture190.wav",
+      "event_file": null,
+      "sample_index": 131
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "배경소음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 158
+    },
+    {
+      "class": "danger_transition_fire",
+      "class_id": 2,
+      "type": "무음→fire 전환",
+      "factory_file": null,
+      "event_file": "fire_NHU05010073_106.wav",
+      "transition_start_sec": 5.8724375,
+      "transition_end_sec": 10.0,
+      "sample_index": 18
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture248.wav",
+      "event_file": null,
+      "sample_index": 163
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "배경소음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 118
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "배경소음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 195
+    },
+    {
+      "class": "danger_transition_fire",
+      "class_id": 2,
+      "type": "무음→fire 전환",
+      "factory_file": null,
+      "event_file": "fire_NHU10242809_123.wav",
+      "transition_start_sec": 4.48725,
+      "transition_end_sec": 10.0,
+      "sample_index": 9
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture219.wav",
+      "event_file": null,
+      "sample_index": 71
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture314.wav",
+      "event_file": null,
+      "sample_index": 61
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture136.wav",
+      "event_file": null,
+      "sample_index": 171
+    },
+    {
+      "class": "transition",
+      "class_id": 1,
+      "type": "무음→공장소리 전환",
+      "factory_file": "mixture232.wav",
+      "event_file": null,
+      "transition_start_sec": 7.7645625,
+      "sample_index": 77
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "완전무음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 32
+    },
+    {
+      "class": "scream",
+      "class_id": 4,
+      "type": "위험소음",
+      "factory_file": "mixture355.wav",
+      "event_file": "556976__marc3122__male-screams-1.mp3",
+      "event_start_sec": 1.068625,
+      "event_end_sec": 7.532625,
+      "sample_index": 0
+    },
+    {
+      "class": "gas",
+      "class_id": 3,
+      "type": "위험소음",
+      "factory_file": "mixture129.wav",
+      "event_file": "GAS_LEAK.wav",
+      "event_start_sec": 0.0,
+      "event_end_sec": 10.0,
+      "sample_index": 10
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture27.wav",
+      "event_file": null,
+      "sample_index": 25
+    },
+    {
+      "class": "transition",
+      "class_id": 1,
+      "type": "무음→공장소리 전환",
+      "factory_file": "mixture317.wav",
+      "event_file": null,
+      "transition_start_sec": 3.72225,
+      "sample_index": 24
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture380.wav",
+      "event_file": null,
+      "sample_index": 16
+    },
+    {
+      "class": "danger_transition_fire",
+      "class_id": 2,
+      "type": "무음→fire 전환",
+      "factory_file": null,
+      "event_file": "414767__samarobryn__crackling-fire.wav",
+      "transition_start_sec": 2.86775,
+      "transition_end_sec": 8.86775,
+      "sample_index": 19
+    },
+    {
+      "class": "silence_variation",
+      "class_id": 0,
+      "type": "무음변화",
+      "transition_start_sec": 5.611243320606456,
+      "sample_index": 1
+    },
+    {
+      "class": "danger_transition_fire",
+      "class_id": 2,
+      "type": "무음→fire 전환",
+      "factory_file": null,
+      "event_file": "fire_NHU05010073_107.wav",
+      "transition_start_sec": 2.5525625,
+      "transition_end_sec": 8.5525625,
+      "sample_index": 23
+    },
+    {
+      "class": "transition",
+      "class_id": 1,
+      "type": "무음→공장소리 전환",
+      "factory_file": "mixture339.wav",
+      "event_file": null,
+      "transition_start_sec": 2.852,
+      "sample_index": 97
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "배경소음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 165
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "완전무음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 23
+    },
+    {
+      "class": "gas",
+      "class_id": 3,
+      "type": "위험소음",
+      "factory_file": "mixture116.wav",
+      "event_file": "GAS_LEAK.wav",
+      "event_start_sec": 0.0,
+      "event_end_sec": 10.0,
+      "sample_index": 5
+    },
+    {
+      "class": "danger_transition_gas",
+      "class_id": 3,
+      "type": "무음→gas 전환",
+      "factory_file": null,
+      "event_file": "GAS_LEAK.wav",
+      "transition_start_sec": 3.834875,
+      "transition_end_sec": 9.834875,
+      "sample_index": 26
+    },
+    {
+      "class": "factory_transition",
+      "class_id": 1,
+      "type": "공장소리전환",
+      "factory_file1": "mixture113.wav",
+      "factory_file2": "mixture255.wav",
+      "transition_start_sec": 6.952520771314296,
+      "sample_index": 70
+    },
+    {
+      "class": "scream",
+      "class_id": 4,
+      "type": "위험소음",
+      "factory_file": "mixture370.wav",
+      "event_file": "07034126.wav",
+      "event_start_sec": 2.2919375,
+      "event_end_sec": 7.2519375,
+      "sample_index": 10
+    },
+    {
+      "class": "danger_transition_scream",
+      "class_id": 4,
+      "type": "무음→scream 전환",
+      "factory_file": null,
+      "event_file": "338935__natemarler__human-male-scream-scared-pain.wav",
+      "transition_start_sec": 3.1790625,
+      "transition_end_sec": 4.9710625,
+      "sample_index": 22
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture162.wav",
+      "event_file": null,
+      "sample_index": 107
+    },
+    {
+      "class": "danger_transition_gas",
+      "class_id": 3,
+      "type": "무음→gas 전환",
+      "factory_file": null,
+      "event_file": "Gas_Leak_Sound_Effect.wav",
+      "transition_start_sec": 3.5369375,
+      "transition_end_sec": 9.5369375,
+      "sample_index": 18
+    },
+    {
+      "class": "factory_transition",
+      "class_id": 1,
+      "type": "공장소리전환",
+      "factory_file1": "mixture138.wav",
+      "factory_file2": "mixture93.wav",
+      "transition_start_sec": 6.776860291396317,
+      "sample_index": 67
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture279.wav",
+      "event_file": null,
+      "sample_index": 79
+    },
+    {
+      "class": "gas",
+      "class_id": 3,
+      "type": "위험소음",
+      "factory_file": "mixture214.wav",
+      "event_file": "655804__nathvandykowi__gas-going-off.wav",
+      "event_start_sec": 0.0,
+      "event_end_sec": 10.0,
+      "sample_index": 9
+    },
+    {
+      "class": "gas",
+      "class_id": 3,
+      "type": "위험소음",
+      "factory_file": "mixture290.wav",
+      "event_file": "Gas_Leak_Sound_Effect.wav",
+      "event_start_sec": 0.0,
+      "event_end_sec": 10.0,
+      "sample_index": 6
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture31.wav",
+      "event_file": null,
+      "sample_index": 85
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture68.wav",
+      "event_file": null,
+      "sample_index": 135
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "완전무음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 49
+    },
+    {
+      "class": "fire",
+      "class_id": 2,
+      "type": "위험소음",
+      "factory_file": "mixture30.wav",
+      "event_file": "fire_07059050_062.wav",
+      "event_start_sec": 0.0,
+      "event_end_sec": 10.0,
+      "sample_index": 0
+    },
+    {
+      "class": "transition",
+      "class_id": 1,
+      "type": "무음→공장소리 전환",
+      "factory_file": "mixture387.wav",
+      "event_file": null,
+      "transition_start_sec": 6.6488125,
+      "sample_index": 78
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "배경소음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 176
+    },
+    {
+      "class": "transition",
+      "class_id": 1,
+      "type": "무음→공장소리 전환",
+      "factory_file": "mixture20.wav",
+      "event_file": null,
+      "transition_start_sec": 3.4015625,
+      "sample_index": 94
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture290.wav",
+      "event_file": null,
+      "sample_index": 166
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture324.wav",
+      "event_file": null,
+      "sample_index": 45
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "완전무음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 66
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "배경소음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 163
+    },
+    {
+      "class": "transition",
+      "class_id": 1,
+      "type": "무음→공장소리 전환",
+      "factory_file": "mixture5.wav",
+      "event_file": null,
+      "transition_start_sec": 2.30275,
+      "sample_index": 33
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "완전무음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 97
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "배경소음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 112
+    },
+    {
+      "class": "fire",
+      "class_id": 2,
+      "type": "위험소음",
+      "factory_file": "mixture142.wav",
+      "event_file": "fire_07025148_048.wav",
+      "event_start_sec": 0.0,
+      "event_end_sec": 10.0,
+      "sample_index": 0
+    },
+    {
+      "class": "gas",
+      "class_id": 3,
+      "type": "위험소음",
+      "factory_file": "mixture313.wav",
+      "event_file": "GAS_LEAK.wav",
+      "event_start_sec": 0.0,
+      "event_end_sec": 10.0,
+      "sample_index": 12
+    },
+    {
+      "class": "fire",
+      "class_id": 2,
+      "type": "위험소음",
+      "factory_file": "mixture273.wav",
+      "event_file": "fire_07025148_017.wav",
+      "event_start_sec": 0.0,
+      "event_end_sec": 10.0,
+      "sample_index": 0
+    }
+  ],
+  "validation": [
+    {
+      "class": "factory_transition",
+      "class_id": 1,
+      "type": "공장소리전환",
+      "factory_file1": "mixture77.wav",
+      "factory_file2": "mixture372.wav",
+      "transition_start_sec": 3.8898850462325143,
+      "sample_index": 4
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "배경소음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 162
+    },
+    {
+      "class": "scream",
+      "class_id": 4,
+      "type": "위험소음",
+      "factory_file": "mixture70.wav",
+      "event_file": "07034125.wav",
+      "event_start_sec": 5.0469375,
+      "event_end_sec": 8.9189375,
+      "sample_index": 7
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "완전무음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 90
+    },
+    {
+      "class": "danger_transition_scream",
+      "class_id": 4,
+      "type": "무음→scream 전환",
+      "factory_file": null,
+      "event_file": "328925__robinhood76__06101-scared-male-long-scream.wav",
+      "transition_start_sec": 4.8853125,
+      "transition_end_sec": 10.0,
+      "sample_index": 29
+    },
+    {
+      "class": "factory_transition",
+      "class_id": 1,
+      "type": "공장소리전환",
+      "factory_file1": "mixture129.wav",
+      "factory_file2": "mixture111.wav",
+      "transition_start_sec": 4.289693318201337,
+      "sample_index": 54
+    },
+    {
+      "class": "factory_transition",
+      "class_id": 1,
+      "type": "공장소리전환",
+      "factory_file1": "mixture94.wav",
+      "factory_file2": "mixture30.wav",
+      "transition_start_sec": 5.6515476921601016,
+      "sample_index": 46
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "완전무음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 12
+    },
+    {
+      "class": "gas",
+      "class_id": 3,
+      "type": "위험소음",
+      "factory_file": "mixture169.wav",
+      "event_file": "GAS_LEAK.wav",
+      "event_start_sec": 0.0,
+      "event_end_sec": 10.0,
+      "sample_index": 19
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture350.wav",
+      "event_file": null,
+      "sample_index": 177
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "배경소음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 155
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "완전무음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 85
+    },
+    {
+      "class": "fire",
+      "class_id": 2,
+      "type": "위험소음",
+      "factory_file": "mixture139.wav",
+      "event_file": "fire_NHU05010073_095.wav",
+      "event_start_sec": 0.0,
+      "event_end_sec": 10.0,
+      "sample_index": 0
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "완전무음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 56
+    },
+    {
+      "class": "factory_transition",
+      "class_id": 1,
+      "type": "공장소리전환",
+      "factory_file1": "mixture90.wav",
+      "factory_file2": "mixture26.wav",
+      "transition_start_sec": 3.273610306959486,
+      "sample_index": 7
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture21.wav",
+      "event_file": null,
+      "sample_index": 34
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "배경소음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 196
+    },
+    {
+      "class": "transition",
+      "class_id": 1,
+      "type": "무음→공장소리 전환",
+      "factory_file": "mixture274.wav",
+      "event_file": null,
+      "transition_start_sec": 3.5405625,
+      "sample_index": 61
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture330.wav",
+      "event_file": null,
+      "sample_index": 44
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "완전무음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 62
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "완전무음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 25
+    },
+    {
+      "class": "danger_transition_scream",
+      "class_id": 4,
+      "type": "무음→scream 전환",
+      "factory_file": null,
+      "event_file": "07034125.wav",
+      "transition_start_sec": 3.491375,
+      "transition_end_sec": 7.363375,
+      "sample_index": 16
+    },
+    {
+      "class": "gas",
+      "class_id": 3,
+      "type": "위험소음",
+      "factory_file": "mixture308.wav",
+      "event_file": "Gas_Leak_Sound_Effect.wav",
+      "event_start_sec": 0.0,
+      "event_end_sec": 10.0,
+      "sample_index": 14
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture316.wav",
+      "event_file": null,
+      "sample_index": 153
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "배경소음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 126
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "완전무음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 29
+    },
+    {
+      "class": "gas",
+      "class_id": 3,
+      "type": "위험소음",
+      "factory_file": "mixture218.wav",
+      "event_file": "Gas_Leak_Sound_Effect.wav",
+      "event_start_sec": 0.0,
+      "event_end_sec": 10.0,
+      "sample_index": 0
+    },
+    {
+      "class": "scream",
+      "class_id": 4,
+      "type": "위험소음",
+      "factory_file": "mixture306.wav",
+      "event_file": "07034117.wav",
+      "event_start_sec": 0.0633125,
+      "event_end_sec": 9.9513125,
+      "sample_index": 2
+    },
+    {
+      "class": "scream",
+      "class_id": 4,
+      "type": "위험소음",
+      "factory_file": "mixture364.wav",
+      "event_file": "328925__robinhood76__06101-scared-male-long-scream.wav",
+      "event_start_sec": 0.332875,
+      "event_end_sec": 9.964875,
+      "sample_index": 8
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "완전무음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 73
+    },
+    {
+      "class": "transition",
+      "class_id": 1,
+      "type": "무음→공장소리 전환",
+      "factory_file": "mixture333.wav",
+      "event_file": null,
+      "transition_start_sec": 6.6910625,
+      "sample_index": 35
+    },
+    {
+      "class": "gas",
+      "class_id": 3,
+      "type": "위험소음",
+      "factory_file": "mixture303.wav",
+      "event_file": "Gas_Leak_Sound_Effect.wav",
+      "event_start_sec": 0.0,
+      "event_end_sec": 10.0,
+      "sample_index": 15
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture291.wav",
+      "event_file": null,
+      "sample_index": 133
+    },
+    {
+      "class": "transition",
+      "class_id": 1,
+      "type": "무음→공장소리 전환",
+      "factory_file": "mixture392.wav",
+      "event_file": null,
+      "transition_start_sec": 5.181375,
+      "sample_index": 50
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture201.wav",
+      "event_file": null,
+      "sample_index": 63
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "배경소음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 142
+    },
+    {
+      "class": "factory_transition",
+      "class_id": 1,
+      "type": "공장소리전환",
+      "factory_file1": "mixture298.wav",
+      "factory_file2": "mixture289.wav",
+      "transition_start_sec": 6.312901828064694,
+      "sample_index": 11
+    },
+    {
+      "class": "factory_transition",
+      "class_id": 1,
+      "type": "공장소리전환",
+      "factory_file1": "mixture352.wav",
+      "factory_file2": "mixture245.wav",
+      "transition_start_sec": 6.653382676619325,
+      "sample_index": 28
+    },
+    {
+      "class": "scream",
+      "class_id": 4,
+      "type": "위험소음",
+      "factory_file": "mixture123.wav",
+      "event_file": "328925__robinhood76__06101-scared-male-long-scream.wav",
+      "event_start_sec": 0.244625,
+      "event_end_sec": 9.876625,
+      "sample_index": 6
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture58.wav",
+      "event_file": null,
+      "sample_index": 82
+    },
+    {
+      "class": "scream",
+      "class_id": 4,
+      "type": "위험소음",
+      "factory_file": "mixture330.wav",
+      "event_file": "556976__marc3122__male-screams-1.mp3",
+      "event_start_sec": 2.1124375,
+      "event_end_sec": 8.5764375,
+      "sample_index": 10
+    },
+    {
+      "class": "silence_variation",
+      "class_id": 0,
+      "type": "무음변화",
+      "transition_start_sec": 7.258160400518525,
+      "sample_index": 45
+    },
+    {
+      "class": "silence_variation",
+      "class_id": 0,
+      "type": "무음변화",
+      "transition_start_sec": 3.6427139165737294,
+      "sample_index": 33
+    },
+    {
+      "class": "danger_transition_gas",
+      "class_id": 3,
+      "type": "무음→gas 전환",
+      "factory_file": null,
+      "event_file": "Gas_Leak_Sound_Effect.wav",
+      "transition_start_sec": 5.1084375,
+      "transition_end_sec": 10.0,
+      "sample_index": 23
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "완전무음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 26
+    },
+    {
+      "class": "transition",
+      "class_id": 1,
+      "type": "무음→공장소리 전환",
+      "factory_file": "mixture358.wav",
+      "event_file": null,
+      "transition_start_sec": 6.801375,
+      "sample_index": 9
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "배경소음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 119
+    },
+    {
+      "class": "gas",
+      "class_id": 3,
+      "type": "위험소음",
+      "factory_file": "mixture142.wav",
+      "event_file": "655804__nathvandykowi__gas-going-off.wav",
+      "event_start_sec": 0.0,
+      "event_end_sec": 10.0,
+      "sample_index": 4
+    },
+    {
+      "class": "danger_transition_fire",
+      "class_id": 2,
+      "type": "무음→fire 전환",
+      "factory_file": null,
+      "event_file": "fire_07025148_019.wav",
+      "transition_start_sec": 3.3695625,
+      "transition_end_sec": 9.3695625,
+      "sample_index": 2
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture359.wav",
+      "event_file": null,
+      "sample_index": 104
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture162.wav",
+      "event_file": null,
+      "sample_index": 66
+    },
+    {
+      "class": "danger_transition_scream",
+      "class_id": 4,
+      "type": "무음→scream 전환",
+      "factory_file": null,
+      "event_file": "556976__marc3122__male-screams-1.mp3",
+      "transition_start_sec": 3.0409375,
+      "transition_end_sec": 9.0409375,
+      "sample_index": 18
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "완전무음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 95
+    },
+    {
+      "class": "transition",
+      "class_id": 1,
+      "type": "무음→공장소리 전환",
+      "factory_file": "mixture279.wav",
+      "event_file": null,
+      "transition_start_sec": 2.649,
+      "sample_index": 25
+    },
+    {
+      "class": "transition",
+      "class_id": 1,
+      "type": "무음→공장소리 전환",
+      "factory_file": "mixture16.wav",
+      "event_file": null,
+      "transition_start_sec": 2.0500625,
+      "sample_index": 79
+    },
+    {
+      "class": "danger_transition_fire",
+      "class_id": 2,
+      "type": "무음→fire 전환",
+      "factory_file": null,
+      "event_file": "fire_0009039_005.wav",
+      "transition_start_sec": 2.2320625,
+      "transition_end_sec": 8.2320625,
+      "sample_index": 0
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "완전무음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 60
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "배경소음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 144
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "배경소음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 141
+    },
+    {
+      "class": "silence_variation",
+      "class_id": 0,
+      "type": "무음변화",
+      "transition_start_sec": 2.0869414796149757,
+      "sample_index": 8
+    },
+    {
+      "class": "scream",
+      "class_id": 4,
+      "type": "위험소음",
+      "factory_file": "mixture86.wav",
+      "event_file": "338935__natemarler__human-male-scream-scared-pain.wav",
+      "event_start_sec": 7.390125,
+      "event_end_sec": 9.182125,
+      "sample_index": 7
+    },
+    {
+      "class": "transition",
+      "class_id": 1,
+      "type": "무음→공장소리 전환",
+      "factory_file": "mixture253.wav",
+      "event_file": null,
+      "transition_start_sec": 3.2608125,
+      "sample_index": 29
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "완전무음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 83
+    },
+    {
+      "class": "danger_transition_gas",
+      "class_id": 3,
+      "type": "무음→gas 전환",
+      "factory_file": null,
+      "event_file": "655804__nathvandykowi__gas-going-off.wav",
+      "transition_start_sec": 3.6149375,
+      "transition_end_sec": 9.6149375,
+      "sample_index": 17
+    },
+    {
+      "class": "transition",
+      "class_id": 1,
+      "type": "무음→공장소리 전환",
+      "factory_file": "mixture31.wav",
+      "event_file": null,
+      "transition_start_sec": 2.633875,
+      "sample_index": 80
+    },
+    {
+      "class": "fire",
+      "class_id": 2,
+      "type": "위험소음",
+      "factory_file": "mixture80.wav",
+      "event_file": "fire_07025148_046.wav",
+      "event_start_sec": 0.0,
+      "event_end_sec": 10.0,
+      "sample_index": 0
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "완전무음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 81
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture394.wav",
+      "event_file": null,
+      "sample_index": 144
+    },
+    {
+      "class": "gas",
+      "class_id": 3,
+      "type": "위험소음",
+      "factory_file": "mixture361.wav",
+      "event_file": "GAS_LEAK.wav",
+      "event_start_sec": 0.0,
+      "event_end_sec": 10.0,
+      "sample_index": 0
+    },
+    {
+      "class": "silence_variation",
+      "class_id": 0,
+      "type": "무음변화",
+      "transition_start_sec": 7.481024464168112,
+      "sample_index": 42
+    },
+    {
+      "class": "silence_variation",
+      "class_id": 0,
+      "type": "무음변화",
+      "transition_start_sec": 5.596269764967692,
+      "sample_index": 52
+    },
+    {
+      "class": "factory_transition",
+      "class_id": 1,
+      "type": "공장소리전환",
+      "factory_file1": "mixture143.wav",
+      "factory_file2": "mixture228.wav",
+      "transition_start_sec": 5.4656549529649245,
+      "sample_index": 60
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture225.wav",
+      "event_file": null,
+      "sample_index": 10
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture122.wav",
+      "event_file": null,
+      "sample_index": 174
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture22.wav",
+      "event_file": null,
+      "sample_index": 42
+    },
+    {
+      "class": "silence_variation",
+      "class_id": 0,
+      "type": "무음변화",
+      "transition_start_sec": 6.671025249068483,
+      "sample_index": 54
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture343.wav",
+      "event_file": null,
+      "sample_index": 62
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "배경소음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 172
+    },
+    {
+      "class": "transition",
+      "class_id": 1,
+      "type": "무음→공장소리 전환",
+      "factory_file": "mixture359.wav",
+      "event_file": null,
+      "transition_start_sec": 2.553875,
+      "sample_index": 89
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "배경소음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 101
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "완전무음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 30
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture165.wav",
+      "event_file": null,
+      "sample_index": 68
+    },
+    {
+      "class": "scream",
+      "class_id": 4,
+      "type": "위험소음",
+      "factory_file": "mixture110.wav",
+      "event_file": "07034124.wav",
+      "event_start_sec": 5.5795,
+      "event_end_sec": 8.4595,
+      "sample_index": 9
+    },
+    {
+      "class": "scream",
+      "class_id": 4,
+      "type": "위험소음",
+      "factory_file": "mixture117.wav",
+      "event_file": "07034124.wav",
+      "event_start_sec": 7.115,
+      "event_end_sec": 9.995,
+      "sample_index": 4
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture191.wav",
+      "event_file": null,
+      "sample_index": 54
+    },
+    {
+      "class": "danger_transition_gas",
+      "class_id": 3,
+      "type": "무음→gas 전환",
+      "factory_file": null,
+      "event_file": "655804__nathvandykowi__gas-going-off.wav",
+      "transition_start_sec": 3.865125,
+      "transition_end_sec": 9.865125,
+      "sample_index": 20
+    },
+    {
+      "class": "fire",
+      "class_id": 2,
+      "type": "위험소음",
+      "factory_file": "mixture244.wav",
+      "event_file": "fire_NHU10242809_113.wav",
+      "event_start_sec": 0.0,
+      "event_end_sec": 10.0,
+      "sample_index": 0
+    },
+    {
+      "class": "fire",
+      "class_id": 2,
+      "type": "위험소음",
+      "factory_file": "mixture367.wav",
+      "event_file": "fire_0009039_005.wav",
+      "event_start_sec": 0.0,
+      "event_end_sec": 10.0,
+      "sample_index": 0
+    },
+    {
+      "class": "transition",
+      "class_id": 1,
+      "type": "무음→공장소리 전환",
+      "factory_file": "mixture358.wav",
+      "event_file": null,
+      "transition_start_sec": 4.32575,
+      "sample_index": 93
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture345.wav",
+      "event_file": null,
+      "sample_index": 81
+    },
+    {
+      "class": "transition",
+      "class_id": 1,
+      "type": "무음→공장소리 전환",
+      "factory_file": "mixture313.wav",
+      "event_file": null,
+      "transition_start_sec": 7.498875,
+      "sample_index": 64
+    },
+    {
+      "class": "gas",
+      "class_id": 3,
+      "type": "위험소음",
+      "factory_file": "mixture315.wav",
+      "event_file": "655804__nathvandykowi__gas-going-off.wav",
+      "event_start_sec": 0.0,
+      "event_end_sec": 10.0,
+      "sample_index": 2
+    },
+    {
+      "class": "danger_transition_scream",
+      "class_id": 4,
+      "type": "무음→scream 전환",
+      "factory_file": null,
+      "event_file": "07034124.wav",
+      "transition_start_sec": 5.9873125,
+      "transition_end_sec": 8.8673125,
+      "sample_index": 13
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture49.wav",
+      "event_file": null,
+      "sample_index": 47
+    },
+    {
+      "class": "scream",
+      "class_id": 4,
+      "type": "위험소음",
+      "factory_file": "mixture246.wav",
+      "event_file": "07034125.wav",
+      "event_start_sec": 0.3229375,
+      "event_end_sec": 4.1949375,
+      "sample_index": 10
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture89.wav",
+      "event_file": null,
+      "sample_index": 88
+    },
+    {
+      "class": "danger_transition_fire",
+      "class_id": 2,
+      "type": "무음→fire 전환",
+      "factory_file": null,
+      "event_file": "NHU05002101.wav",
+      "transition_start_sec": 3.9665,
+      "transition_end_sec": 9.9665,
+      "sample_index": 29
+    },
+    {
+      "class": "factory_transition",
+      "class_id": 1,
+      "type": "공장소리전환",
+      "factory_file1": "mixture61.wav",
+      "factory_file2": "mixture49.wav",
+      "transition_start_sec": 4.425147736825511,
+      "sample_index": 41
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "완전무음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 43
+    },
+    {
+      "class": "transition",
+      "class_id": 1,
+      "type": "무음→공장소리 전환",
+      "factory_file": "mixture52.wav",
+      "event_file": null,
+      "transition_start_sec": 7.3269375,
+      "sample_index": 62
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture217.wav",
+      "event_file": null,
+      "sample_index": 52
+    },
+    {
+      "class": "fire",
+      "class_id": 2,
+      "type": "위험소음",
+      "factory_file": "mixture20.wav",
+      "event_file": "fire_00008014_002.wav",
+      "event_start_sec": 0.0,
+      "event_end_sec": 10.0,
+      "sample_index": 0
+    },
+    {
+      "class": "gas",
+      "class_id": 3,
+      "type": "위험소음",
+      "factory_file": "mixture304.wav",
+      "event_file": "Gas_Leak_Sound_Effect.wav",
+      "event_start_sec": 0.0,
+      "event_end_sec": 10.0,
+      "sample_index": 16
+    },
+    {
+      "class": "transition",
+      "class_id": 1,
+      "type": "무음→공장소리 전환",
+      "factory_file": "mixture370.wav",
+      "event_file": null,
+      "transition_start_sec": 7.13725,
+      "sample_index": 65
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture278.wav",
+      "event_file": null,
+      "sample_index": 117
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "완전무음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 34
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture305.wav",
+      "event_file": null,
+      "sample_index": 95
+    },
+    {
+      "class": "transition",
+      "class_id": 1,
+      "type": "무음→공장소리 전환",
+      "factory_file": "mixture83.wav",
+      "event_file": null,
+      "transition_start_sec": 4.01525,
+      "sample_index": 15
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "배경소음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 135
+    },
+    {
+      "class": "gas",
+      "class_id": 3,
+      "type": "위험소음",
+      "factory_file": "mixture229.wav",
+      "event_file": "655804__nathvandykowi__gas-going-off.wav",
+      "event_start_sec": 0.0,
+      "event_end_sec": 10.0,
+      "sample_index": 3
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "완전무음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 67
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture385.wav",
+      "event_file": null,
+      "sample_index": 94
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture340.wav",
+      "event_file": null,
+      "sample_index": 56
+    },
+    {
+      "class": "gas",
+      "class_id": 3,
+      "type": "위험소음",
+      "factory_file": "mixture282.wav",
+      "event_file": "GAS_LEAK.wav",
+      "event_start_sec": 0.0,
+      "event_end_sec": 10.0,
+      "sample_index": 11
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "완전무음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 44
+    },
+    {
+      "class": "danger_transition_fire",
+      "class_id": 2,
+      "type": "무음→fire 전환",
+      "factory_file": null,
+      "event_file": "fire_NHU10242809_117.wav",
+      "transition_start_sec": 3.055875,
+      "transition_end_sec": 9.055875,
+      "sample_index": 20
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "완전무음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 18
+    },
+    {
+      "class": "gas",
+      "class_id": 3,
+      "type": "위험소음",
+      "factory_file": "mixture222.wav",
+      "event_file": "Gas_Leak_Sound_Effect.wav",
+      "event_start_sec": 0.0,
+      "event_end_sec": 10.0,
+      "sample_index": 11
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture182.wav",
+      "event_file": null,
+      "sample_index": 15
+    },
+    {
+      "class": "scream",
+      "class_id": 4,
+      "type": "위험소음",
+      "factory_file": "mixture58.wav",
+      "event_file": "328925__robinhood76__06101-scared-male-long-scream.wav",
+      "event_start_sec": 0.2004375,
+      "event_end_sec": 9.8324375,
+      "sample_index": 9
+    },
+    {
+      "class": "transition",
+      "class_id": 1,
+      "type": "무음→공장소리 전환",
+      "factory_file": "mixture52.wav",
+      "event_file": null,
+      "transition_start_sec": 2.401625,
+      "sample_index": 8
+    },
+    {
+      "class": "fire",
+      "class_id": 2,
+      "type": "위험소음",
+      "factory_file": "mixture90.wav",
+      "event_file": "fire_07025148_049.wav",
+      "event_start_sec": 0.0,
+      "event_end_sec": 10.0,
+      "sample_index": 0
+    },
+    {
+      "class": "transition",
+      "class_id": 1,
+      "type": "무음→공장소리 전환",
+      "factory_file": "mixture10.wav",
+      "event_file": null,
+      "transition_start_sec": 6.6065,
+      "sample_index": 17
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture130.wav",
+      "event_file": null,
+      "sample_index": 167
+    },
+    {
+      "class": "gas",
+      "class_id": 3,
+      "type": "위험소음",
+      "factory_file": "mixture38.wav",
+      "event_file": "Gas_Leak_Sound_Effect.wav",
+      "event_start_sec": 0.0,
+      "event_end_sec": 10.0,
+      "sample_index": 19
+    },
+    {
+      "class": "transition",
+      "class_id": 1,
+      "type": "무음→공장소리 전환",
+      "factory_file": "mixture222.wav",
+      "event_file": null,
+      "transition_start_sec": 4.612375,
+      "sample_index": 92
+    },
+    {
+      "class": "scream",
+      "class_id": 4,
+      "type": "위험소음",
+      "factory_file": "mixture390.wav",
+      "event_file": "338935__natemarler__human-male-scream-scared-pain.wav",
+      "event_start_sec": 5.7456875,
+      "event_end_sec": 7.5376875,
+      "sample_index": 5
+    },
+    {
+      "class": "transition",
+      "class_id": 1,
+      "type": "무음→공장소리 전환",
+      "factory_file": "mixture70.wav",
+      "event_file": null,
+      "transition_start_sec": 6.3085625,
+      "sample_index": 91
+    },
+    {
+      "class": "transition",
+      "class_id": 1,
+      "type": "무음→공장소리 전환",
+      "factory_file": "mixture260.wav",
+      "event_file": null,
+      "transition_start_sec": 7.853,
+      "sample_index": 20
+    },
+    {
+      "class": "factory_transition",
+      "class_id": 1,
+      "type": "공장소리전환",
+      "factory_file1": "mixture116.wav",
+      "factory_file2": "mixture234.wav",
+      "transition_start_sec": 3.7417143053909285,
+      "sample_index": 14
+    },
+    {
+      "class": "gas",
+      "class_id": 3,
+      "type": "위험소음",
+      "factory_file": "mixture165.wav",
+      "event_file": "655804__nathvandykowi__gas-going-off.wav",
+      "event_start_sec": 0.0,
+      "event_end_sec": 10.0,
+      "sample_index": 17
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "배경소음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 137
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "배경소음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 115
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "배경소음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 164
+    },
+    {
+      "class": "danger_transition_gas",
+      "class_id": 3,
+      "type": "무음→gas 전환",
+      "factory_file": null,
+      "event_file": "Gas_Leak_Sound_Effect.wav",
+      "transition_start_sec": 3.850375,
+      "transition_end_sec": 9.850375,
+      "sample_index": 6
+    },
+    {
+      "class": "danger_transition_scream",
+      "class_id": 4,
+      "type": "무음→scream 전환",
+      "factory_file": null,
+      "event_file": "07034126.wav",
+      "transition_start_sec": 3.613375,
+      "transition_end_sec": 8.573375,
+      "sample_index": 12
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "완전무음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 15
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture18.wav",
+      "event_file": null,
+      "sample_index": 142
+    },
+    {
+      "class": "fire",
+      "class_id": 2,
+      "type": "위험소음",
+      "factory_file": "mixture22.wav",
+      "event_file": "fire_07059050_067.wav",
+      "event_start_sec": 0.0,
+      "event_end_sec": 10.0,
+      "sample_index": 0
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "완전무음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 91
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture393.wav",
+      "event_file": null,
+      "sample_index": 3
+    },
+    {
+      "class": "scream",
+      "class_id": 4,
+      "type": "위험소음",
+      "factory_file": "mixture311.wav",
+      "event_file": "07034125.wav",
+      "event_start_sec": 4.347375,
+      "event_end_sec": 8.219375,
+      "sample_index": 11
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture240.wav",
+      "event_file": null,
+      "sample_index": 55
+    },
+    {
+      "class": "scream",
+      "class_id": 4,
+      "type": "위험소음",
+      "factory_file": "mixture295.wav",
+      "event_file": "07034126.wav",
+      "event_start_sec": 2.0834375,
+      "event_end_sec": 7.0434375,
+      "sample_index": 4
+    },
+    {
+      "class": "factory_transition",
+      "class_id": 1,
+      "type": "공장소리전환",
+      "factory_file1": "mixture99.wav",
+      "factory_file2": "mixture127.wav",
+      "transition_start_sec": 5.00396930930295,
+      "sample_index": 32
+    },
+    {
+      "class": "transition",
+      "class_id": 1,
+      "type": "무음→공장소리 전환",
+      "factory_file": "mixture221.wav",
+      "event_file": null,
+      "transition_start_sec": 3.4599375,
+      "sample_index": 76
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture345.wav",
+      "event_file": null,
+      "sample_index": 126
+    },
+    {
+      "class": "transition",
+      "class_id": 1,
+      "type": "무음→공장소리 전환",
+      "factory_file": "mixture283.wav",
+      "event_file": null,
+      "transition_start_sec": 3.599,
+      "sample_index": 36
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture254.wav",
+      "event_file": null,
+      "sample_index": 23
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture212.wav",
+      "event_file": null,
+      "sample_index": 101
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture204.wav",
+      "event_file": null,
+      "sample_index": 91
+    },
+    {
+      "class": "danger_transition_scream",
+      "class_id": 4,
+      "type": "무음→scream 전환",
+      "factory_file": null,
+      "event_file": "328925__robinhood76__06101-scared-male-long-scream.wav",
+      "transition_start_sec": 3.312375,
+      "transition_end_sec": 9.312375,
+      "sample_index": 15
+    },
+    {
+      "class": "scream",
+      "class_id": 4,
+      "type": "위험소음",
+      "factory_file": "mixture100.wav",
+      "event_file": "556976__marc3122__male-screams-1.mp3",
+      "event_start_sec": 1.0901875,
+      "event_end_sec": 7.5541875,
+      "sample_index": 8
+    },
+    {
+      "class": "silence_variation",
+      "class_id": 0,
+      "type": "무음변화",
+      "transition_start_sec": 2.869047321403424,
+      "sample_index": 26
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture245.wav",
+      "event_file": null,
+      "sample_index": 90
+    },
+    {
+      "class": "danger_transition_scream",
+      "class_id": 4,
+      "type": "무음→scream 전환",
+      "factory_file": null,
+      "event_file": "328925__robinhood76__06101-scared-male-long-scream.wav",
+      "transition_start_sec": 5.963375,
+      "transition_end_sec": 10.0,
+      "sample_index": 21
+    },
+    {
+      "class": "scream",
+      "class_id": 4,
+      "type": "위험소음",
+      "factory_file": "mixture78.wav",
+      "event_file": "07034126.wav",
+      "event_start_sec": 0.79325,
+      "event_end_sec": 5.75325,
+      "sample_index": 6
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture124.wav",
+      "event_file": null,
+      "sample_index": 121
+    },
+    {
+      "class": "danger_transition_fire",
+      "class_id": 2,
+      "type": "무음→fire 전환",
+      "factory_file": null,
+      "event_file": "fire_07059050_071.wav",
+      "transition_start_sec": 3.3901875,
+      "transition_end_sec": 9.3901875,
+      "sample_index": 5
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "완전무음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 16
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture92.wav",
+      "event_file": null,
+      "sample_index": 141
+    },
+    {
+      "class": "gas",
+      "class_id": 3,
+      "type": "위험소음",
+      "factory_file": "mixture180.wav",
+      "event_file": "GAS_LEAK.wav",
+      "event_start_sec": 0.0,
+      "event_end_sec": 10.0,
+      "sample_index": 15
+    },
+    {
+      "class": "fire",
+      "class_id": 2,
+      "type": "위험소음",
+      "factory_file": "mixture63.wav",
+      "event_file": "fire_07025148_031.wav",
+      "event_start_sec": 0.0,
+      "event_end_sec": 10.0,
+      "sample_index": 0
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "완전무음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 86
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture383.wav",
+      "event_file": null,
+      "sample_index": 40
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture253.wav",
+      "event_file": null,
+      "sample_index": 84
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "완전무음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 40
+    },
+    {
+      "class": "transition",
+      "class_id": 1,
+      "type": "무음→공장소리 전환",
+      "factory_file": "mixture230.wav",
+      "event_file": null,
+      "transition_start_sec": 3.0641875,
+      "sample_index": 2
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "배경소음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 146
+    },
+    {
+      "class": "danger_transition_scream",
+      "class_id": 4,
+      "type": "무음→scream 전환",
+      "factory_file": null,
+      "event_file": "07034126.wav",
+      "transition_start_sec": 2.042125,
+      "transition_end_sec": 7.002125,
+      "sample_index": 8
+    },
+    {
+      "class": "scream",
+      "class_id": 4,
+      "type": "위험소음",
+      "factory_file": "mixture213.wav",
+      "event_file": "338935__natemarler__human-male-scream-scared-pain.wav",
+      "event_start_sec": 6.0205625,
+      "event_end_sec": 7.8125625,
+      "sample_index": 1
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture168.wav",
+      "event_file": null,
+      "sample_index": 105
+    },
+    {
+      "class": "transition",
+      "class_id": 1,
+      "type": "무음→공장소리 전환",
+      "factory_file": "mixture151.wav",
+      "event_file": null,
+      "transition_start_sec": 2.4901875,
+      "sample_index": 56
+    }
+  ],
+  "test": [
+    {
+      "class": "transition",
+      "class_id": 1,
+      "type": "무음→공장소리 전환",
+      "factory_file": "mixture374.wav",
+      "event_file": null,
+      "transition_start_sec": 5.699875,
+      "sample_index": 83
+    },
+    {
+      "class": "silence_variation",
+      "class_id": 0,
+      "type": "무음변화",
+      "transition_start_sec": 6.855518724007743,
+      "sample_index": 53
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "배경소음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 106
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture42.wav",
+      "event_file": null,
+      "sample_index": 162
+    },
+    {
+      "class": "danger_transition_scream",
+      "class_id": 4,
+      "type": "무음→scream 전환",
+      "factory_file": null,
+      "event_file": "07034117.wav",
+      "transition_start_sec": 4.00025,
+      "transition_end_sec": 10.0,
+      "sample_index": 4
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "배경소음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 121
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "배경소음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 188
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "완전무음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 71
+    },
+    {
+      "class": "factory_transition",
+      "class_id": 1,
+      "type": "공장소리전환",
+      "factory_file1": "mixture206.wav",
+      "factory_file2": "mixture372.wav",
+      "transition_start_sec": 5.370857311633589,
+      "sample_index": 23
+    },
+    {
+      "class": "danger_transition_scream",
+      "class_id": 4,
+      "type": "무음→scream 전환",
+      "factory_file": null,
+      "event_file": "338935__natemarler__human-male-scream-scared-pain.wav",
+      "transition_start_sec": 5.02525,
+      "transition_end_sec": 6.81725,
+      "sample_index": 2
+    },
+    {
+      "class": "scream",
+      "class_id": 4,
+      "type": "위험소음",
+      "factory_file": "mixture103.wav",
+      "event_file": "07034124.wav",
+      "event_start_sec": 2.92425,
+      "event_end_sec": 5.80425,
+      "sample_index": 7
+    },
+    {
+      "class": "gas",
+      "class_id": 3,
+      "type": "위험소음",
+      "factory_file": "mixture332.wav",
+      "event_file": "GAS_LEAK.wav",
+      "event_start_sec": 0.0,
+      "event_end_sec": 10.0,
+      "sample_index": 6
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture275.wav",
+      "event_file": null,
+      "sample_index": 50
+    },
+    {
+      "class": "scream",
+      "class_id": 4,
+      "type": "위험소음",
+      "factory_file": "mixture4.wav",
+      "event_file": "07034126.wav",
+      "event_start_sec": 3.07125,
+      "event_end_sec": 8.03125,
+      "sample_index": 3
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture2.wav",
+      "event_file": null,
+      "sample_index": 157
+    },
+    {
+      "class": "scream",
+      "class_id": 4,
+      "type": "위험소음",
+      "factory_file": "mixture122.wav",
+      "event_file": "07034117.wav",
+      "event_start_sec": 0.0846875,
+      "event_end_sec": 9.9726875,
+      "sample_index": 1
+    },
+    {
+      "class": "transition",
+      "class_id": 1,
+      "type": "무음→공장소리 전환",
+      "factory_file": "mixture127.wav",
+      "event_file": null,
+      "transition_start_sec": 5.2899375,
+      "sample_index": 96
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture220.wav",
+      "event_file": null,
+      "sample_index": 150
+    },
+    {
+      "class": "danger_transition_gas",
+      "class_id": 3,
+      "type": "무음→gas 전환",
+      "factory_file": null,
+      "event_file": "655804__nathvandykowi__gas-going-off.wav",
+      "transition_start_sec": 3.3833125,
+      "transition_end_sec": 9.3833125,
+      "sample_index": 16
+    },
+    {
+      "class": "danger_transition_gas",
+      "class_id": 3,
+      "type": "무음→gas 전환",
+      "factory_file": null,
+      "event_file": "GAS_LEAK.wav",
+      "transition_start_sec": 2.86425,
+      "transition_end_sec": 8.86425,
+      "sample_index": 13
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture195.wav",
+      "event_file": null,
+      "sample_index": 147
+    },
+    {
+      "class": "factory_transition",
+      "class_id": 1,
+      "type": "공장소리전환",
+      "factory_file1": "mixture295.wav",
+      "factory_file2": "mixture248.wav",
+      "transition_start_sec": 3.478281366007607,
+      "sample_index": 71
+    },
+    {
+      "class": "factory_transition",
+      "class_id": 1,
+      "type": "공장소리전환",
+      "factory_file1": "mixture189.wav",
+      "factory_file2": "mixture293.wav",
+      "transition_start_sec": 3.335364267199697,
+      "sample_index": 65
+    },
+    {
+      "class": "danger_transition_fire",
+      "class_id": 2,
+      "type": "무음→fire 전환",
+      "factory_file": null,
+      "event_file": "fire_NHU05010073_094.wav",
+      "transition_start_sec": 5.9950625,
+      "transition_end_sec": 10.0,
+      "sample_index": 4
+    },
+    {
+      "class": "scream",
+      "class_id": 4,
+      "type": "위험소음",
+      "factory_file": "mixture61.wav",
+      "event_file": "07034117.wav",
+      "event_start_sec": 0.0355,
+      "event_end_sec": 9.9235,
+      "sample_index": 3
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "배경소음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 189
+    },
+    {
+      "class": "danger_transition_fire",
+      "class_id": 2,
+      "type": "무음→fire 전환",
+      "factory_file": null,
+      "event_file": "fire_07025148_025.wav",
+      "transition_start_sec": 4.3949375,
+      "transition_end_sec": 10.0,
+      "sample_index": 28
+    },
+    {
+      "class": "gas",
+      "class_id": 3,
+      "type": "위험소음",
+      "factory_file": "mixture288.wav",
+      "event_file": "GAS_LEAK.wav",
+      "event_start_sec": 0.0,
+      "event_end_sec": 10.0,
+      "sample_index": 3
+    },
+    {
+      "class": "scream",
+      "class_id": 4,
+      "type": "위험소음",
+      "factory_file": "mixture381.wav",
+      "event_file": "556976__marc3122__male-screams-1.mp3",
+      "event_start_sec": 1.8721875,
+      "event_end_sec": 8.3361875,
+      "sample_index": 6
+    },
+    {
+      "class": "factory_transition",
+      "class_id": 1,
+      "type": "공장소리전환",
+      "factory_file1": "mixture199.wav",
+      "factory_file2": "mixture16.wav",
+      "transition_start_sec": 3.3052335795234793,
+      "sample_index": 26
+    },
+    {
+      "class": "silence_variation",
+      "class_id": 0,
+      "type": "무음변화",
+      "transition_start_sec": 5.929088286303285,
+      "sample_index": 48
+    },
+    {
+      "class": "fire",
+      "class_id": 2,
+      "type": "위험소음",
+      "factory_file": "mixture51.wav",
+      "event_file": "fire_07059050_060.wav",
+      "event_start_sec": 0.0,
+      "event_end_sec": 10.0,
+      "sample_index": 0
+    },
+    {
+      "class": "silence_variation",
+      "class_id": 0,
+      "type": "무음변화",
+      "transition_start_sec": 3.640488844623086,
+      "sample_index": 31
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "완전무음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 1
+    },
+    {
+      "class": "fire",
+      "class_id": 2,
+      "type": "위험소음",
+      "factory_file": "mixture370.wav",
+      "event_file": "fire_07025148_023.wav",
+      "event_start_sec": 0.0,
+      "event_end_sec": 10.0,
+      "sample_index": 0
+    },
+    {
+      "class": "silence_variation",
+      "class_id": 0,
+      "type": "무음변화",
+      "transition_start_sec": 6.351667206436237,
+      "sample_index": 2
+    },
+    {
+      "class": "fire",
+      "class_id": 2,
+      "type": "위험소음",
+      "factory_file": "mixture381.wav",
+      "event_file": "fire_07025148_027.wav",
+      "event_start_sec": 0.0,
+      "event_end_sec": 10.0,
+      "sample_index": 0
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "완전무음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 63
+    },
+    {
+      "class": "factory_transition",
+      "class_id": 1,
+      "type": "공장소리전환",
+      "factory_file1": "mixture204.wav",
+      "factory_file2": "mixture350.wav",
+      "transition_start_sec": 3.787983921361351,
+      "sample_index": 29
+    },
+    {
+      "class": "silence_variation",
+      "class_id": 0,
+      "type": "무음변화",
+      "transition_start_sec": 4.00445136080648,
+      "sample_index": 7
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "배경소음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 187
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture368.wav",
+      "event_file": null,
+      "sample_index": 152
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture367.wav",
+      "event_file": null,
+      "sample_index": 53
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture49.wav",
+      "event_file": null,
+      "sample_index": 98
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "완전무음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 57
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "배경소음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 129
+    },
+    {
+      "class": "scream",
+      "class_id": 4,
+      "type": "위험소음",
+      "factory_file": "mixture10.wav",
+      "event_file": "07034125.wav",
+      "event_start_sec": 1.012125,
+      "event_end_sec": 4.884125,
+      "sample_index": 9
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture329.wav",
+      "event_file": null,
+      "sample_index": 128
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "완전무음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 14
+    },
+    {
+      "class": "scream",
+      "class_id": 4,
+      "type": "위험소음",
+      "factory_file": "mixture273.wav",
+      "event_file": "07034126.wav",
+      "event_start_sec": 2.257,
+      "event_end_sec": 7.217,
+      "sample_index": 8
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "배경소음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 107
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "배경소음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 149
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture110.wav",
+      "event_file": null,
+      "sample_index": 32
+    },
+    {
+      "class": "factory_transition",
+      "class_id": 1,
+      "type": "공장소리전환",
+      "factory_file1": "mixture164.wav",
+      "factory_file2": "mixture297.wav",
+      "transition_start_sec": 6.209009432641205,
+      "sample_index": 59
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture311.wav",
+      "event_file": null,
+      "sample_index": 111
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture272.wav",
+      "event_file": null,
+      "sample_index": 151
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture23.wav",
+      "event_file": null,
+      "sample_index": 119
+    },
+    {
+      "class": "gas",
+      "class_id": 3,
+      "type": "위험소음",
+      "factory_file": "mixture312.wav",
+      "event_file": "Gas_Leak_Sound_Effect.wav",
+      "event_start_sec": 0.0,
+      "event_end_sec": 10.0,
+      "sample_index": 5
+    },
+    {
+      "class": "scream",
+      "class_id": 4,
+      "type": "위험소음",
+      "factory_file": "mixture85.wav",
+      "event_file": "338935__natemarler__human-male-scream-scared-pain.wav",
+      "event_start_sec": 4.775375,
+      "event_end_sec": 6.567375,
+      "sample_index": 9
+    },
+    {
+      "class": "scream",
+      "class_id": 4,
+      "type": "위험소음",
+      "factory_file": "mixture243.wav",
+      "event_file": "07034124.wav",
+      "event_start_sec": 2.560125,
+      "event_end_sec": 5.440125,
+      "sample_index": 2
+    },
+    {
+      "class": "danger_transition_gas",
+      "class_id": 3,
+      "type": "무음→gas 전환",
+      "factory_file": null,
+      "event_file": "655804__nathvandykowi__gas-going-off.wav",
+      "transition_start_sec": 4.6790625,
+      "transition_end_sec": 10.0,
+      "sample_index": 24
+    },
+    {
+      "class": "factory_transition",
+      "class_id": 1,
+      "type": "공장소리전환",
+      "factory_file1": "mixture375.wav",
+      "factory_file2": "mixture66.wav",
+      "transition_start_sec": 4.6813344079409305,
+      "sample_index": 57
+    },
+    {
+      "class": "factory_transition",
+      "class_id": 1,
+      "type": "공장소리전환",
+      "factory_file1": "mixture89.wav",
+      "factory_file2": "mixture66.wav",
+      "transition_start_sec": 4.221349548330922,
+      "sample_index": 44
+    },
+    {
+      "class": "transition",
+      "class_id": 1,
+      "type": "무음→공장소리 전환",
+      "factory_file": "mixture267.wav",
+      "event_file": null,
+      "transition_start_sec": 3.7235625,
+      "sample_index": 49
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "완전무음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 21
+    },
+    {
+      "class": "danger_transition_gas",
+      "class_id": 3,
+      "type": "무음→gas 전환",
+      "factory_file": null,
+      "event_file": "655804__nathvandykowi__gas-going-off.wav",
+      "transition_start_sec": 5.750625,
+      "transition_end_sec": 10.0,
+      "sample_index": 0
+    },
+    {
+      "class": "fire",
+      "class_id": 2,
+      "type": "위험소음",
+      "factory_file": "mixture19.wav",
+      "event_file": "fire_07025148_047.wav",
+      "event_start_sec": 0.0,
+      "event_end_sec": 10.0,
+      "sample_index": 0
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "완전무음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 50
+    },
+    {
+      "class": "transition",
+      "class_id": 1,
+      "type": "무음→공장소리 전환",
+      "factory_file": "mixture53.wav",
+      "event_file": null,
+      "transition_start_sec": 3.2404375,
+      "sample_index": 46
+    },
+    {
+      "class": "danger_transition_fire",
+      "class_id": 2,
+      "type": "무음→fire 전환",
+      "factory_file": null,
+      "event_file": "fire_07025148_025.wav",
+      "transition_start_sec": 2.570125,
+      "transition_end_sec": 8.570125,
+      "sample_index": 12
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "완전무음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 52
+    },
+    {
+      "class": "danger_transition_gas",
+      "class_id": 3,
+      "type": "무음→gas 전환",
+      "factory_file": null,
+      "event_file": "GAS_LEAK.wav",
+      "transition_start_sec": 4.519875,
+      "transition_end_sec": 10.0,
+      "sample_index": 2
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture93.wav",
+      "event_file": null,
+      "sample_index": 26
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "배경소음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 116
+    },
+    {
+      "class": "scream",
+      "class_id": 4,
+      "type": "위험소음",
+      "factory_file": "mixture91.wav",
+      "event_file": "556976__marc3122__male-screams-1.mp3",
+      "event_start_sec": 0.4428125,
+      "event_end_sec": 6.9068125,
+      "sample_index": 3
+    },
+    {
+      "class": "danger_transition_scream",
+      "class_id": 4,
+      "type": "무음→scream 전환",
+      "factory_file": null,
+      "event_file": "338935__natemarler__human-male-scream-scared-pain.wav",
+      "transition_start_sec": 5.506,
+      "transition_end_sec": 7.298,
+      "sample_index": 25
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "배경소음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 169
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture378.wav",
+      "event_file": null,
+      "sample_index": 160
+    },
+    {
+      "class": "scream",
+      "class_id": 4,
+      "type": "위험소음",
+      "factory_file": "mixture85.wav",
+      "event_file": "07034124.wav",
+      "event_start_sec": 2.7605625,
+      "event_end_sec": 5.6405625,
+      "sample_index": 11
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture81.wav",
+      "event_file": null,
+      "sample_index": 146
+    },
+    {
+      "class": "factory_transition",
+      "class_id": 1,
+      "type": "공장소리전환",
+      "factory_file1": "mixture82.wav",
+      "factory_file2": "mixture379.wav",
+      "transition_start_sec": 4.920299785062053,
+      "sample_index": 2
+    },
+    {
+      "class": "silence_variation",
+      "class_id": 0,
+      "type": "무음변화",
+      "transition_start_sec": 4.4807201993156145,
+      "sample_index": 24
+    },
+    {
+      "class": "factory_transition",
+      "class_id": 1,
+      "type": "공장소리전환",
+      "factory_file1": "mixture256.wav",
+      "factory_file2": "mixture111.wav",
+      "transition_start_sec": 5.891859694468299,
+      "sample_index": 52
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "배경소음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 151
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "배경소음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 102
+    },
+    {
+      "class": "danger_transition_scream",
+      "class_id": 4,
+      "type": "무음→scream 전환",
+      "factory_file": null,
+      "event_file": "338935__natemarler__human-male-scream-scared-pain.wav",
+      "transition_start_sec": 5.9698125,
+      "transition_end_sec": 7.7618125,
+      "sample_index": 11
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "완전무음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 88
+    },
+    {
+      "class": "transition",
+      "class_id": 1,
+      "type": "무음→공장소리 전환",
+      "factory_file": "mixture373.wav",
+      "event_file": null,
+      "transition_start_sec": 6.5815,
+      "sample_index": 45
+    },
+    {
+      "class": "gas",
+      "class_id": 3,
+      "type": "위험소음",
+      "factory_file": "mixture144.wav",
+      "event_file": "Gas_Leak_Sound_Effect.wav",
+      "event_start_sec": 0.0,
+      "event_end_sec": 10.0,
+      "sample_index": 4
+    },
+    {
+      "class": "danger_transition_gas",
+      "class_id": 3,
+      "type": "무음→gas 전환",
+      "factory_file": null,
+      "event_file": "655804__nathvandykowi__gas-going-off.wav",
+      "transition_start_sec": 5.4409375,
+      "transition_end_sec": 10.0,
+      "sample_index": 11
+    },
+    {
+      "class": "factory_transition",
+      "class_id": 1,
+      "type": "공장소리전환",
+      "factory_file1": "mixture371.wav",
+      "factory_file2": "mixture350.wav",
+      "transition_start_sec": 4.344978764118864,
+      "sample_index": 50
+    },
+    {
+      "class": "silence_variation",
+      "class_id": 0,
+      "type": "무음변화",
+      "transition_start_sec": 4.815586895748414,
+      "sample_index": 3
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture98.wav",
+      "event_file": null,
+      "sample_index": 59
+    },
+    {
+      "class": "danger_transition_fire",
+      "class_id": 2,
+      "type": "무음→fire 전환",
+      "factory_file": null,
+      "event_file": "fire_07025148_024.wav",
+      "transition_start_sec": 2.335125,
+      "transition_end_sec": 8.335125,
+      "sample_index": 8
+    },
+    {
+      "class": "danger_transition_gas",
+      "class_id": 3,
+      "type": "무음→gas 전환",
+      "factory_file": null,
+      "event_file": "Gas_Leak_Sound_Effect.wav",
+      "transition_start_sec": 5.9511875,
+      "transition_end_sec": 10.0,
+      "sample_index": 28
+    },
+    {
+      "class": "fire",
+      "class_id": 2,
+      "type": "위험소음",
+      "factory_file": "mixture394.wav",
+      "event_file": "fire_07025148_041.wav",
+      "event_start_sec": 0.0,
+      "event_end_sec": 10.0,
+      "sample_index": 0
+    },
+    {
+      "class": "danger_transition_fire",
+      "class_id": 2,
+      "type": "무음→fire 전환",
+      "factory_file": null,
+      "event_file": "fire_NHU05010073_109.wav",
+      "transition_start_sec": 4.25825,
+      "transition_end_sec": 10.0,
+      "sample_index": 1
+    },
+    {
+      "class": "scream",
+      "class_id": 4,
+      "type": "위험소음",
+      "factory_file": "mixture357.wav",
+      "event_file": "07034117.wav",
+      "event_start_sec": 0.001,
+      "event_end_sec": 9.889,
+      "sample_index": 8
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture191.wav",
+      "event_file": null,
+      "sample_index": 143
+    },
+    {
+      "class": "gas",
+      "class_id": 3,
+      "type": "위험소음",
+      "factory_file": "mixture398.wav",
+      "event_file": "Gas_Leak_Sound_Effect.wav",
+      "event_start_sec": 0.0,
+      "event_end_sec": 10.0,
+      "sample_index": 1
+    },
+    {
+      "class": "fire",
+      "class_id": 2,
+      "type": "위험소음",
+      "factory_file": "mixture244.wav",
+      "event_file": "fire_07025148_030.wav",
+      "event_start_sec": 0.0,
+      "event_end_sec": 10.0,
+      "sample_index": 0
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "배경소음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 191
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture288.wav",
+      "event_file": null,
+      "sample_index": 67
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "완전무음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 37
+    },
+    {
+      "class": "scream",
+      "class_id": 4,
+      "type": "위험소음",
+      "factory_file": "mixture208.wav",
+      "event_file": "556976__marc3122__male-screams-1.mp3",
+      "event_start_sec": 1.9849375,
+      "event_end_sec": 8.4489375,
+      "sample_index": 5
+    },
+    {
+      "class": "silence_variation",
+      "class_id": 0,
+      "type": "무음변화",
+      "transition_start_sec": 6.752253421042155,
+      "sample_index": 17
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture23.wav",
+      "event_file": null,
+      "sample_index": 8
+    },
+    {
+      "class": "factory_transition",
+      "class_id": 1,
+      "type": "공장소리전환",
+      "factory_file1": "mixture393.wav",
+      "factory_file2": "mixture270.wav",
+      "transition_start_sec": 4.997520794875964,
+      "sample_index": 58
+    },
+    {
+      "class": "fire",
+      "class_id": 2,
+      "type": "위험소음",
+      "factory_file": "mixture214.wav",
+      "event_file": "fire_NHU05002102_092.wav",
+      "event_start_sec": 2.4174375,
+      "event_end_sec": 7.4734375,
+      "sample_index": 0
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "배경소음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 130
+    },
+    {
+      "class": "transition",
+      "class_id": 1,
+      "type": "무음→공장소리 전환",
+      "factory_file": "mixture19.wav",
+      "event_file": null,
+      "transition_start_sec": 7.9363125,
+      "sample_index": 14
+    },
+    {
+      "class": "danger_transition_fire",
+      "class_id": 2,
+      "type": "무음→fire 전환",
+      "factory_file": null,
+      "event_file": "NHU05002101.wav",
+      "transition_start_sec": 4.381125,
+      "transition_end_sec": 10.0,
+      "sample_index": 26
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture136.wav",
+      "event_file": null,
+      "sample_index": 36
+    },
+    {
+      "class": "transition",
+      "class_id": 1,
+      "type": "무음→공장소리 전환",
+      "factory_file": "mixture279.wav",
+      "event_file": null,
+      "transition_start_sec": 3.8148125,
+      "sample_index": 82
+    },
+    {
+      "class": "transition",
+      "class_id": 1,
+      "type": "무음→공장소리 전환",
+      "factory_file": "mixture45.wav",
+      "event_file": null,
+      "transition_start_sec": 5.446125,
+      "sample_index": 13
+    },
+    {
+      "class": "factory_transition",
+      "class_id": 1,
+      "type": "공장소리전환",
+      "factory_file1": "mixture121.wav",
+      "factory_file2": "mixture339.wav",
+      "transition_start_sec": 6.781274555064691,
+      "sample_index": 49
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "배경소음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 103
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture227.wav",
+      "event_file": null,
+      "sample_index": 115
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture378.wav",
+      "event_file": null,
+      "sample_index": 168
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture271.wav",
+      "event_file": null,
+      "sample_index": 38
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "완전무음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 74
+    },
+    {
+      "class": "transition",
+      "class_id": 1,
+      "type": "무음→공장소리 전환",
+      "factory_file": "mixture372.wav",
+      "event_file": null,
+      "transition_start_sec": 5.384875,
+      "sample_index": 86
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture256.wav",
+      "event_file": null,
+      "sample_index": 130
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture336.wav",
+      "event_file": null,
+      "sample_index": 134
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture228.wav",
+      "event_file": null,
+      "sample_index": 175
+    },
+    {
+      "class": "scream",
+      "class_id": 4,
+      "type": "위험소음",
+      "factory_file": "mixture332.wav",
+      "event_file": "338935__natemarler__human-male-scream-scared-pain.wav",
+      "event_start_sec": 1.1951875,
+      "event_end_sec": 2.9871875,
+      "sample_index": 0
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture83.wav",
+      "event_file": null,
+      "sample_index": 159
+    },
+    {
+      "class": "transition",
+      "class_id": 1,
+      "type": "무음→공장소리 전환",
+      "factory_file": "mixture7.wav",
+      "event_file": null,
+      "transition_start_sec": 6.9889375,
+      "sample_index": 71
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "배경소음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 160
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture361.wav",
+      "event_file": null,
+      "sample_index": 127
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "배경소음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 179
+    },
+    {
+      "class": "scream",
+      "class_id": 4,
+      "type": "위험소음",
+      "factory_file": "mixture302.wav",
+      "event_file": "328925__robinhood76__06101-scared-male-long-scream.wav",
+      "event_start_sec": 0.1195,
+      "event_end_sec": 9.7515,
+      "sample_index": 12
+    },
+    {
+      "class": "gas",
+      "class_id": 3,
+      "type": "위험소음",
+      "factory_file": "mixture330.wav",
+      "event_file": "Gas_Leak_Sound_Effect.wav",
+      "event_start_sec": 0.0,
+      "event_end_sec": 10.0,
+      "sample_index": 3
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "완전무음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 58
+    },
+    {
+      "class": "factory_transition",
+      "class_id": 1,
+      "type": "공장소리전환",
+      "factory_file1": "mixture83.wav",
+      "factory_file2": "mixture160.wav",
+      "transition_start_sec": 5.81886237573364,
+      "sample_index": 62
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "완전무음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 54
+    },
+    {
+      "class": "danger_transition_gas",
+      "class_id": 3,
+      "type": "무음→gas 전환",
+      "factory_file": null,
+      "event_file": "655804__nathvandykowi__gas-going-off.wav",
+      "transition_start_sec": 5.642375,
+      "transition_end_sec": 10.0,
+      "sample_index": 14
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture112.wav",
+      "event_file": null,
+      "sample_index": 74
+    },
+    {
+      "class": "silence_variation",
+      "class_id": 0,
+      "type": "무음변화",
+      "transition_start_sec": 4.653398385698778,
+      "sample_index": 57
+    },
+    {
+      "class": "scream",
+      "class_id": 4,
+      "type": "위험소음",
+      "factory_file": "mixture168.wav",
+      "event_file": "338935__natemarler__human-male-scream-scared-pain.wav",
+      "event_start_sec": 6.5060625,
+      "event_end_sec": 8.2980625,
+      "sample_index": 2
+    },
+    {
+      "class": "gas",
+      "class_id": 3,
+      "type": "위험소음",
+      "factory_file": "mixture39.wav",
+      "event_file": "Gas_Leak_Sound_Effect.wav",
+      "event_start_sec": 0.0,
+      "event_end_sec": 10.0,
+      "sample_index": 12
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "배경소음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 157
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "완전무음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 99
+    },
+    {
+      "class": "transition",
+      "class_id": 1,
+      "type": "무음→공장소리 전환",
+      "factory_file": "mixture188.wav",
+      "event_file": null,
+      "transition_start_sec": 2.132,
+      "sample_index": 57
+    },
+    {
+      "class": "gas",
+      "class_id": 3,
+      "type": "위험소음",
+      "factory_file": "mixture142.wav",
+      "event_file": "655804__nathvandykowi__gas-going-off.wav",
+      "event_start_sec": 0.0,
+      "event_end_sec": 10.0,
+      "sample_index": 19
+    },
+    {
+      "class": "danger_transition_gas",
+      "class_id": 3,
+      "type": "무음→gas 전환",
+      "factory_file": null,
+      "event_file": "655804__nathvandykowi__gas-going-off.wav",
+      "transition_start_sec": 3.0080625,
+      "transition_end_sec": 9.0080625,
+      "sample_index": 7
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "배경소음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 192
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture300.wav",
+      "event_file": null,
+      "sample_index": 1
+    },
+    {
+      "class": "transition",
+      "class_id": 1,
+      "type": "무음→공장소리 전환",
+      "factory_file": "mixture316.wav",
+      "event_file": null,
+      "transition_start_sec": 6.4170625,
+      "sample_index": 27
+    },
+    {
+      "class": "scream",
+      "class_id": 4,
+      "type": "위험소음",
+      "factory_file": "mixture251.wav",
+      "event_file": "07034125.wav",
+      "event_start_sec": 5.23475,
+      "event_end_sec": 9.10675,
+      "sample_index": 6
+    },
+    {
+      "class": "factory_transition",
+      "class_id": 1,
+      "type": "공장소리전환",
+      "factory_file1": "mixture81.wav",
+      "factory_file2": "mixture146.wav",
+      "transition_start_sec": 5.366741157992494,
+      "sample_index": 17
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "완전무음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 48
+    },
+    {
+      "class": "factory_transition",
+      "class_id": 1,
+      "type": "공장소리전환",
+      "factory_file1": "mixture257.wav",
+      "factory_file2": "mixture74.wav",
+      "transition_start_sec": 5.073120278741019,
+      "sample_index": 5
+    },
+    {
+      "class": "scream",
+      "class_id": 4,
+      "type": "위험소음",
+      "factory_file": "mixture158.wav",
+      "event_file": "556976__marc3122__male-screams-1.mp3",
+      "event_start_sec": 2.423375,
+      "event_end_sec": 8.887375,
+      "sample_index": 7
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture234.wav",
+      "event_file": null,
+      "sample_index": 21
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture137.wav",
+      "event_file": null,
+      "sample_index": 139
+    },
+    {
+      "class": "factory_transition",
+      "class_id": 1,
+      "type": "공장소리전환",
+      "factory_file1": "mixture84.wav",
+      "factory_file2": "mixture291.wav",
+      "transition_start_sec": 5.925983483544295,
+      "sample_index": 66
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture54.wav",
+      "event_file": null,
+      "sample_index": 103
+    },
+    {
+      "class": "gas",
+      "class_id": 3,
+      "type": "위험소음",
+      "factory_file": "mixture102.wav",
+      "event_file": "655804__nathvandykowi__gas-going-off.wav",
+      "event_start_sec": 0.0,
+      "event_end_sec": 10.0,
+      "sample_index": 1
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "배경소음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 174
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "완전무음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 87
+    },
+    {
+      "class": "factory_transition",
+      "class_id": 1,
+      "type": "공장소리전환",
+      "factory_file1": "mixture258.wav",
+      "factory_file2": "mixture87.wav",
+      "transition_start_sec": 4.458875500201196,
+      "sample_index": 78
+    },
+    {
+      "class": "scream",
+      "class_id": 4,
+      "type": "위험소음",
+      "factory_file": "mixture83.wav",
+      "event_file": "328925__robinhood76__06101-scared-male-long-scream.wav",
+      "event_start_sec": 0.27425,
+      "event_end_sec": 9.90625,
+      "sample_index": 10
+    },
+    {
+      "class": "transition",
+      "class_id": 1,
+      "type": "무음→공장소리 전환",
+      "factory_file": "mixture124.wav",
+      "event_file": null,
+      "transition_start_sec": 5.3358125,
+      "sample_index": 73
+    },
+    {
+      "class": "danger_transition_scream",
+      "class_id": 4,
+      "type": "무음→scream 전환",
+      "factory_file": null,
+      "event_file": "328925__robinhood76__06101-scared-male-long-scream.wav",
+      "transition_start_sec": 3.279125,
+      "transition_end_sec": 9.279125,
+      "sample_index": 3
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture161.wav",
+      "event_file": null,
+      "sample_index": 37
+    },
+    {
+      "class": "factory_transition",
+      "class_id": 1,
+      "type": "공장소리전환",
+      "factory_file1": "mixture21.wav",
+      "factory_file2": "mixture239.wav",
+      "transition_start_sec": 3.1742457333429113,
+      "sample_index": 8
+    },
+    {
+      "class": "transition",
+      "class_id": 1,
+      "type": "무음→공장소리 전환",
+      "factory_file": "mixture27.wav",
+      "event_file": null,
+      "transition_start_sec": 7.180375,
+      "sample_index": 18
+    },
+    {
+      "class": "transition",
+      "class_id": 1,
+      "type": "무음→공장소리 전환",
+      "factory_file": "mixture266.wav",
+      "event_file": null,
+      "transition_start_sec": 4.3874375,
+      "sample_index": 52
+    },
+    {
+      "class": "factory_transition",
+      "class_id": 1,
+      "type": "공장소리전환",
+      "factory_file1": "mixture54.wav",
+      "factory_file2": "mixture355.wav",
+      "transition_start_sec": 3.954445135064273,
+      "sample_index": 73
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "완전무음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 92
+    },
+    {
+      "class": "silence",
+      "class_id": 0,
+      "type": "완전무음",
+      "factory_file": null,
+      "event_file": null,
+      "sample_index": 20
+    },
+    {
+      "class": "factory_transition",
+      "class_id": 1,
+      "type": "공장소리전환",
+      "factory_file1": "mixture286.wav",
+      "factory_file2": "mixture396.wav",
+      "transition_start_sec": 4.338751730624674,
+      "sample_index": 27
+    },
+    {
+      "class": "normal",
+      "class_id": 1,
+      "type": "공장소음",
+      "factory_file": "mixture316.wav",
+      "event_file": null,
+      "sample_index": 112
+    }
+  ]
+}

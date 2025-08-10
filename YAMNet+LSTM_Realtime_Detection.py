@@ -26,15 +26,12 @@
    
 5. SILENCE_MAX_THRESHOLD: 무음 판단 최대값 기준
    - 0.01: 기본값
-   
-6. LOW_VOLUME_RMS_THRESHOLD: 저음량 보정 기준
-   - 0.01: 기본값 (이 값보다 낮으면 무음으로 강제 분류)
 
-7. SILENCE_PROCESSING_MODE: 무음 처리 모드
+6. SILENCE_PROCESSING_MODE: 무음 처리 모드
    - True: 작은 소리를 무음으로 강제 처리 (권장)
    - False: 비활성화
    
-8. SILENCE_FORCE_RMS_THRESHOLD / SILENCE_FORCE_MAX_THRESHOLD: 강제 무음 임계값
+7. SILENCE_FORCE_RMS_THRESHOLD / SILENCE_FORCE_MAX_THRESHOLD: 강제 무음 임계값
    - 0.02 / 0.05: 기본값 (이보다 작으면 무음으로 강제 분류)
 
 무음 처리 모드 기능:
@@ -65,8 +62,9 @@ DURATION = 10.0  # LSTM 모델 입력 길이 (10초)
 THRESHOLD = 0.7  # 위험 소리 감지 임계값
 
 # --- 모델 경로 설정 ---
-MODEL_PATH = 'model_results_v1.0_20250808_123555/yamnet_lstm_model_v1.0.h5'  # 기본 모델 경로
-# MODEL_PATH = 'model_results_v1.0_20250808_123456/yamnet_lstm_model_v1.0.h5'  # 버전별 모델 경로 예시
+MODEL_PATH = 'model_results_v1.1_20250808_152941/yamnet_lstm_model_v1.1.h5'  # 기본 모델 경로
+# MODEL_PATH = 'model_results_v1.2_20250808_170648/yamnet_lstm_model_v1.2.h5'
+# MODEL_PATH = 'model_results_v1.0_20250808_123555/yamnet_lstm_model_v1.0.h5'  # 버전별 모델 경로 예시
 
 # --- 녹음 및 분석 주기 설정 ---
 RECORD_DURATION = 10.0      # 녹음 시간 (초) - 모델 입력 길이와 동일하게 설정 권장
@@ -87,12 +85,12 @@ SILENCE_RMS_THRESHOLD = 0.005   # 무음 판단 RMS 임계값 (낮을수록 더 
 SILENCE_MAX_THRESHOLD = 0.01    # 무음 판단 최대값 임계값
 
 # --- 무음 처리 모드 설정 ---
-SILENCE_PROCESSING_MODE = True  # True: 작은 소리를 무음으로 강제 처리, False: 비활성화
+SILENCE_PROCESSING_MODE = False  # True: 작은 소리를 무음으로 강제 처리, False: 비활성화
 SILENCE_FORCE_RMS_THRESHOLD = 0.02  # 이 값보다 작으면 무음으로 강제 분류 (캘리브레이션 시 동적 변경됨)
 SILENCE_FORCE_MAX_THRESHOLD = 0.05  # 이 값보다 작으면 무음으로 강제 분류 (캘리브레이션 시 동적 변경됨)
 
 # --- 공장 소리 기준 무음 처리 설정 ---
-FACTORY_BASED_SILENCE_MODE = True   # True: 공장 소리 크기 기준 무음 처리, False: 비활성화
+FACTORY_BASED_SILENCE_MODE = False   # True: 공장 소리 크기 기준 무음 처리, False: 비활성화
 FACTORY_SILENCE_RATIO = 0.5         # 공장 소리의 몇 % 이하를 무음으로 처리할지 (0.5 = 50%)
 FACTORY_SILENCE_RMS_THRESHOLD = 0.0 # 공장 소리 RMS 기준값 (캘리브레이션 시 동적 설정됨)
 FACTORY_SILENCE_MAX_THRESHOLD = 0.0 # 공장 소리 Max 기준값 (캘리브레이션 시 동적 설정됨)
@@ -558,6 +556,9 @@ def predict_risk(audio, preprocessing_info):
     preds = preds[0]  # (time_steps, num_classes)
     
     # 각 클래스의 최대 확률과 위치 찾기
+    for i in range(len(preds)):
+        print(f"{i+1}번 프레임", round(preds[i][0],2), round(preds[i][1],2), round(preds[i][2],2), round(preds[i][3],2), round(preds[i][4],2))
+
     max_probs = np.max(preds, axis=0)  # 각 클래스별 최대 확률
     overall_max_prob = np.max(max_probs)
     predicted_class = np.argmax(max_probs)
