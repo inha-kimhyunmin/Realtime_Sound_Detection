@@ -1,0 +1,33 @@
+{
+  "version": "v1.32",
+  "timestamp": "2025-08-10 19:40:14",
+  "folder": "model_results_v1.32",
+  "files": {
+    "model": "yamnet_lstm_model_v1.32.h5",
+    "model_info": "model_info_v1.32.pkl",
+    "performance_report": "model_performance_v1.32.txt",
+    "dataset_info": "dataset_info_v1.32.json"
+  },
+  "performance": {
+    "validation_accuracy": 0.8918366432189941,
+    "validation_loss": 0.32888078689575195,
+    "test_accuracy": 0.8645269870758057,
+    "test_loss": 0.409662663936615
+  },
+  "data_summary": {
+    "total_samples": 1471,
+    "train_samples": 1176,
+    "validation_samples": 147,
+    "test_samples": 148,
+    "silence_samples": 200,
+    "normal_samples": 180,
+    "transition_samples": 100,
+    "danger_transition_samples": 90,
+    "auto_weight_calculation": true,
+    "danger_weights": {
+      "fire": 2,
+      "gas": 83,
+      "scream": 36
+    }
+  }
+}

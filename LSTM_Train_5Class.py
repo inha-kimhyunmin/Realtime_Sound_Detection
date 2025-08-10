@@ -83,27 +83,39 @@ import json
 # ================================
 # 데이터 생성 가중치 설정 (수정 가능)
 # ================================
-SILENCE_SAMPLES = 200      # 무음 데이터 샘플 수 (증가)
-NORMAL_SAMPLES = 180       # 정상(공장소음) 데이터 샘플 수 (증가)
-TRANSITION_SAMPLES = 100   # 무음→공장소리 전환 데이터 샘플 수 (증가)
-DANGER_TRANSITION_SAMPLES = 90  # 무음→위험소리 전환 데이터 샘플 수 (증가)
+# v1.4: 스마트 세그멘테이션 기본 설정
+TARGET_SAMPLES_PER_CLASS = 180                  # 각 클래스당 목표 샘플 수 (균등 분포)
 
-# v1.3 새로 추가된 데이터 타입
-FACTORY_TRANSITION_SAMPLES = 80  # 공장소리→다른공장소리 전환 데이터 샘플 수
-SILENCE_VARIATION_SAMPLES = 60   # 무음→다른무음 변화 데이터 샘플 수
+# v1.4: 모든 클래스 균등 분포를 위한 조정
+SILENCE_SAMPLES = TARGET_SAMPLES_PER_CLASS      # 무음 데이터 샘플 수 (180개)
+NORMAL_SAMPLES = TARGET_SAMPLES_PER_CLASS       # 정상(공장소음) 데이터 샘플 수 (180개)
+TRANSITION_SAMPLES = 80                         # 무음→공장소리 전환 데이터 샘플 수 
+DANGER_TRANSITION_SAMPLES = 60                  # 무음→위험소리 전환 데이터 샘플 수 
+
+# v1.4 새로 추가된 데이터 타입 (v1.4에서 조정)
+FACTORY_TRANSITION_SAMPLES = 60                 # 공장소리→다른공장소리 전환 데이터 샘플 수
+SILENCE_VARIATION_SAMPLES = 40                  # 무음→다른무음 변화 데이터 샘플 수
 
 # 버전 관리 설정
-VERSION = "v1.3"  # 모델 버전 (결과물 폴더명에 사용)
+VERSION = "v1.4"  # 모델 버전 (결과물 폴더명에 사용)
 
 # 위험 소음별 가중치 (파일당 생성할 샘플 수)
 # 자동 계산 또는 수동 설정 가능
-AUTO_WEIGHT_CALCULATION = False  # True: 파일 개수 기반 자동 계산, False: 수동 설정
+AUTO_WEIGHT_CALCULATION = True   # True: 스마트 세그멘테이션 기반 자동 계산, False: 수동 설정
 
-# 수동 설정시 사용되는 가중치 (소수점 조절 가능)
+# v1.35 새로 추가: 스마트 세그멘테이션 설정
+ENABLE_SMART_SEGMENTATION = True  # 실제 소리 구간만 추출하여 학습
+MIN_SEGMENT_DURATION = 2.0        # 최소 세그먼트 길이 (초)
+MAX_SEGMENT_DURATION = 7.0        # 최대 세그먼트 길이 (초) 
+SILENCE_THRESHOLD = 0.01          # 무음 판정 임계값 (RMS 기준)
+MIN_SOUND_RATIO = 0.4             # 세그먼트 내 최소 소리 비율 (40% 이상이 소리여야 함)
+OVERLAP_RATIO = 0.3               # 긴 오디오 분할시 겹침 비율
+
+# 수동 설정시 사용되는 가중치 (ENABLE_SMART_SEGMENTATION=False일 때만 사용)
 MANUAL_DANGER_WEIGHTS = {
-    'fire': 0.3,      # 화재: 확률적 샘플링 (30% 확률)
-    'gas': 20.5,      # 가스누출: 파일당 20.5개 샘플 (일부 파일은 20개, 일부는 21개)
-    'scream': 12.7    # 비명: 파일당 12.7개 샘플 (일부 파일은 12개, 일부는 13개)
+    'fire': 1.2,      # 화재: 파일당 1.2개 샘플 
+    'gas': 50,        # 가스누출: 파일당 50개 샘플  
+    'scream': 22      # 비명: 파일당 22개 샘플
 }
 
 def calculate_auto_weights(envsound_folder, target_samples_per_class=250):
@@ -186,7 +198,272 @@ def create_version_folder(version):
     return folder_name
 
 # ---------------------------
-# 1) 무음 제거 함수
+# 1) 스마트 세그멘테이션 함수들 (v1.35 새로 추가)
+# ---------------------------
+def detect_sound_activity(audio, sr, threshold=0.01, frame_length=2048, hop_length=512):
+    """
+    오디오에서 실제 소리가 있는 구간을 감지합니다.
+    
+    Args:
+        audio: 오디오 데이터
+        sr: 샘플링 레이트
+        threshold: RMS 임계값
+        frame_length: 프레임 길이
+        hop_length: 홉 길이
+    
+    Returns:
+        numpy.array: 각 프레임별 소리 활동 여부 (True/False)
+    """
+    # RMS 에너지 계산
+    rms = librosa.feature.rms(y=audio, frame_length=frame_length, hop_length=hop_length)[0]
+    
+    # 임계값보다 큰 구간을 활성 구간으로 판정
+    activity = rms > threshold
+    
+    return activity
+
+def extract_sound_segments(audio, sr, min_duration=2.0, max_duration=7.0, 
+                          threshold=0.01, min_sound_ratio=0.4):
+    """
+    오디오에서 실제 소리가 있는 의미있는 세그먼트들을 추출합니다.
+    간헐적 소리 패턴(비명-무음-비명)도 하나의 세그먼트로 처리합니다.
+    
+    Args:
+        audio: 입력 오디오
+        sr: 샘플링 레이트
+        min_duration: 최소 세그먼트 길이 (초)
+        max_duration: 최대 세그먼트 길이 (초)
+        threshold: 소리 감지 임계값
+        min_sound_ratio: 세그먼트 내 최소 소리 비율
+    
+    Returns:
+        list: 추출된 오디오 세그먼트 리스트
+    """
+    if len(audio) == 0:
+        return []
+    
+    # 소리 활동 감지
+    hop_length = 512
+    frame_length = 2048
+    activity = detect_sound_activity(audio, sr, threshold, frame_length, hop_length)
+    
+    # 프레임을 샘플 인덱스로 변환
+    frame_to_sample = lambda frame_idx: frame_idx * hop_length
+    
+    # 짧은 무음 구간을 메워서 연결 (간헐적 소리 패턴 처리)
+    max_gap_frames = int(2.0 * sr / hop_length)  # 2초 이하의 무음은 메움
+    filled_activity = activity.copy()
+    
+    # 활성 구간 사이의 짧은 무음을 메우기
+    active_indices = np.where(activity)[0]
+    if len(active_indices) > 1:
+        for i in range(len(active_indices) - 1):
+            start_gap = active_indices[i] + 1
+            end_gap = active_indices[i + 1]
+            gap_length = end_gap - start_gap
+            
+            # 2초 이하의 무음 구간은 활성으로 변경 (비명-무음-비명 패턴 처리)
+            if gap_length <= max_gap_frames:
+                filled_activity[start_gap:end_gap] = True
+    
+    # 연속된 활성 구간 찾기 (개선된 버전)
+    active_regions = []
+    start_frame = None
+    
+    for i, is_active in enumerate(filled_activity):
+        if is_active and start_frame is None:
+            start_frame = i
+        elif not is_active and start_frame is not None:
+            end_frame = i
+            duration = (end_frame - start_frame) * hop_length / sr
+            
+            if duration >= min_duration:
+                start_sample = frame_to_sample(start_frame)
+                end_sample = frame_to_sample(end_frame)
+                active_regions.append((start_sample, end_sample))
+            
+            start_frame = None
+    
+    # 마지막 구간 처리
+    if start_frame is not None:
+        end_frame = len(filled_activity)
+        duration = (end_frame - start_frame) * hop_length / sr
+        if duration >= min_duration:
+            start_sample = frame_to_sample(start_frame)
+            end_sample = min(frame_to_sample(end_frame), len(audio))
+            active_regions.append((start_sample, end_sample))
+    
+    # 세그먼트 추출
+    segments = []
+    
+    for start_sample, end_sample in active_regions:
+        segment_audio = audio[start_sample:end_sample]
+        segment_duration = len(segment_audio) / sr
+        
+        # 너무 긴 세그먼트는 분할
+        if segment_duration > max_duration:
+            # 겹침을 고려한 분할
+            segment_samples = int(max_duration * sr)
+            overlap_samples = int(OVERLAP_RATIO * segment_samples)
+            step_samples = segment_samples - overlap_samples
+            
+            for i in range(0, len(segment_audio) - segment_samples + 1, step_samples):
+                sub_segment = segment_audio[i:i + segment_samples]
+                
+                # 소리 비율 확인 (원본 activity 사용)
+                sub_start_frame = int((start_sample + i) / hop_length)
+                sub_end_frame = int((start_sample + i + segment_samples) / hop_length)
+                sub_end_frame = min(sub_end_frame, len(activity))
+                
+                if sub_end_frame > sub_start_frame:
+                    sub_activity = activity[sub_start_frame:sub_end_frame]
+                    sound_ratio = np.sum(sub_activity) / len(sub_activity) if len(sub_activity) > 0 else 0
+                    
+                    # 간헐적 소리의 경우 기준을 낮춤 (30%)
+                    adjusted_min_ratio = min_sound_ratio * 0.75
+                    if sound_ratio >= adjusted_min_ratio:
+                        segments.append(sub_segment)
+            
+            # 마지막 남은 부분 처리
+            remaining_length = len(segment_audio) % step_samples
+            if remaining_length > min_duration * sr:
+                last_segment = segment_audio[-int(max_duration * sr):]
+                last_start_frame = int((end_sample - len(last_segment)) / hop_length)
+                last_end_frame = int(end_sample / hop_length)
+                last_end_frame = min(last_end_frame, len(activity))
+                
+                if last_end_frame > last_start_frame:
+                    last_activity = activity[last_start_frame:last_end_frame]
+                    last_sound_ratio = np.sum(last_activity) / len(last_activity) if len(last_activity) > 0 else 0
+                    
+                    adjusted_min_ratio = min_sound_ratio * 0.75
+                    if last_sound_ratio >= adjusted_min_ratio:
+                        segments.append(last_segment)
+        else:
+            # 적절한 길이의 세그먼트
+            start_frame = int(start_sample / hop_length)
+            end_frame = int(end_sample / hop_length)
+            end_frame = min(end_frame, len(activity))
+            
+            if end_frame > start_frame:
+                segment_activity = activity[start_frame:end_frame]
+                sound_ratio = np.sum(segment_activity) / len(segment_activity) if len(segment_activity) > 0 else 0
+                
+                # 간헐적 소리의 경우 기준을 낮춤 (30%)
+                adjusted_min_ratio = min_sound_ratio * 0.75
+                if sound_ratio >= adjusted_min_ratio:
+                    segments.append(segment_audio)
+    
+    return segments
+
+def calculate_smart_weights(envsound_folder, target_samples_per_class=180):
+    """
+    스마트 세그멘테이션을 기반으로 각 클래스의 가중치를 계산합니다.
+    
+    Args:
+        envsound_folder: 위험 소음 폴더 경로
+        target_samples_per_class: 각 클래스당 목표 샘플 수
+    
+    Returns:
+        dict: 각 클래스별 정보 및 가중치
+    """
+    event_folders = ['fire', 'gas', 'scream']
+    class_info = {}
+    
+    print("🔍 스마트 세그멘테이션 분석 시작...")
+    print("=" * 60)
+    
+    for folder in event_folders:
+        folder_path = os.path.join(envsound_folder, folder)
+        total_segments = 0
+        file_count = 0
+        
+        if os.path.exists(folder_path):
+            # 모든 오디오 파일 분석
+            audio_files = glob.glob(os.path.join(folder_path, '*.wav')) + \
+                         glob.glob(os.path.join(folder_path, '*.mp3'))
+            
+            print(f"\n📂 {folder.upper()} 클래스 분석:")
+            print("-" * 40)
+            
+            for audio_file in audio_files:
+                try:
+                    # 오디오 로드
+                    audio, sr = librosa.load(audio_file, sr=16000)
+                    
+                    # 스마트 세그멘테이션 적용
+                    segments = extract_sound_segments(
+                        audio, sr, 
+                        min_duration=MIN_SEGMENT_DURATION,
+                        max_duration=MAX_SEGMENT_DURATION,
+                        threshold=SILENCE_THRESHOLD,
+                        min_sound_ratio=MIN_SOUND_RATIO
+                    )
+                    
+                    file_segments = len(segments)
+                    total_segments += file_segments
+                    file_count += 1
+                    
+                    # 파일 정보 출력 (너무 많으면 일부만)
+                    if file_count <= 5 or file_count % 10 == 0:
+                        duration = len(audio) / sr
+                        print(f"  📄 {os.path.basename(audio_file)}: "
+                              f"{duration:.1f}초 → {file_segments}개 세그먼트")
+                    
+                except Exception as e:
+                    print(f"  ❌ {os.path.basename(audio_file)}: 오류 - {e}")
+                    continue
+            
+            avg_segments_per_file = total_segments / file_count if file_count > 0 else 0
+            
+            print(f"\n📊 {folder.upper()} 클래스 요약:")
+            print(f"  • 파일 수: {file_count}개")
+            print(f"  • 추출된 총 세그먼트: {total_segments}개")
+            print(f"  • 파일당 평균 세그먼트: {avg_segments_per_file:.1f}개")
+            
+            # 목표 샘플 수에 맞는 선택 비율 계산
+            if total_segments > 0:
+                selection_ratio = min(1.0, target_samples_per_class / total_segments)
+                expected_samples = int(total_segments * selection_ratio)
+            else:
+                selection_ratio = 0
+                expected_samples = 0
+            
+            print(f"  • 선택 비율: {selection_ratio:.3f} ({expected_samples}개 샘플 예상)")
+            
+            class_info[folder] = {
+                'file_count': file_count,
+                'total_segments': total_segments,
+                'avg_segments_per_file': avg_segments_per_file,
+                'selection_ratio': selection_ratio,
+                'expected_samples': expected_samples
+            }
+        else:
+            print(f"\n❌ {folder.upper()} 폴더를 찾을 수 없습니다: {folder_path}")
+            class_info[folder] = {
+                'file_count': 0,
+                'total_segments': 0,
+                'avg_segments_per_file': 0,
+                'selection_ratio': 0,
+                'expected_samples': 0
+            }
+    
+    # 전체 요약
+    print("\n🎯 스마트 세그멘테이션 요약:")
+    print("=" * 60)
+    total_expected = sum(info['expected_samples'] for info in class_info.values())
+    
+    for class_name, info in class_info.items():
+        ratio = (info['expected_samples'] / total_expected * 100) if total_expected > 0 else 0
+        print(f"{class_name.upper():>8}: {info['expected_samples']:>3}개 샘플 ({ratio:>5.1f}%)")
+    
+    print(f"{'총합':>8}: {total_expected:>3}개 샘플")
+    print("=" * 60)
+    
+    return class_info
+
+# ---------------------------
+# 2) 무음 제거 함수 (기존)
 # ---------------------------
 def remove_silence(y, sr, top_db=20):
     intervals = librosa.effects.split(y, top_db=top_db)
@@ -214,8 +491,19 @@ def generate_background_noise(duration_sec, sr):
     # 저주파 노이즈 생성
     noise = np.random.normal(0, 0.01, length).astype(np.float32)
     # 저역 통과 필터 효과 (간단한 이동평균)
-    window_size = 50
-    noise_filtered = np.convolve(noise, np.ones(window_size)/window_size, mode='same')
+    window_size = min(50, length)  # length보다 작거나 같게 제한
+    if window_size > 0:
+        noise_filtered = np.convolve(noise, np.ones(window_size)/window_size, mode='same')
+    else:
+        noise_filtered = noise
+    
+    # 정확한 길이로 조정
+    if len(noise_filtered) != length:
+        if len(noise_filtered) > length:
+            noise_filtered = noise_filtered[:length]
+        else:
+            noise_filtered = np.pad(noise_filtered, (0, length - len(noise_filtered)), mode='constant')
+    
     return noise_filtered
 
 # ---------------------------
@@ -350,18 +638,32 @@ def create_silence_to_factory_transition(factory_audio, sr, total_duration=10.0)
     
     # 앞부분은 무음 (매우 작은 배경 노이즈)
     silence_part = generate_background_noise(transition_frame / sr, sr)
-    mixed_audio[:transition_frame] = silence_part[:transition_frame]
+    # 정확한 길이 보장
+    if len(silence_part) != transition_frame:
+        if len(silence_part) > transition_frame:
+            silence_part = silence_part[:transition_frame]
+        else:
+            silence_part = np.pad(silence_part, (0, transition_frame - len(silence_part)), mode='constant')
+    mixed_audio[:transition_frame] = silence_part
     
     # 뒷부분은 공장 소리
     factory_part = factory_audio[transition_frame:]
+    remaining_samples = target_len - transition_frame
+    # 정확한 길이 보장
+    if len(factory_part) != remaining_samples:
+        if len(factory_part) > remaining_samples:
+            factory_part = factory_part[:remaining_samples]
+        else:
+            factory_part = np.pad(factory_part, (0, remaining_samples - len(factory_part)), mode='constant')
     mixed_audio[transition_frame:] = factory_part
     
     # 전환 지점에서 부드러운 fade-in 효과 (더 현실적)
     fade_duration = int(sr * 0.5)  # 0.5초 페이드인
     if transition_frame + fade_duration < target_len:
         fade_samples = min(fade_duration, len(factory_part))
-        fade_curve = np.linspace(0, 1, fade_samples)
-        mixed_audio[transition_frame:transition_frame + fade_samples] *= fade_curve
+        if fade_samples > 0:
+            fade_curve = np.linspace(0, 1, fade_samples)
+            mixed_audio[transition_frame:transition_frame + fade_samples] *= fade_curve
     
     # 볼륨 정규화
     max_val = np.max(np.abs(mixed_audio))
@@ -437,7 +739,13 @@ def create_silence_to_danger_transition(event_audio, sr, class_id, total_duratio
     
     # 앞부분은 무음 (매우 작은 배경 노이즈)
     silence_part = generate_background_noise(transition_frame / sr, sr)
-    mixed_audio[:transition_frame] = silence_part[:transition_frame]
+    # 정확한 길이 보장
+    if len(silence_part) != transition_frame:
+        if len(silence_part) > transition_frame:
+            silence_part = silence_part[:transition_frame]
+        else:
+            silence_part = np.pad(silence_part, (0, transition_frame - len(silence_part)), mode='constant')
+    mixed_audio[:transition_frame] = silence_part
     
     # 중간 부분은 위험 소리
     if actual_event_len > 0:
@@ -462,8 +770,15 @@ def create_silence_to_danger_transition(event_audio, sr, class_id, total_duratio
     
     # 뒷부분은 다시 무음 (위험소리 후 조용해짐)
     if event_end_frame < target_len:
+        remaining_samples = target_len - event_end_frame
         remaining_silence = generate_background_noise((target_len - event_end_frame) / sr, sr)
-        mixed_audio[event_end_frame:] = remaining_silence[:target_len - event_end_frame]
+        # 정확한 길이 보장
+        if len(remaining_silence) != remaining_samples:
+            if len(remaining_silence) > remaining_samples:
+                remaining_silence = remaining_silence[:remaining_samples]
+            else:
+                remaining_silence = np.pad(remaining_silence, (0, remaining_samples - len(remaining_silence)), mode='constant')
+        mixed_audio[event_end_frame:] = remaining_silence
     
     # 볼륨 정규화
     max_val = np.max(np.abs(mixed_audio))
@@ -526,8 +841,8 @@ def create_factory_to_factory_transition(factory_audio1, factory_audio2, sr, tot
     transition_start_sec = total_duration * transition_ratio
     transition_samples = int(transition_start_sec * sr)
     
-    # 페이드 전환 길이 (0.5초)
-    fade_duration = 0.5
+    # 페이드 전환 길이 (0.1초)
+    fade_duration = 0.1
     fade_samples = int(fade_duration * sr)
     
     # 결과 오디오 초기화
@@ -544,6 +859,13 @@ def create_factory_to_factory_transition(factory_audio1, factory_audio2, sr, tot
         factory2_repeated = np.tile(factory_audio2, (remaining_samples // len(factory_audio2)) + 1)
         second_part = factory2_repeated[:remaining_samples]
         
+        # 정확한 길이 보장
+        if len(second_part) != remaining_samples:
+            if len(second_part) > remaining_samples:
+                second_part = second_part[:remaining_samples]
+            else:
+                second_part = np.pad(second_part, (0, remaining_samples - len(second_part)), mode='constant')
+        
         # 페이드 전환 적용
         if transition_samples + fade_samples <= total_samples:
             # 첫 번째 소리 페이드 아웃
@@ -558,11 +880,15 @@ def create_factory_to_factory_transition(factory_audio1, factory_audio2, sr, tot
             second_fade_start = transition_samples
             second_fade_end = min(total_samples, transition_samples + fade_samples)
             second_fade_length = second_fade_end - second_fade_start
-            if second_fade_length > 0:
+            if second_fade_length > 0 and second_fade_length <= len(second_part):
                 fade_in = np.linspace(0, 1, second_fade_length)
                 second_part[:second_fade_length] *= fade_in
         
-        result_audio[transition_samples:] = second_part
+        # 최종 결합 전 길이 재확인
+        end_index = min(len(result_audio), transition_samples + len(second_part))
+        copy_length = end_index - transition_samples
+        if copy_length > 0:
+            result_audio[transition_samples:end_index] = second_part[:copy_length]
     
     return result_audio, transition_start_sec
 
@@ -593,6 +919,12 @@ def create_silence_variation_transition(sr, total_duration=10.0):
         first_part = np.zeros(transition_samples)
     elif silence_type1 == 'low_noise':
         first_part = generate_background_noise(transition_start_sec, sr)
+        # 정확한 길이 보장
+        if len(first_part) != transition_samples:
+            if len(first_part) > transition_samples:
+                first_part = first_part[:transition_samples]
+            else:
+                first_part = np.pad(first_part, (0, transition_samples - len(first_part)), mode='constant')
     else:  # white_noise
         first_part = np.random.normal(0, 0.001, transition_samples)
     
@@ -608,6 +940,12 @@ def create_silence_variation_transition(sr, total_duration=10.0):
         second_part = np.zeros(remaining_samples)
     elif silence_type2 == 'low_noise':
         second_part = generate_background_noise(remaining_duration, sr)
+        # 정확한 길이 보장
+        if len(second_part) != remaining_samples:
+            if len(second_part) > remaining_samples:
+                second_part = second_part[:remaining_samples]
+            else:
+                second_part = np.pad(second_part, (0, remaining_samples - len(second_part)), mode='constant')
     else:  # white_noise
         second_part = np.random.normal(0, 0.001, remaining_samples)
     
@@ -619,15 +957,24 @@ def create_silence_variation_transition(sr, total_duration=10.0):
         # 첫 번째 부분 페이드 아웃
         fade_start = transition_samples - fade_samples
         fade_out = np.linspace(1, 0, fade_samples)
-        first_part[fade_start:] *= fade_out
+        if len(first_part) >= fade_samples:
+            first_part[fade_start:] *= fade_out
         
         # 두 번째 부분 페이드 인
         fade_in = np.linspace(0, 1, fade_samples)
-        second_part[:fade_samples] *= fade_in
+        if len(second_part) >= fade_samples:
+            second_part[:fade_samples] *= fade_in
     
-    # 결합
-    result_audio[:transition_samples] = first_part
-    result_audio[transition_samples:] = second_part
+    # 결합 (길이 재확인)
+    copy_length1 = min(len(first_part), transition_samples)
+    if copy_length1 > 0:
+        result_audio[:copy_length1] = first_part[:copy_length1]
+    
+    copy_start = transition_samples
+    copy_end = min(len(result_audio), transition_samples + len(second_part))
+    copy_length2 = copy_end - copy_start
+    if copy_length2 > 0:
+        result_audio[copy_start:copy_end] = second_part[:copy_length2]
     
     return result_audio, transition_start_sec
 
@@ -704,8 +1051,12 @@ def main():
         print(f"{folder}: {len(event_data[folder])}개 파일")
     
     # 가중치 설정 (자동 또는 수동)
-    if AUTO_WEIGHT_CALCULATION:
-        print(f"\n🔄 자동 가중치 계산 모드")
+    if AUTO_WEIGHT_CALCULATION and ENABLE_SMART_SEGMENTATION:
+        print(f"\n🔄 스마트 세그멘테이션 기반 자동 가중치 계산 모드")
+        smart_weights = calculate_smart_weights(envsound_folder, target_samples_per_class=TARGET_SAMPLES_PER_CLASS)
+        DANGER_WEIGHTS = {class_name: info['selection_ratio'] for class_name, info in smart_weights.items()}
+    elif AUTO_WEIGHT_CALCULATION:
+        print(f"\n🔄 기존 자동 가중치 계산 모드")
         DANGER_WEIGHTS = calculate_auto_weights(envsound_folder, target_samples_per_class=250)
     else:
         print(f"\n⚙️ 수동 가중치 설정 모드")
@@ -893,95 +1244,121 @@ def main():
                 print(f"    위험 전환 데이터 처리 중 오류: {e}")
                 continue
     
-    # 8) 위험 소리 데이터 생성 - 자동 계산된 가중치 사용
-    samples_per_class = DANGER_WEIGHTS
-    
-    for class_name, event_paths in event_data.items():
-        class_id = class_mapping[class_name]
-        samples_per_event = samples_per_class[class_name]
-        print(f"\n{class_name} 클래스 데이터 생성 중... (클래스 ID: {class_id}, 파일당 {samples_per_event}개 샘플)")
+    # 8) 위험 소리 데이터 생성 - 스마트 세그멘테이션 적용
+    if ENABLE_SMART_SEGMENTATION:
+        print(f"\n🎯 스마트 세그멘테이션을 사용한 위험 소리 데이터 생성")
+        print("=" * 60)
         
-        for idx, event_path in enumerate(event_paths):
-            try:
-                print(f"  처리 중: [{idx+1}/{len(event_paths)}] {os.path.basename(event_path)}")
-                event_audio, _ = librosa.load(event_path, sr=sr)
-                event_audio_ns = remove_silence(event_audio, sr, top_db=20)
+        for class_name, event_paths in event_data.items():
+            class_id = class_mapping[class_name]
+            selection_ratio = DANGER_WEIGHTS[class_name]
+            
+            print(f"\n{class_name.upper()} 클래스 데이터 생성 중... (클래스 ID: {class_id})")
+            print(f"선택 비율: {selection_ratio:.3f}")
+            
+            class_segments = []
+            
+            # 각 파일에서 세그먼트 추출
+            for idx, event_path in enumerate(event_paths):
+                try:
+                    print(f"  📄 [{idx+1}/{len(event_paths)}] {os.path.basename(event_path)} 분석 중...")
+                    
+                    # 오디오 로드
+                    event_audio, _ = librosa.load(event_path, sr=sr)
+                    
+                    # 스마트 세그멘테이션으로 의미있는 구간 추출
+                    segments = extract_sound_segments(
+                        event_audio, sr,
+                        min_duration=MIN_SEGMENT_DURATION,
+                        max_duration=MAX_SEGMENT_DURATION,
+                        threshold=SILENCE_THRESHOLD,
+                        min_sound_ratio=MIN_SOUND_RATIO
+                    )
+                    
+                    print(f"    → {len(segments)}개 세그먼트 추출됨")
+                    
+                    # 추출된 세그먼트들을 리스트에 추가
+                    for seg_idx, segment in enumerate(segments):
+                        class_segments.append({
+                            'audio': segment,
+                            'file_path': event_path,
+                            'file_name': os.path.basename(event_path),
+                            'segment_index': seg_idx,
+                            'duration': len(segment) / sr
+                        })
+                        
+                except Exception as e:
+                    print(f"    ❌ 오류: {e}")
+                    continue
+            
+            # 목표 샘플 수에 맞게 세그먼트 선택
+            total_segments = len(class_segments)
+            target_samples = int(total_segments * selection_ratio)
+            
+            print(f"\n📊 {class_name.upper()} 세그먼트 선택:")
+            print(f"  • 총 추출된 세그먼트: {total_segments}개")
+            print(f"  • 선택할 샘플: {target_samples}개")
+            
+            if target_samples > 0 and total_segments > 0:
+                # 랜덤하게 세그먼트 선택
+                selected_segments = random.sample(class_segments, min(target_samples, total_segments))
                 
-                # 소수점 샘플링 처리 (1 이상의 소수점 포함)
-                if samples_per_event < 1:
-                    # 확률적 샘플링 (예: 0.3이면 30% 확률로 1개 생성)
-                    if random.random() < samples_per_event:
+                for sample_idx, segment_info in enumerate(selected_segments):
+                    try:
+                        if (sample_idx + 1) % 20 == 0:
+                            print(f"    처리 진행률: {sample_idx+1}/{len(selected_segments)}")
+                        
+                        segment_audio = segment_info['audio']
+                        
+                        # 세그먼트를 10초로 조정 (패딩 또는 자르기)
+                        target_length = int(total_duration * sr)
+                        
+                        if len(segment_audio) > target_length:
+                            # 랜덤 시작점에서 10초 추출
+                            start_idx = random.randint(0, len(segment_audio) - target_length)
+                            segment_audio = segment_audio[start_idx:start_idx + target_length]
+                        else:
+                            # 앞뒤로 무음 패딩 (중앙 정렬)
+                            padding_total = target_length - len(segment_audio)
+                            padding_start = padding_total // 2
+                            padding_end = padding_total - padding_start
+                            segment_audio = np.pad(segment_audio, (padding_start, padding_end), mode='constant')
+                        
+                        # 공장 소리와 믹싱
                         factory_path = random.choice(factory_paths)
                         factory_audio, _ = librosa.load(factory_path, sr=sr)
                         
-                        mixed_audio, start_sec, end_sec = mix_factory_and_event(factory_audio, event_audio_ns, sr, desired_length=total_duration)
+                        mixed_audio, start_sec, end_sec = mix_factory_and_event(
+                            factory_audio, segment_audio, sr, desired_length=total_duration
+                        )
+                        
+                        # YAMNet 임베딩 추출
                         embeddings = extract_yamnet_embeddings(mixed_audio, sr, yamnet_model)
-                        labels = generate_labels(start_sec, end_sec, class_id, total_duration=total_duration, frame_length=frame_length)
+                        labels = generate_labels(start_sec, end_sec, class_id, 
+                                               total_duration=total_duration, frame_length=frame_length)
                         
                         X_data.append(embeddings)
                         y_data.append(labels)
                         data_info.append({
                             'class': class_name,
                             'class_id': class_id,
-                            'type': '위험소음',
+                            'type': '스마트세그먼트_위험소음',
                             'factory_file': os.path.basename(factory_path),
-                            'event_file': os.path.basename(event_path),
+                            'event_file': segment_info['file_name'],
+                            'segment_index': segment_info['segment_index'],
+                            'segment_duration': segment_info['duration'],
                             'event_start_sec': start_sec,
                             'event_end_sec': end_sec,
-                            'sample_index': 0
+                            'sample_index': sample_idx
                         })
-                else:
-                    # 정수 부분과 소수점 부분으로 나누어 처리
-                    base_samples = int(samples_per_event)  # 정수 부분
-                    extra_probability = samples_per_event - base_samples  # 소수점 부분
-                    
-                    # 기본 샘플 생성 (정수 부분)
-                    for i in range(base_samples):
-                        factory_path = random.choice(factory_paths)
-                        factory_audio, _ = librosa.load(factory_path, sr=sr)
                         
-                        mixed_audio, start_sec, end_sec = mix_factory_and_event(factory_audio, event_audio_ns, sr, desired_length=total_duration)
-                        embeddings = extract_yamnet_embeddings(mixed_audio, sr, yamnet_model)
-                        labels = generate_labels(start_sec, end_sec, class_id, total_duration=total_duration, frame_length=frame_length)
-                        
-                        X_data.append(embeddings)
-                        y_data.append(labels)
-                        data_info.append({
-                            'class': class_name,
-                            'class_id': class_id,
-                            'type': '위험소음',
-                            'factory_file': os.path.basename(factory_path),
-                            'event_file': os.path.basename(event_path),
-                            'event_start_sec': start_sec,
-                            'event_end_sec': end_sec,
-                            'sample_index': i
-                        })
-                    
-                    # 추가 샘플 생성 (소수점 부분, 확률적)
-                    if extra_probability > 0 and random.random() < extra_probability:
-                        factory_path = random.choice(factory_paths)
-                        factory_audio, _ = librosa.load(factory_path, sr=sr)
-                        
-                        mixed_audio, start_sec, end_sec = mix_factory_and_event(factory_audio, event_audio_ns, sr, desired_length=total_duration)
-                        embeddings = extract_yamnet_embeddings(mixed_audio, sr, yamnet_model)
-                        labels = generate_labels(start_sec, end_sec, class_id, total_duration=total_duration, frame_length=frame_length)
-                        
-                        X_data.append(embeddings)
-                        y_data.append(labels)
-                        data_info.append({
-                            'class': class_name,
-                            'class_id': class_id,
-                            'type': '위험소음',
-                            'factory_file': os.path.basename(factory_path),
-                            'event_file': os.path.basename(event_path),
-                            'event_start_sec': start_sec,
-                            'event_end_sec': end_sec,
-                            'sample_index': base_samples
-                        })
-                    
-            except Exception as e:
-                print(f"    파일 처리 중 오류 발생: {event_path}, 오류: {e}")
-                continue
+                    except Exception as e:
+                        print(f"    세그먼트 처리 중 오류: {e}")
+                        continue
+                
+                print(f"  ✅ {len(selected_segments)}개 샘플 생성 완료")
+            else:
+                print(f"  ⚠️ 생성할 샘플이 없습니다.")
     
     # 9) v1.3 새로 추가: 공장소리→다른공장소리 전환 데이터 생성
     print(f"\n공장소리→다른공장소리 전환 데이터 생성 중... (총 {FACTORY_TRANSITION_SAMPLES}개 샘플)")
@@ -1119,18 +1496,38 @@ def main():
                 ratio = count / total_frames * 100
                 print(f"  {class_names[cls]}: {ratio:.1f}%")
         
-        # 10) 학습/검증/테스트 분리 (60% / 20% / 20%)
+        # 10) 학습/검증/테스트 분리 (80% / 10% / 10%)
         X_temp, X_test, y_temp, y_test, info_temp, info_test = train_test_split(
-            X_data, y_data_oh, data_info, test_size=0.2, random_state=42, stratify=[info['class_id'] for info in data_info]
+            X_data, y_data_oh, data_info, test_size=0.1, random_state=42, stratify=[info['class_id'] for info in data_info]
         )
         
         X_train, X_val, y_train, y_val, info_train, info_val = train_test_split(
-            X_temp, y_temp, info_temp, test_size=0.25, random_state=42, stratify=[info['class_id'] for info in info_temp]  # 0.25 * 0.8 = 0.2 (전체의 20%)
+            X_temp, y_temp, info_temp, test_size=0.111, random_state=42, stratify=[info['class_id'] for info in info_temp]  # 0.111 * 0.9 ≈ 0.1 (전체의 10%)
         )
         
         print(f"\n훈련 데이터: {X_train.shape}, 레이블: {y_train.shape}")
         print(f"검증 데이터: {X_val.shape}, 레이블: {y_val.shape}")
         print(f"테스트 데이터: {X_test.shape}, 레이블: {y_test.shape}")
+        
+        # 테스트 데이터를 별도 폴더에 저장
+        test_folder = f"test_{VERSION}"
+        if not os.path.exists(test_folder):
+            os.makedirs(test_folder)
+            print(f"📁 테스트 데이터 폴더 생성: {test_folder}")
+        
+        # 테스트 데이터 저장
+        test_data_path = os.path.join(test_folder, f"test_data_{VERSION}.npz")
+        np.savez_compressed(test_data_path, 
+                          X_test=X_test, 
+                          y_test=y_test, 
+                          y_test_labels=np.argmax(y_test, axis=2))  # 원핫 -> 라벨 변환
+        print(f"💾 테스트 데이터 저장: {test_data_path}")
+        
+        # 테스트 데이터 정보 저장
+        test_info_path = os.path.join(test_folder, f"test_info_{VERSION}.json")
+        with open(test_info_path, 'w', encoding='utf-8') as f:
+            json.dump(info_test, f, ensure_ascii=False, indent=2)
+        print(f"💾 테스트 정보 저장: {test_info_path}")
         
         # 데이터셋 정보 저장
         dataset_info = {
