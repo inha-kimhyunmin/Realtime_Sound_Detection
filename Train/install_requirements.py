@@ -20,7 +20,9 @@ REQUIRED_PACKAGES = [
     'pandas>=1.3.0',
     'numpy>=1.21.0',
     'scipy>=1.7.0',
-    'soundfile>=0.10.0'
+    'soundfile>=0.10.0',
+    'pydot',
+    'graphviz'
 ]
 
 def install_package(package):

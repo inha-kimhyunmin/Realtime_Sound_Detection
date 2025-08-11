@@ -1,0 +1,630 @@
+{
+  "start_time": "2025-08-12T03:48:02.629795",
+  "end_time": "2025-08-12T03:48:14.998787",
+  "config": {
+    "epochs": 50,
+    "batch_size": 16,
+    "learning_rate": 0.001,
+    "validation_split": 0.2,
+    "random_seed": 42,
+    "normalize_input": true,
+    "use_class_weights": true,
+    "data_split": {
+      "train_ratio": 0.7,
+      "validation_ratio": 0.15,
+      "test_ratio": 0.15,
+      "stratify": true,
+      "shuffle": true
+    },
+    "dense_units": 256,
+    "lstm_units": 128,
+    "dropout_rate": 0.3,
+    "save_checkpoints": true,
+    "early_stopping": {
+      "enabled": true,
+      "patience": 10
+    },
+    "learning_rate_schedule": {
+      "enabled": true,
+      "factor": 0.5,
+      "patience": 5,
+      "min_lr": 1e-07
+    }
+  },
+  "model_config": {
+    "version": "v2.11",
+    "audio_duration": 10.0,
+    "sample_rate": 16000
+  },
+  "performance": {
+    "overall": {
+      "loss": 0.5523025989532471,
+      "compile_metrics": 1.0,
+      "accuracy": 1.0
+    },
+    "classification_report": {
+      "silence": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 8.0
+      },
+      "factory": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 7.0
+      },
+      "fire": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 7.0
+      },
+      "gas": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 7.0
+      },
+      "scream": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 7.0
+      },
+      "accuracy": 1.0,
+      "macro avg": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 36.0
+      },
+      "weighted avg": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 36.0
+      }
+    },
+    "confusion_matrix": [
+      [
+        8,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        7,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        7,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        7,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        7
+      ]
+    ]
+  },
+  "dataset_info": {
+    "config": {
+      "model_version": "v2.11",
+      "audio_duration": 10.0,
+      "sample_rate": 16000,
+      "num_classes": 5,
+      "class_names": [
+        "silence",
+        "factory",
+        "fire",
+        "gas",
+        "scream"
+      ],
+      "generation_mode": "sequence_based"
+    },
+    "generation_stats": {
+      "silence": {
+        "target_samples": 47,
+        "actual_samples": 47,
+        "files_used": 47
+      },
+      "factory": {
+        "target_samples": 47,
+        "actual_samples": 47,
+        "files_used": 45
+      },
+      "fire": {
+        "target_samples": 47,
+        "actual_samples": 47,
+        "files_used": 40
+      },
+      "gas": {
+        "target_samples": 47,
+        "actual_samples": 47,
+        "files_used": 32
+      },
+      "scream": {
+        "target_samples": 47,
+        "actual_samples": 47,
+        "files_used": 15
+      }
+    },
+    "files_used": {
+      "silence": [
+        "silence_45",
+        "silence_26",
+        "silence_2",
+        "silence_33",
+        "silence_37",
+        "silence_9",
+        "silence_20",
+        "silence_19",
+        "silence_31",
+        "silence_38",
+        "silence_47",
+        "silence_18",
+        "silence_22",
+        "silence_25",
+        "silence_42",
+        "silence_35",
+        "silence_39",
+        "silence_13",
+        "silence_11",
+        "silence_12",
+        "silence_17",
+        "silence_6",
+        "silence_16",
+        "silence_43",
+        "silence_32",
+        "silence_29",
+        "silence_46",
+        "silence_7",
+        "silence_36",
+        "silence_40",
+        "silence_10",
+        "silence_24",
+        "silence_44",
+        "silence_21",
+        "silence_41",
+        "silence_28",
+        "silence_1",
+        "silence_5",
+        "silence_3",
+        "silence_23",
+        "silence_8",
+        "silence_15",
+        "silence_14",
+        "silence_27",
+        "silence_34",
+        "silence_30",
+        "silence_4"
+      ],
+      "factory": [
+        "mixture316.wav",
+        "mixture83.wav",
+        "mixture89.wav",
+        "mixture297.wav",
+        "mixture27.wav",
+        "mixture257.wav",
+        "mixture390.wav",
+        "mixture292.wav",
+        "mixture313.wav",
+        "mixture369.wav",
+        "mixture333.wav",
+        "mixture293.wav",
+        "mixture227.wav",
+        "mixture151.wav",
+        "mixture248.wav",
+        "mixture104.wav",
+        "mixture51.wav",
+        "mixture184.wav",
+        "mixture381.wav",
+        "mixture166.wav",
+        "mixture282.wav",
+        "mixture249.wav",
+        "mixture344.wav",
+        "mixture7.wav",
+        "mixture232.wav",
+        "mixture281.wav",
+        "mixture340.wav",
+        "mixture256.wav",
+        "mixture9.wav",
+        "mixture144.wav",
+        "mixture131.wav",
+        "mixture312.wav",
+        "mixture260.wav",
+        "mixture42.wav",
+        "mixture88.wav",
+        "mixture193.wav",
+        "mixture130.wav",
+        "mixture23.wav",
+        "mixture207.wav",
+        "mixture183.wav",
+        "mixture73.wav",
+        "mixture335.wav",
+        "mixture160.wav",
+        "mixture376.wav",
+        "mixture156.wav"
+      ],
+      "fire": [
+        "fire_07025148_051.wav",
+        "fire_07025148_024.wav",
+        "fire_07059050_062.wav",
+        "fire_07025148_029.wav",
+        "fire_NHU10242809_119.wav",
+        "fire_NHU10242809_121.wav",
+        "fire_NHU05002102_082.wav",
+        "fire_07041025_053.wav",
+        "fire_07025148_028.wav",
+        "fire_NHU05010073_100.wav",
+        "fire_07041025_054.wav",
+        "fire_07059050_072.wav",
+        "fire_07025148_046.wav",
+        "fire_0009042_009.wav",
+        "fire_NHU05010073_099.wav",
+        "fire_07059050_059.wav",
+        "fire_0009039_004.wav",
+        "fire_NHU05002102_088.wav",
+        "fire_0009042_010.wav",
+        "fire_0009040_008.wav",
+        "fire_NHU05002101_076.wav",
+        "fire_07059050_065.wav",
+        "fire_NHU05002102_081.wav",
+        "fire_NHU05002101_077.wav",
+        "fire_07025148_019.wav",
+        "fire_NHU05010073_109.wav",
+        "fire_07025148_041.wav",
+        "fire_NHU10242809_111.wav",
+        "fire_07059050_074.wav",
+        "fire_07025148_037.wav",
+        "fire_0009040_007.wav",
+        "fire_07059050_071.wav",
+        "fire_07059050_069.wav",
+        "fire_07025148_027.wav",
+        "fire_07059050_066.wav",
+        "fire_0009042_011.wav",
+        "fire_NHU05002101_078.wav",
+        "fire_NHU05010073_108.wav",
+        "fire_07025148_052.wav",
+        "fire_07025148_039.wav"
+      ],
+      "gas": [
+        "GAS_LEAK_segment_038.wav",
+        "GAS_LEAK_segment_002.wav",
+        "GAS_LEAK_segment_032.wav",
+        "GAS_LEAK_segment_015.wav",
+        "GAS_LEAK_segment_016.wav",
+        "GAS_LEAK_segment_007.wav",
+        "GAS_LEAK_segment_010.wav",
+        "GAS_LEAK_segment_023.wav",
+        "GAS_LEAK_segment_039.wav",
+        "GAS_LEAK_segment_005.wav",
+        "GAS_LEAK_segment_017.wav",
+        "GAS_LEAK_segment_021.wav",
+        "GAS_LEAK_segment_044.wav",
+        "GAS_LEAK_segment_034.wav",
+        "GAS_LEAK_segment_040.wav",
+        "GAS_LEAK_segment_037.wav",
+        "GAS_LEAK_segment_045.wav",
+        "GAS_LEAK_segment_048.wav",
+        "GAS_LEAK_segment_042.wav",
+        "GAS_LEAK_segment_046.wav",
+        "GAS_LEAK_segment_028.wav",
+        "GAS_LEAK_segment_033.wav",
+        "GAS_LEAK_segment_026.wav",
+        "GAS_LEAK_segment_009.wav",
+        "GAS_LEAK_segment_018.wav",
+        "GAS_LEAK_segment_004.wav",
+        "GAS_LEAK_segment_001.wav",
+        "GAS_LEAK_segment_030.wav",
+        "GAS_LEAK_segment_008.wav",
+        "GAS_LEAK_segment_024.wav",
+        "GAS_LEAK_segment_041.wav",
+        "GAS_LEAK_segment_047.wav"
+      ],
+      "scream": [
+        "07034125_crop2.wav",
+        "655804__nathvandykowi__gas-going-off_crop2.wav",
+        "07034117_crop1.wav",
+        "556976__marc3122__male-screams-1_crop3.wav",
+        "338935__natemarler__human-male-scream-scared-pain_crop1.wav",
+        "556976__marc3122__male-screams-1_crop6.wav",
+        "556976__marc3122__male-screams-1_crop1.wav",
+        "328925__robinhood76__06101-scared-male-long-scream_crop1.wav",
+        "556976__marc3122__male-screams-1_crop4.wav",
+        "07034126_crop1.wav",
+        "556976__marc3122__male-screams-1_crop5.wav",
+        "07034124_crop1.wav",
+        "655804__nathvandykowi__gas-going-off_crop1.wav",
+        "556976__marc3122__male-screams-1_crop2.wav",
+        "07034125_crop1.wav"
+      ]
+    },
+    "final_stats": {
+      "total_sequences": 235,
+      "sequence_shape": [
+        235,
+        20,
+        1024
+      ],
+      "target_length": 20,
+      "class_distribution": {
+        "silence": 47,
+        "factory": 47,
+        "fire": 47,
+        "gas": 47,
+        "scream": 47
+      }
+    },
+    "split_info": {
+      "train_samples": 163,
+      "validation_samples": 36,
+      "test_samples": 36,
+      "train_ratio": 0.7,
+      "validation_ratio": 0.15,
+      "test_ratio": 0.15,
+      "split_files": {
+        "train": "c:\\Users\\dotor\\Desktop\\Realtime_Sound_Detection_Ver2\\results\\version_v2.11\\datasets\\split_dataset_v2.11_20250812_034800_train.npz",
+        "validation": "c:\\Users\\dotor\\Desktop\\Realtime_Sound_Detection_Ver2\\results\\version_v2.11\\datasets\\split_dataset_v2.11_20250812_034800_val.npz",
+        "test": "c:\\Users\\dotor\\Desktop\\Realtime_Sound_Detection_Ver2\\results\\version_v2.11\\datasets\\split_dataset_v2.11_20250812_034800_test.npz",
+        "metadata": "c:\\Users\\dotor\\Desktop\\Realtime_Sound_Detection_Ver2\\results\\version_v2.11\\datasets\\split_dataset_v2.11_20250812_034800_metadata.json"
+      },
+      "split_class_distribution": {
+        "train": {
+          "silence": 32,
+          "factory": 33,
+          "fire": 33,
+          "gas": 32,
+          "scream": 33
+        },
+        "validation": {
+          "silence": 8,
+          "factory": 7,
+          "fire": 7,
+          "gas": 7,
+          "scream": 7
+        },
+        "test": {
+          "silence": 7,
+          "factory": 7,
+          "fire": 7,
+          "gas": 8,
+          "scream": 7
+        }
+      }
+    }
+  },
+  "epoch_logs": [
+    {
+      "epoch": 1,
+      "loss": 2.0699429512023926,
+      "accuracy": 0.2699386477470398,
+      "val_loss": 1.5675616264343262,
+      "val_accuracy": 0.4722222089767456,
+      "precision": 0.2874999940395355,
+      "recall": 0.1411042958498001,
+      "val_precision": 0.0,
+      "val_recall": 0.0
+    },
+    {
+      "epoch": 2,
+      "loss": 1.4704540967941284,
+      "accuracy": 0.38036808371543884,
+      "val_loss": 1.4893368482589722,
+      "val_accuracy": 0.8611111044883728,
+      "precision": 0.4743589758872986,
+      "recall": 0.2269938588142395,
+      "val_precision": 0.0,
+      "val_recall": 0.0
+    },
+    {
+      "epoch": 3,
+      "loss": 1.213807463645935,
+      "accuracy": 0.5521472096443176,
+      "val_loss": 1.354113221168518,
+      "val_accuracy": 0.9444444179534912,
+      "precision": 0.6382978558540344,
+      "recall": 0.3680981695652008,
+      "val_precision": 0.0,
+      "val_recall": 0.0
+    },
+    {
+      "epoch": 4,
+      "loss": 0.9364297389984131,
+      "accuracy": 0.6687116622924805,
+      "val_loss": 1.1969610452651978,
+      "val_accuracy": 0.9722222089767456,
+      "precision": 0.7424242496490479,
+      "recall": 0.6012269854545593,
+      "val_precision": 0.0,
+      "val_recall": 0.0
+    },
+    {
+      "epoch": 5,
+      "loss": 0.6973537802696228,
+      "accuracy": 0.754601240158081,
+      "val_loss": 1.0427461862564087,
+      "val_accuracy": 0.9722222089767456,
+      "precision": 0.8115941882133484,
+      "recall": 0.6871165633201599,
+      "val_precision": 0.0,
+      "val_recall": 0.0
+    },
+    {
+      "epoch": 6,
+      "loss": 0.557750940322876,
+      "accuracy": 0.8098159432411194,
+      "val_loss": 0.8939864039421082,
+      "val_accuracy": 0.9444444179534912,
+      "precision": 0.834482729434967,
+      "recall": 0.7423312664031982,
+      "val_precision": 1.0,
+      "val_recall": 0.1111111119389534
+    },
+    {
+      "epoch": 7,
+      "loss": 0.4411858320236206,
+      "accuracy": 0.8650306463241577,
+      "val_loss": 0.7701548337936401,
+      "val_accuracy": 0.9722222089767456,
+      "precision": 0.8799999952316284,
+      "recall": 0.8098159432411194,
+      "val_precision": 1.0,
+      "val_recall": 0.4444444477558136
+    },
+    {
+      "epoch": 8,
+      "loss": 0.38745030760765076,
+      "accuracy": 0.8404908180236816,
+      "val_loss": 0.6539738774299622,
+      "val_accuracy": 0.9722222089767456,
+      "precision": 0.8627451062202454,
+      "recall": 0.8098159432411194,
+      "val_precision": 1.0,
+      "val_recall": 0.75
+    },
+    {
+      "epoch": 9,
+      "loss": 0.33866503834724426,
+      "accuracy": 0.8834356069564819,
+      "val_loss": 0.5523026585578918,
+      "val_accuracy": 1.0,
+      "precision": 0.8987341523170471,
+      "recall": 0.8711656332015991,
+      "val_precision": 1.0,
+      "val_recall": 0.8888888955116272
+    },
+    {
+      "epoch": 10,
+      "loss": 0.37420910596847534,
+      "accuracy": 0.9018405079841614,
+      "val_loss": 0.4701951742172241,
+      "val_accuracy": 1.0,
+      "precision": 0.9155844449996948,
+      "recall": 0.8650306463241577,
+      "val_precision": 1.0,
+      "val_recall": 0.9722222089767456
+    },
+    {
+      "epoch": 11,
+      "loss": 0.22582700848579407,
+      "accuracy": 0.9325153231620789,
+      "val_loss": 0.399537593126297,
+      "val_accuracy": 1.0,
+      "precision": 0.9375,
+      "recall": 0.9202454090118408,
+      "val_precision": 1.0,
+      "val_recall": 0.9722222089767456
+    },
+    {
+      "epoch": 12,
+      "loss": 0.3778170943260193,
+      "accuracy": 0.8834356069564819,
+      "val_loss": 0.3272276520729065,
+      "val_accuracy": 0.9722222089767456,
+      "precision": 0.905063271522522,
+      "recall": 0.8773006200790405,
+      "val_precision": 1.0,
+      "val_recall": 0.9722222089767456
+    },
+    {
+      "epoch": 13,
+      "loss": 0.18651601672172546,
+      "accuracy": 0.9509202241897583,
+      "val_loss": 0.2768002450466156,
+      "val_accuracy": 1.0,
+      "precision": 0.9506173133850098,
+      "recall": 0.9447852969169617,
+      "val_precision": 1.0,
+      "val_recall": 0.9722222089767456
+    },
+    {
+      "epoch": 14,
+      "loss": 0.2627984583377838,
+      "accuracy": 0.907975435256958,
+      "val_loss": 0.2320820689201355,
+      "val_accuracy": 1.0,
+      "precision": 0.9182389974594116,
+      "recall": 0.89570552110672,
+      "val_precision": 1.0,
+      "val_recall": 0.9722222089767456
+    },
+    {
+      "epoch": 15,
+      "loss": 0.17948243021965027,
+      "accuracy": 0.9570552110671997,
+      "val_loss": 0.1813296675682068,
+      "val_accuracy": 1.0,
+      "precision": 0.9570552110671997,
+      "recall": 0.9570552110671997,
+      "val_precision": 1.0,
+      "val_recall": 0.9722222089767456
+    },
+    {
+      "epoch": 16,
+      "loss": 0.14992575347423553,
+      "accuracy": 0.9570552110671997,
+      "val_loss": 0.139773428440094,
+      "val_accuracy": 1.0,
+      "precision": 0.9683544039726257,
+      "recall": 0.9386503100395203,
+      "val_precision": 1.0,
+      "val_recall": 1.0
+    },
+    {
+      "epoch": 17,
+      "loss": 0.23888631165027618,
+      "accuracy": 0.9386503100395203,
+      "val_loss": 0.10865442454814911,
+      "val_accuracy": 1.0,
+      "precision": 0.9430379867553711,
+      "recall": 0.9141104221343994,
+      "val_precision": 1.0,
+      "val_recall": 1.0
+    },
+    {
+      "epoch": 18,
+      "loss": 0.3420473337173462,
+      "accuracy": 0.9202454090118408,
+      "val_loss": 0.0893806740641594,
+      "val_accuracy": 1.0,
+      "precision": 0.9303797483444214,
+      "recall": 0.9018405079841614,
+      "val_precision": 1.0,
+      "val_recall": 1.0
+    },
+    {
+      "epoch": 19,
+      "loss": 0.18276092410087585,
+      "accuracy": 0.9386503100395203,
+      "val_loss": 0.0687832310795784,
+      "val_accuracy": 1.0,
+      "precision": 0.9496855139732361,
+      "recall": 0.9263803958892822,
+      "val_precision": 1.0,
+      "val_recall": 1.0
+    }
+  ],
+  "training_duration": {
+    "total_seconds": 12.368992,
+    "formatted": "0:00:12.368992"
+  }
+}

@@ -64,9 +64,16 @@ class ModelTrainer:
                 
             print(f"\n📊 데이터셋 정보:")
             if 'final_stats' in dataset_info:
-                for class_name, count in dataset_info['final_stats']['class_distribution'].items():
-                    percentage = count / dataset_info['final_stats']['total_frames'] * 100
-                    print(f"  - {class_name}: {count:,}개 ({percentage:.1f}%)")
+                # 시퀀스 기반과 프레임 기반 모두 지원
+                total_count = dataset_info['final_stats'].get('total_sequences', 
+                             dataset_info['final_stats'].get('total_frames', 0))
+                
+                if total_count > 0:
+                    for class_name, count in dataset_info['final_stats']['class_distribution'].items():
+                        percentage = count / total_count * 100
+                        print(f"  - {class_name}: {count:,}개 ({percentage:.1f}%)")
+                else:
+                    print("  - 데이터셋 통계 정보가 없습니다.")
                     
             self.training_info['dataset_info'] = dataset_info
         
@@ -207,29 +214,19 @@ class ModelTrainer:
     def create_model(self, input_shape):
         """YAMNet + LSTM 모델 생성"""
         print("\n🏗️ 모델 아키텍처 생성 중...")
+        print(f"📏 입력 형태: {input_shape}")
+        
+        # 입력 형태가 3D(time_steps, features)인지 확인
+        if len(input_shape) != 2:
+            raise ValueError(f"LSTM 모델은 3D 입력 (batch, time_steps, features)이 필요합니다. 현재: {input_shape}")
+        
+        time_steps, features = input_shape
+        print(f"⏱️ 시간 스텝: {time_steps}, 🎵 특성 수: {features}")
         
         model = keras.Sequential([
             layers.Input(shape=input_shape),
             
-            # Dense 레이어들
-            layers.Dense(
-                TRAINING_CONFIG['dense_units'], 
-                activation='relu',
-                name='dense_1'
-            ),
-            layers.Dropout(TRAINING_CONFIG['dropout_rate']),
-            
-            layers.Dense(
-                TRAINING_CONFIG['dense_units'] // 2, 
-                activation='relu',
-                name='dense_2'
-            ),
-            layers.Dropout(TRAINING_CONFIG['dropout_rate']),
-            
-            # LSTM 레이어를 위한 reshape (sequence length = 1)
-            layers.Reshape((1, TRAINING_CONFIG['dense_units'] // 2)),
-            
-            # LSTM 레이어들
+            # 첫 번째 LSTM 레이어 - 시퀀스를 유지하며 패턴 학습
             layers.LSTM(
                 TRAINING_CONFIG['lstm_units'],
                 return_sequences=True,
@@ -237,14 +234,42 @@ class ModelTrainer:
                 recurrent_dropout=TRAINING_CONFIG['dropout_rate'],
                 name='lstm_1'
             ),
+            layers.BatchNormalization(name='batch_norm_1'),
             
+            # 두 번째 LSTM 레이어 - 더 복잡한 시간적 패턴 학습
             layers.LSTM(
                 TRAINING_CONFIG['lstm_units'] // 2,
-                return_sequences=False,
+                return_sequences=True,
                 dropout=TRAINING_CONFIG['dropout_rate'],
                 recurrent_dropout=TRAINING_CONFIG['dropout_rate'],
                 name='lstm_2'
             ),
+            layers.BatchNormalization(name='batch_norm_2'),
+            
+            # 세 번째 LSTM 레이어 - 최종 시퀀스 요약
+            layers.LSTM(
+                TRAINING_CONFIG['lstm_units'] // 4,
+                return_sequences=False,  # 마지막 출력만 사용
+                dropout=TRAINING_CONFIG['dropout_rate'],
+                recurrent_dropout=TRAINING_CONFIG['dropout_rate'],
+                name='lstm_3'
+            ),
+            
+            # Dense 레이어들로 최종 분류
+            layers.Dense(
+                TRAINING_CONFIG['dense_units'], 
+                activation='relu',
+                name='dense_1'
+            ),
+            layers.Dropout(TRAINING_CONFIG['dropout_rate']),
+            layers.BatchNormalization(name='batch_norm_3'),
+            
+            layers.Dense(
+                TRAINING_CONFIG['dense_units'] // 2, 
+                activation='relu',
+                name='dense_2'
+            ),
+            layers.Dropout(TRAINING_CONFIG['dropout_rate']),
             
             # 출력 레이어
             layers.Dense(NUM_CLASSES, activation='softmax', name='output')
@@ -368,14 +393,91 @@ class ModelTrainer:
         
         return callbacks
     
+    def convert_frames_to_sequences(self, X, y, sequence_length=None):
+        """프레임 데이터를 시퀀스 데이터로 변환"""
+        if sequence_length is None:
+            sequence_length = TRAINING_CONFIG.get('sequence_length', 21)
+            
+        print(f"\n🔄 프레임 데이터를 시퀀스로 변환 중...")
+        print(f"  📏 입력 형태: {X.shape}")
+        print(f"  🎯 목표 시퀀스 길이: {sequence_length}")
+        
+        # 총 프레임 수가 시퀀스 길이로 나누어 떨어지는지 확인
+        total_frames = X.shape[0]
+        num_sequences = total_frames // sequence_length
+        
+        if num_sequences == 0:
+            raise ValueError(f"프레임 수({total_frames})가 시퀀스 길이({sequence_length})보다 작습니다.")
+        
+        # 시퀀스로 재구성할 수 있는 프레임만 사용
+        usable_frames = num_sequences * sequence_length
+        X_usable = X[:usable_frames]
+        y_usable = y[:usable_frames]
+        
+        print(f"  📊 사용 가능한 프레임: {usable_frames}/{total_frames}")
+        print(f"  📦 생성될 시퀀스 수: {num_sequences}")
+        
+        # 프레임을 시퀀스로 재구성
+        X_sequences = X_usable.reshape(num_sequences, sequence_length, X.shape[1])
+        
+        # 라벨은 각 시퀀스의 대표값 사용 (다수결 또는 첫 번째 프레임)
+        y_sequences = []
+        for i in range(num_sequences):
+            start_idx = i * sequence_length
+            end_idx = start_idx + sequence_length
+            sequence_labels = y_usable[start_idx:end_idx]
+            
+            # 다수결로 시퀀스 라벨 결정
+            unique_labels, counts = np.unique(sequence_labels, return_counts=True)
+            majority_label = unique_labels[np.argmax(counts)]
+            y_sequences.append(majority_label)
+        
+        y_sequences = np.array(y_sequences)
+        
+        print(f"  ✅ 변환 완료: {X_sequences.shape}")
+        print(f"  📊 시퀀스별 라벨 분포:")
+        
+        for class_idx, class_name in enumerate(ALL_CLASSES):
+            count = np.sum(y_sequences == class_idx)
+            percentage = count / len(y_sequences) * 100 if len(y_sequences) > 0 else 0
+            print(f"    - {class_name}: {count:,}개 ({percentage:.1f}%)")
+        
+        return X_sequences, y_sequences
+    
     def train_model(self, X_train, X_val, y_train, y_val):
         """모델 훈련"""
         print("\n🚀 모델 훈련 시작...")
         
         self.training_info['start_time'] = datetime.now().isoformat()
         
-        # 모델 생성
-        model = self.create_model((X_train.shape[1],))
+        # 데이터 형태 확인
+        print(f"📏 훈련 데이터 형태: {X_train.shape}")
+        print(f"📏 검증 데이터 형태: {X_val.shape}")
+        
+        # 2D 데이터인 경우 3D로 변환
+        if len(X_train.shape) == 2:
+            print("🔄 2D 프레임 데이터를 3D 시퀀스로 변환 중...")
+            
+            # 프레임을 시퀀스로 변환
+            X_train, y_train_seq = self.convert_frames_to_sequences(X_train, np.argmax(y_train, axis=1))
+            X_val, y_val_seq = self.convert_frames_to_sequences(X_val, np.argmax(y_val, axis=1))
+            
+            # 원-핫 인코딩 다시 적용
+            y_train = keras.utils.to_categorical(y_train_seq, num_classes=NUM_CLASSES)
+            y_val = keras.utils.to_categorical(y_val_seq, num_classes=NUM_CLASSES)
+            
+            print(f"✅ 변환 완료:")
+            print(f"  📏 훈련 데이터: {X_train.shape}")
+            print(f"  📏 검증 데이터: {X_val.shape}")
+        
+        elif len(X_train.shape) == 3:
+            print("✅ 이미 3D 시퀀스 데이터입니다.")
+        
+        else:
+            raise ValueError(f"지원하지 않는 데이터 형태: {X_train.shape}")
+        
+        # 모델 생성 (시간 스텝과 특성 수를 입력 형태로 사용)
+        model = self.create_model((X_train.shape[1], X_train.shape[2]))
         
         # 콜백 생성
         callbacks = self.create_callbacks()

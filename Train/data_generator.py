@@ -419,6 +419,13 @@ class DataGenerator:
             print(f"⚠️ 오디오 로드 실패 {file_path}: {e}")
             return None
     
+    def load_audio_segment(self, file_path, duration=None):
+        """오디오 파일에서 지정된 길이의 세그먼트 로드"""
+        audio = self.load_audio_file(file_path)
+        if audio is not None:
+            return self.extract_audio_segment(audio, duration)
+        return None
+    
     def extract_audio_segment(self, audio, duration=None):
         """오디오에서 지정된 길이의 세그먼트 추출"""
         if duration is None:
@@ -692,7 +699,176 @@ class DataGenerator:
             print(f"⚠️ YAMNet 임베딩 추출 실패: {e}")
             return None
     
-    def generate_dataset_by_frames(self, target_frames_per_class):
+    def generate_sequence_dataset(self, target_samples_per_class):
+        """시퀀스 기반 데이터셋 생성 (LSTM용)"""
+        print("\n🏭 시퀀스 기반 데이터셋 생성 시작...")
+        
+        all_sequences = []
+        all_labels = []
+        dataset_info = {
+            'config': {
+                'model_version': MODEL_CONFIG['version'],
+                'audio_duration': MODEL_CONFIG['audio_duration'],
+                'sample_rate': MODEL_CONFIG['sample_rate'],
+                'num_classes': NUM_CLASSES,
+                'class_names': ALL_CLASSES,
+                'generation_mode': 'sequence_based'
+            },
+            'generation_stats': {},
+            'files_used': {}
+        }
+        
+        # 각 클래스별 시퀀스 생성
+        for class_name, target_samples in target_samples_per_class.items():
+            if target_samples == 0:
+                continue
+                
+            print(f"\n📁 {class_name} 클래스 생성 중... (목표: {target_samples:,}개 시퀀스)")
+            
+            class_idx = ALL_CLASSES.index(class_name)
+            collected_samples = 0
+            files_used = []
+            
+            while collected_samples < target_samples:
+                if class_name == 'silence':
+                    # 무음 데이터 생성
+                    audio = self.generate_silence_audio(MODEL_CONFIG['audio_duration'])
+                    
+                    # 데이터 증강 적용
+                    if AUGMENTATION_CONFIG.get(class_name, {}).get('enabled', False):
+                        if np.random.random() < 0.3:
+                            methods = AUGMENTATION_CONFIG[class_name]['methods']
+                            method = np.random.choice(methods)
+                            audio = self.apply_augmentation(audio, class_name, method)
+                    
+                    embeddings = self.extract_yamnet_embeddings(audio)
+                    if embeddings is not None:
+                        # 전체 시퀀스를 하나의 샘플로 저장
+                        all_sequences.append(embeddings)
+                        all_labels.append(class_idx)
+                        collected_samples += 1
+                        files_used.append(f"silence_{collected_samples}")
+                
+                elif class_name == 'factory':
+                    # 공장 소리 처리
+                    if not self.audio_files.get(class_name):
+                        print(f"⚠️ {class_name} 오디오 파일이 없습니다.")
+                        break
+                    
+                    audio_file = np.random.choice(self.audio_files[class_name])
+                    audio = self.load_audio_segment(audio_file, duration=MODEL_CONFIG['audio_duration'])
+                    
+                    if audio is not None:
+                        if AUGMENTATION_CONFIG.get(class_name, {}).get('enabled', False):
+                            if np.random.random() < 0.4:
+                                methods = AUGMENTATION_CONFIG[class_name]['methods']
+                                method = np.random.choice(methods)
+                                audio = self.apply_augmentation(audio, class_name, method)
+                        
+                        embeddings = self.extract_yamnet_embeddings(audio)
+                        if embeddings is not None:
+                            all_sequences.append(embeddings)
+                            all_labels.append(class_idx)
+                            collected_samples += 1
+                            files_used.append(os.path.basename(audio_file))
+                
+                else:
+                    # 위험 소리 클래스들
+                    if not self.audio_files.get(class_name):
+                        print(f"⚠️ {class_name} 오디오 파일이 없습니다.")
+                        break
+                    
+                    audio_file = np.random.choice(self.audio_files[class_name])
+                    audio = self.load_audio_segment(audio_file, duration=MODEL_CONFIG['audio_duration'])
+                    
+                    if audio is not None:
+                        if AUGMENTATION_CONFIG.get(class_name, {}).get('enabled', False):
+                            if np.random.random() < 0.6:
+                                methods = AUGMENTATION_CONFIG[class_name]['methods']
+                                method = np.random.choice(methods)
+                                audio = self.apply_augmentation(audio, class_name, method)
+                        
+                        embeddings = self.extract_yamnet_embeddings(audio)
+                        if embeddings is not None:
+                            all_sequences.append(embeddings)
+                            all_labels.append(class_idx)
+                            collected_samples += 1
+                            files_used.append(os.path.basename(audio_file))
+                
+                # 무한 루프 방지
+                if len(files_used) > target_samples * 3:
+                    print(f"⚠️ {class_name}: 너무 많은 시도 후 중단")
+                    break
+            
+            print(f"  ✅ {class_name}: {collected_samples:,}개 시퀀스 생성")
+            dataset_info['generation_stats'][class_name] = {
+                'target_samples': target_samples,
+                'actual_samples': collected_samples,
+                'files_used': len(set(files_used))
+            }
+            dataset_info['files_used'][class_name] = list(set(files_used))
+        
+        # 시퀀스 길이 통일 (패딩/자르기)
+        if all_sequences:
+            print("\n🔄 시퀀스 길이 통일 중...")
+            
+            # 시퀀스 길이 분석
+            seq_lengths = [seq.shape[0] for seq in all_sequences]
+            max_length = max(seq_lengths)
+            min_length = min(seq_lengths)
+            avg_length = np.mean(seq_lengths)
+            
+            print(f"  📏 시퀀스 길이 - 최소: {min_length}, 최대: {max_length}, 평균: {avg_length:.1f}")
+            
+            # 목표 길이 설정 (평균 또는 가장 일반적인 길이)
+            target_length = int(np.percentile(seq_lengths, 75))  # 75% 지점 사용
+            print(f"  🎯 목표 길이: {target_length} 프레임")
+            
+            # 시퀀스 길이 통일
+            unified_sequences = []
+            for seq in all_sequences:
+                if seq.shape[0] < target_length:
+                    # 패딩 (제로 패딩)
+                    pad_length = target_length - seq.shape[0]
+                    padded_seq = np.pad(seq, ((0, pad_length), (0, 0)), mode='constant')
+                    unified_sequences.append(padded_seq)
+                elif seq.shape[0] > target_length:
+                    # 자르기 (앞부분 사용)
+                    unified_sequences.append(seq[:target_length])
+                else:
+                    unified_sequences.append(seq)
+            
+            X = np.array(unified_sequences)  # (samples, time_steps, features)
+            y = np.array(all_labels)         # (samples,)
+            
+            # 셔플
+            X, y = shuffle(X, y, random_state=42)
+            
+            print(f"\n📊 최종 시퀀스 데이터셋 통계:")
+            print(f"  - 총 시퀀스 수: {len(X):,}개")
+            print(f"  - 시퀀스 형태: {X.shape}")
+            print(f"  - 시간 스텝: {X.shape[1]}")
+            print(f"  - 특성 수: {X.shape[2]}")
+            
+            # 클래스별 분포 확인
+            actual_class_samples = {}
+            for class_idx, class_name in enumerate(ALL_CLASSES):
+                count = np.sum(y == class_idx)
+                actual_class_samples[class_name] = count
+                percentage = count / len(y) * 100
+                print(f"  - {class_name}: {count:,}개 ({percentage:.1f}%)")
+            
+            dataset_info['final_stats'] = {
+                'total_sequences': len(X),
+                'sequence_shape': list(X.shape),
+                'target_length': target_length,
+                'class_distribution': actual_class_samples
+            }
+            
+            return X, y, dataset_info
+        else:
+            print("❌ 생성된 데이터가 없습니다.")
+            return None, None, None
         """목표 프레임 수에 맞춰 정확한 데이터셋 생성"""
         print("\n🏭 프레임 기반 데이터셋 생성 시작...")
         

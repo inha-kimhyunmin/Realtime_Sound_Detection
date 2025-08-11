@@ -1,0 +1,893 @@
+{
+  "start_time": "2025-08-12T03:18:06.736599",
+  "end_time": "2025-08-12T03:18:35.162579",
+  "config": {
+    "epochs": 50,
+    "batch_size": 16,
+    "learning_rate": 0.001,
+    "validation_split": 0.2,
+    "random_seed": 42,
+    "normalize_input": true,
+    "use_class_weights": true,
+    "data_split": {
+      "train_ratio": 0.7,
+      "validation_ratio": 0.15,
+      "test_ratio": 0.15,
+      "stratify": true,
+      "shuffle": true
+    },
+    "dense_units": 256,
+    "lstm_units": 128,
+    "dropout_rate": 0.3,
+    "save_checkpoints": true,
+    "early_stopping": {
+      "enabled": true,
+      "patience": 10
+    },
+    "learning_rate_schedule": {
+      "enabled": true,
+      "factor": 0.5,
+      "patience": 5,
+      "min_lr": 1e-07
+    }
+  },
+  "model_config": {
+    "version": "v2.05",
+    "audio_duration": 10.0,
+    "sample_rate": 16000
+  },
+  "performance": {
+    "overall": {
+      "loss": 0.28157198429107666,
+      "compile_metrics": 0.9275053143501282,
+      "accuracy": 0.9275053304904051
+    },
+    "classification_report": {
+      "silence": {
+        "precision": 0.9209302325581395,
+        "recall": 0.99,
+        "f1-score": 0.9542168674698795,
+        "support": 200.0
+      },
+      "factory": {
+        "precision": 0.9106382978723404,
+        "recall": 0.9683257918552036,
+        "f1-score": 0.9385964912280702,
+        "support": 221.0
+      },
+      "fire": {
+        "precision": 0.9447852760736196,
+        "recall": 0.8850574712643678,
+        "f1-score": 0.913946587537092,
+        "support": 174.0
+      },
+      "gas": {
+        "precision": 0.9457831325301205,
+        "recall": 0.8920454545454546,
+        "f1-score": 0.9181286549707602,
+        "support": 176.0
+      },
+      "scream": {
+        "precision": 0.9245283018867925,
+        "recall": 0.8802395209580839,
+        "f1-score": 0.901840490797546,
+        "support": 167.0
+      },
+      "accuracy": 0.9275053304904051,
+      "macro avg": {
+        "precision": 0.9293330481842025,
+        "recall": 0.923133647724622,
+        "f1-score": 0.9253458184006697,
+        "support": 938.0
+      },
+      "weighted avg": {
+        "precision": 0.9282343348812585,
+        "recall": 0.9275053304904051,
+        "f1-score": 0.9269700527983769,
+        "support": 938.0
+      }
+    },
+    "confusion_matrix": [
+      [
+        198,
+        1,
+        1,
+        0,
+        0
+      ],
+      [
+        0,
+        214,
+        4,
+        2,
+        1
+      ],
+      [
+        7,
+        9,
+        154,
+        2,
+        2
+      ],
+      [
+        1,
+        6,
+        3,
+        157,
+        9
+      ],
+      [
+        9,
+        5,
+        1,
+        5,
+        147
+      ]
+    ]
+  },
+  "dataset_info": {
+    "config": {
+      "model_version": "v2.05",
+      "audio_duration": 10.0,
+      "sample_rate": 16000,
+      "num_classes": 5,
+      "class_names": [
+        "silence",
+        "factory",
+        "fire",
+        "gas",
+        "scream"
+      ],
+      "generation_mode": "frame_based"
+    },
+    "generation_stats": {
+      "silence": {
+        "target_frames": 1000,
+        "actual_frames": 1000,
+        "samples_generated": 50,
+        "accuracy": 1.0
+      },
+      "factory": {
+        "target_frames": 1000,
+        "actual_frames": 1000,
+        "samples_generated": 50,
+        "accuracy": 1.0
+      },
+      "fire": {
+        "target_frames": 1000,
+        "actual_frames": 1000,
+        "samples_generated": 50,
+        "accuracy": 1.0
+      },
+      "gas": {
+        "target_frames": 1000,
+        "actual_frames": 1000,
+        "samples_generated": 50,
+        "accuracy": 1.0
+      },
+      "scream": {
+        "target_frames": 1000,
+        "actual_frames": 1000,
+        "samples_generated": 50,
+        "accuracy": 1.0
+      },
+      "transitions": {
+        "target_frames": 1250,
+        "actual_frames": 1249,
+        "samples_generated": 65,
+        "by_type": {
+          "silence_to_silence": 8,
+          "silence_to_factory": 11,
+          "silence_to_danger": 15,
+          "factory_to_factory": 8,
+          "factory_to_danger": 23
+        }
+      }
+    },
+    "files_used": {
+      "silence": [
+        "generated_silence_1",
+        "generated_silence_2",
+        "generated_silence_3",
+        "generated_silence_4",
+        "generated_silence_5",
+        "generated_silence_6",
+        "generated_silence_7",
+        "generated_silence_8",
+        "generated_silence_9",
+        "generated_silence_10",
+        "generated_silence_11",
+        "generated_silence_12",
+        "generated_silence_13",
+        "generated_silence_14",
+        "generated_silence_15",
+        "generated_silence_16",
+        "generated_silence_17",
+        "generated_silence_18",
+        "generated_silence_19",
+        "generated_silence_20",
+        "generated_silence_21",
+        "generated_silence_22",
+        "generated_silence_23",
+        "generated_silence_24",
+        "generated_silence_25",
+        "generated_silence_26",
+        "generated_silence_27",
+        "generated_silence_28",
+        "generated_silence_29",
+        "generated_silence_30",
+        "generated_silence_31",
+        "generated_silence_32",
+        "generated_silence_33",
+        "generated_silence_34",
+        "generated_silence_35",
+        "generated_silence_36",
+        "generated_silence_37",
+        "generated_silence_38",
+        "generated_silence_39",
+        "generated_silence_40",
+        "generated_silence_41",
+        "generated_silence_42",
+        "generated_silence_43",
+        "generated_silence_44",
+        "generated_silence_45",
+        "generated_silence_46",
+        "generated_silence_47",
+        "generated_silence_48",
+        "generated_silence_49",
+        "generated_silence_50"
+      ],
+      "factory": [
+        "mixture140.wav_seg1",
+        "mixture361.wav_seg2",
+        "mixture274.wav_seg3",
+        "mixture178.wav_seg4",
+        "mixture265.wav_seg5",
+        "mixture249.wav_seg6",
+        "mixture56.wav_seg7",
+        "mixture319.wav_seg8",
+        "mixture386.wav_seg9",
+        "mixture187.wav_seg10",
+        "mixture318.wav_seg11",
+        "mixture134.wav_seg12",
+        "mixture228.wav_seg13",
+        "mixture168.wav_seg14",
+        "mixture382.wav_seg15",
+        "mixture171.wav_seg16",
+        "mixture295.wav_seg17",
+        "mixture366.wav_seg18",
+        "mixture156.wav_seg19",
+        "mixture362.wav_seg20",
+        "mixture165.wav_seg21",
+        "mixture380.wav_seg22",
+        "mixture364.wav_seg23",
+        "mixture352.wav_seg24",
+        "mixture230.wav_seg25",
+        "mixture108.wav_seg26",
+        "mixture308.wav_seg27",
+        "mixture283.wav_seg28",
+        "mixture22.wav_seg29",
+        "mixture238.wav_seg30",
+        "mixture7.wav_seg31",
+        "mixture102.wav_seg32",
+        "mixture313.wav_seg33",
+        "mixture233.wav_seg34",
+        "mixture170.wav_seg35",
+        "mixture151.wav_seg36",
+        "mixture291.wav_seg37",
+        "mixture150.wav_seg38",
+        "mixture228.wav_seg39",
+        "mixture335.wav_seg40",
+        "mixture80.wav_seg41",
+        "mixture342.wav_seg42",
+        "mixture209.wav_seg43",
+        "mixture208.wav_seg44",
+        "mixture182.wav_seg45",
+        "mixture391.wav_seg46",
+        "mixture322.wav_seg47",
+        "mixture367.wav_seg48",
+        "mixture45.wav_seg49",
+        "mixture132.wav_seg50"
+      ],
+      "fire": [
+        "fire_NHU05002102_082.wav_seg1",
+        "fire_07025148_052.wav_seg2",
+        "fire_07025148_040.wav_seg3",
+        "fire_NHU05002102_082.wav_seg4",
+        "fire_07059050_068.wav_seg5",
+        "fire_NHU05002102_092.wav_seg6",
+        "fire_07059050_058.wav_seg7",
+        "fire_07025148_052.wav_seg8",
+        "fire_NHU05010073_104.wav_seg9",
+        "fire_07025148_028.wav_seg10",
+        "fire_NHU05002102_089.wav_seg11",
+        "fire_07025148_028.wav_seg12",
+        "fire_07059050_069.wav_seg13",
+        "fire_07059050_069.wav_seg14",
+        "fire_NHU05002102_082.wav_seg15",
+        "fire_NHU05002102_081.wav_seg16",
+        "fire_NHU05002102_083.wav_seg17",
+        "fire_07059050_067.wav_seg18",
+        "fire_0009043_013.wav_seg19",
+        "fire_NHU05010073_095.wav_seg20",
+        "fire_NHU05010073_099.wav_seg21",
+        "fire_07025148_032.wav_seg22",
+        "fire_NHU05010073_097.wav_seg23",
+        "fire_NHU05002102_085.wav_seg24",
+        "fire_NHU10242809_112.wav_seg25",
+        "fire_07025148_052.wav_seg26",
+        "fire_NHU10242809_124.wav_seg27",
+        "fire_07059050_072.wav_seg28",
+        "fire_00008014_002.wav_seg29",
+        "fire_0009043_012.wav_seg30",
+        "fire_07025148_033.wav_seg31",
+        "fire_NHU10242809_124.wav_seg32",
+        "fire_07059050_070.wav_seg33",
+        "fire_0009042_009.wav_seg34",
+        "fire_07025148_035.wav_seg35",
+        "fire_NHU10242809_114.wav_seg36",
+        "fire_07059050_067.wav_seg37",
+        "17742__krisboruff__fire_cracklesno-room.wav_seg38",
+        "fire_NHU05010073_099.wav_seg39",
+        "fire_NHU05010073_102.wav_seg40",
+        "fire_NHU10242809_120.wav_seg41",
+        "fire_07025148_051.wav_seg42",
+        "fire_07025148_051.wav_seg43",
+        "fire_07025148_048.wav_seg44",
+        "fire_NHU05010073_096.wav_seg45",
+        "fire_07059050_072.wav_seg46",
+        "fire_07025148_016.wav_seg47",
+        "fire_07025148_029.wav_seg48",
+        "fire_NHU05010073_096.wav_seg49",
+        "fire_NHU05002102_085.wav_seg50"
+      ],
+      "gas": [
+        "GAS_LEAK_segment_043.wav_seg1",
+        "GAS_LEAK_segment_040.wav_seg2",
+        "GAS_LEAK_segment_040.wav_seg3",
+        "GAS_LEAK_segment_003.wav_seg4",
+        "GAS_LEAK_segment_018.wav_seg5",
+        "655804__nathvandykowi__gas-going-off.wav_seg6",
+        "GAS_LEAK_segment_020.wav_seg7",
+        "GAS_LEAK_segment_019.wav_seg8",
+        "GAS_LEAK_segment_013.wav_seg9",
+        "GAS_LEAK_segment_042.wav_seg10",
+        "GAS_LEAK_segment_046.wav_seg11",
+        "GAS_LEAK_segment_022.wav_seg12",
+        "GAS_LEAK_segment_006.wav_seg13",
+        "655804__nathvandykowi__gas-going-off.wav_seg14",
+        "GAS_LEAK_segment_049.wav_seg15",
+        "GAS_LEAK_segment_035.wav_seg16",
+        "GAS_LEAK_segment_010.wav_seg17",
+        "GAS_LEAK_segment_006.wav_seg18",
+        "GAS_LEAK_segment_044.wav_seg19",
+        "GAS_LEAK_segment_042.wav_seg20",
+        "Gas_Leak_Sound_Effect_crop1.wav_seg21",
+        "GAS_LEAK_segment_004.wav_seg22",
+        "GAS_LEAK_segment_020.wav_seg23",
+        "GAS_LEAK_segment_049.wav_seg24",
+        "GAS_LEAK_segment_048.wav_seg25",
+        "GAS_LEAK_segment_005.wav_seg26",
+        "GAS_LEAK_segment_035.wav_seg27",
+        "GAS_LEAK_segment_042.wav_seg28",
+        "GAS_LEAK_segment_008.wav_seg29",
+        "GAS_LEAK_segment_013.wav_seg30",
+        "GAS_LEAK_segment_034.wav_seg31",
+        "GAS_LEAK_segment_040.wav_seg32",
+        "GAS_LEAK_segment_024.wav_seg33",
+        "GAS_LEAK_segment_005.wav_seg34",
+        "GAS_LEAK_segment_010.wav_seg35",
+        "GAS_LEAK_segment_020.wav_seg36",
+        "GAS_LEAK_segment_049.wav_seg37",
+        "GAS_LEAK_segment_046.wav_seg38",
+        "GAS_LEAK_segment_038.wav_seg39",
+        "GAS_LEAK_segment_046.wav_seg40",
+        "GAS_LEAK_segment_007.wav_seg41",
+        "GAS_LEAK_segment_040.wav_seg42",
+        "GAS_LEAK_segment_012.wav_seg43",
+        "GAS_LEAK_segment_039.wav_seg44",
+        "GAS_LEAK_segment_033.wav_seg45",
+        "GAS_LEAK_segment_009.wav_seg46",
+        "655804__nathvandykowi__gas-going-off.wav_seg47",
+        "GAS_LEAK_segment_023.wav_seg48",
+        "GAS_LEAK_segment_036.wav_seg49",
+        "GAS_LEAK_segment_015.wav_seg50"
+      ],
+      "scream": [
+        "556976__marc3122__male-screams-1_crop1.wav_seg1",
+        "655804__nathvandykowi__gas-going-off_crop1.wav_seg2",
+        "655804__nathvandykowi__gas-going-off_crop2.wav_seg3",
+        "338935__natemarler__human-male-scream-scared-pain_crop1.wav_seg4",
+        "556976__marc3122__male-screams-1_crop1.wav_seg5",
+        "655804__nathvandykowi__gas-going-off_crop2.wav_seg6",
+        "556976__marc3122__male-screams-1_crop5.wav_seg7",
+        "556976__marc3122__male-screams-1_crop1.wav_seg8",
+        "07034125_crop2.wav_seg9",
+        "556976__marc3122__male-screams-1_crop4.wav_seg10",
+        "556976__marc3122__male-screams-1_crop3.wav_seg11",
+        "556976__marc3122__male-screams-1_crop1.wav_seg12",
+        "556976__marc3122__male-screams-1_crop2.wav_seg13",
+        "07034124_crop1.wav_seg14",
+        "338935__natemarler__human-male-scream-scared-pain_crop1.wav_seg15",
+        "655804__nathvandykowi__gas-going-off_crop2.wav_seg16",
+        "556976__marc3122__male-screams-1_crop4.wav_seg17",
+        "556976__marc3122__male-screams-1_crop5.wav_seg18",
+        "338935__natemarler__human-male-scream-scared-pain_crop1.wav_seg19",
+        "556976__marc3122__male-screams-1_crop2.wav_seg20",
+        "07034126_crop1.wav_seg21",
+        "07034125_crop2.wav_seg22",
+        "338935__natemarler__human-male-scream-scared-pain_crop1.wav_seg23",
+        "07034126_crop1.wav_seg24",
+        "655804__nathvandykowi__gas-going-off_crop2.wav_seg25",
+        "07034125_crop2.wav_seg26",
+        "556976__marc3122__male-screams-1_crop6.wav_seg27",
+        "07034126_crop1.wav_seg28",
+        "07034117_crop1.wav_seg29",
+        "556976__marc3122__male-screams-1_crop1.wav_seg30",
+        "556976__marc3122__male-screams-1_crop4.wav_seg31",
+        "556976__marc3122__male-screams-1_crop6.wav_seg32",
+        "655804__nathvandykowi__gas-going-off_crop1.wav_seg33",
+        "556976__marc3122__male-screams-1_crop1.wav_seg34",
+        "556976__marc3122__male-screams-1_crop3.wav_seg35",
+        "556976__marc3122__male-screams-1_crop6.wav_seg36",
+        "328925__robinhood76__06101-scared-male-long-scream_crop1.wav_seg37",
+        "655804__nathvandykowi__gas-going-off_crop1.wav_seg38",
+        "07034125_crop1.wav_seg39",
+        "338935__natemarler__human-male-scream-scared-pain_crop1.wav_seg40",
+        "556976__marc3122__male-screams-1_crop4.wav_seg41",
+        "655804__nathvandykowi__gas-going-off_crop1.wav_seg42",
+        "07034124_crop1.wav_seg43",
+        "07034125_crop2.wav_seg44",
+        "07034125_crop2.wav_seg45",
+        "655804__nathvandykowi__gas-going-off_crop1.wav_seg46",
+        "07034117_crop1.wav_seg47",
+        "07034126_crop1.wav_seg48",
+        "328925__robinhood76__06101-scared-male-long-scream_crop1.wav_seg49",
+        "338935__natemarler__human-male-scream-scared-pain_crop1.wav_seg50"
+      ]
+    },
+    "final_stats": {
+      "total_frames": 6249,
+      "class_distribution": {
+        "silence": 1332,
+        "factory": 1474,
+        "fire": 1155,
+        "gas": 1175,
+        "scream": 1113
+      },
+      "target_vs_actual": {
+        "silence": {
+          "target": 1000,
+          "actual": 1332,
+          "accuracy": 133.20000000000002
+        },
+        "factory": {
+          "target": 1000,
+          "actual": 1474,
+          "accuracy": 147.4
+        },
+        "fire": {
+          "target": 1000,
+          "actual": 1155,
+          "accuracy": 115.5
+        },
+        "gas": {
+          "target": 1000,
+          "actual": 1175,
+          "accuracy": 117.5
+        },
+        "scream": {
+          "target": 1000,
+          "actual": 1113,
+          "accuracy": 111.3
+        }
+      }
+    },
+    "split_info": {
+      "train_samples": 4373,
+      "validation_samples": 938,
+      "test_samples": 938,
+      "train_ratio": 0.7,
+      "validation_ratio": 0.15,
+      "test_ratio": 0.15,
+      "split_files": {
+        "train": "c:\\Users\\dotor\\Desktop\\Realtime_Sound_Detection_Ver2\\results\\version_v2.05\\datasets\\split_dataset_v2.05_20250812_031758_train.npz",
+        "validation": "c:\\Users\\dotor\\Desktop\\Realtime_Sound_Detection_Ver2\\results\\version_v2.05\\datasets\\split_dataset_v2.05_20250812_031758_val.npz",
+        "test": "c:\\Users\\dotor\\Desktop\\Realtime_Sound_Detection_Ver2\\results\\version_v2.05\\datasets\\split_dataset_v2.05_20250812_031758_test.npz",
+        "metadata": "c:\\Users\\dotor\\Desktop\\Realtime_Sound_Detection_Ver2\\results\\version_v2.05\\datasets\\split_dataset_v2.05_20250812_031758_metadata.json"
+      },
+      "split_class_distribution": {
+        "train": {
+          "silence": 932,
+          "factory": 1032,
+          "fire": 808,
+          "gas": 822,
+          "scream": 779
+        },
+        "validation": {
+          "silence": 200,
+          "factory": 221,
+          "fire": 174,
+          "gas": 176,
+          "scream": 167
+        },
+        "test": {
+          "silence": 200,
+          "factory": 221,
+          "fire": 173,
+          "gas": 177,
+          "scream": 167
+        }
+      }
+    }
+  },
+  "epoch_logs": [
+    {
+      "epoch": 1,
+      "loss": 0.6411901712417603,
+      "accuracy": 0.8136290907859802,
+      "val_loss": 0.312223881483078,
+      "val_accuracy": 0.9125799536705017,
+      "precision": 0.8820255994796753,
+      "recall": 0.7249028086662292,
+      "val_precision": 0.9152360558509827,
+      "val_recall": 0.9093816876411438
+    },
+    {
+      "epoch": 2,
+      "loss": 0.3998410701751709,
+      "accuracy": 0.8920649290084839,
+      "val_loss": 0.296980619430542,
+      "val_accuracy": 0.914712131023407,
+      "precision": 0.9035437703132629,
+      "recall": 0.8804024457931519,
+      "val_precision": 0.9215896725654602,
+      "val_recall": 0.914712131023407
+    },
+    {
+      "epoch": 3,
+      "loss": 0.3803319036960602,
+      "accuracy": 0.8945803642272949,
+      "val_loss": 0.29980599880218506,
+      "val_accuracy": 0.916844367980957,
+      "precision": 0.904628336429596,
+      "recall": 0.8849759697914124,
+      "val_precision": 0.916844367980957,
+      "val_recall": 0.916844367980957
+    },
+    {
+      "epoch": 4,
+      "loss": 0.3696395754814148,
+      "accuracy": 0.8991538882255554,
+      "val_loss": 0.28926408290863037,
+      "val_accuracy": 0.9221748113632202,
+      "precision": 0.906657338142395,
+      "recall": 0.8906928896903992,
+      "val_precision": 0.92497318983078,
+      "val_recall": 0.9200426340103149
+    },
+    {
+      "epoch": 5,
+      "loss": 0.3533848822116852,
+      "accuracy": 0.9039561152458191,
+      "val_loss": 0.30957239866256714,
+      "val_accuracy": 0.9200426340103149,
+      "precision": 0.9117646813392639,
+      "recall": 0.8932083249092102,
+      "val_precision": 0.9247311949729919,
+      "val_recall": 0.916844367980957
+    },
+    {
+      "epoch": 6,
+      "loss": 0.3446890413761139,
+      "accuracy": 0.9025840163230896,
+      "val_loss": 0.27524229884147644,
+      "val_accuracy": 0.9253731369972229,
+      "precision": 0.910614550113678,
+      "recall": 0.8945803642272949,
+      "val_precision": 0.9305856823921204,
+      "val_recall": 0.914712131023407
+    },
+    {
+      "epoch": 7,
+      "loss": 0.3198247253894806,
+      "accuracy": 0.9117310643196106,
+      "val_loss": 0.2747165262699127,
+      "val_accuracy": 0.9232409596443176,
+      "precision": 0.919238805770874,
+      "recall": 0.9057855010032654,
+      "val_precision": 0.9271168112754822,
+      "val_recall": 0.9221748113632202
+    },
+    {
+      "epoch": 8,
+      "loss": 0.3155860900878906,
+      "accuracy": 0.9105876684188843,
+      "val_loss": 0.26290762424468994,
+      "val_accuracy": 0.9253731369972229,
+      "precision": 0.9176524877548218,
+      "recall": 0.9046421051025391,
+      "val_precision": 0.9280343651771545,
+      "val_recall": 0.9211087226867676
+    },
+    {
+      "epoch": 9,
+      "loss": 0.3077200949192047,
+      "accuracy": 0.9126457571983337,
+      "val_loss": 0.2837655544281006,
+      "val_accuracy": 0.9136460423469543,
+      "precision": 0.9183910489082336,
+      "recall": 0.9032700657844543,
+      "val_precision": 0.9143468737602234,
+      "val_recall": 0.9104477763175964
+    },
+    {
+      "epoch": 10,
+      "loss": 0.3058754503726959,
+      "accuracy": 0.9128744602203369,
+      "val_loss": 0.2689100503921509,
+      "val_accuracy": 0.9211087226867676,
+      "precision": 0.9184479713439941,
+      "recall": 0.9039561152458191,
+      "val_precision": 0.9229121804237366,
+      "val_recall": 0.9189765453338623
+    },
+    {
+      "epoch": 11,
+      "loss": 0.29381757974624634,
+      "accuracy": 0.9147038459777832,
+      "val_loss": 0.26879823207855225,
+      "val_accuracy": 0.9232409596443176,
+      "precision": 0.9204176068305969,
+      "recall": 0.9071575403213501,
+      "val_precision": 0.9248927235603333,
+      "val_recall": 0.9189765453338623
+    },
+    {
+      "epoch": 12,
+      "loss": 0.29323646426200867,
+      "accuracy": 0.9176766276359558,
+      "val_loss": 0.2659212648868561,
+      "val_accuracy": 0.9200426340103149,
+      "precision": 0.9215822219848633,
+      "recall": 0.9110450744628906,
+      "val_precision": 0.9287257194519043,
+      "val_recall": 0.916844367980957
+    },
+    {
+      "epoch": 13,
+      "loss": 0.2845584452152252,
+      "accuracy": 0.9147038459777832,
+      "val_loss": 0.2775019705295563,
+      "val_accuracy": 0.9189765453338623,
+      "precision": 0.9203417301177979,
+      "recall": 0.9115024209022522,
+      "val_precision": 0.9188900589942932,
+      "val_recall": 0.9179104566574097
+    },
+    {
+      "epoch": 14,
+      "loss": 0.2624224126338959,
+      "accuracy": 0.9222501516342163,
+      "val_loss": 0.2722511887550354,
+      "val_accuracy": 0.9211087226867676,
+      "precision": 0.9253284335136414,
+      "recall": 0.9181340336799622,
+      "val_precision": 0.9229946732521057,
+      "val_recall": 0.9200426340103149
+    },
+    {
+      "epoch": 15,
+      "loss": 0.2502842843532562,
+      "accuracy": 0.9268236756324768,
+      "val_loss": 0.26806527376174927,
+      "val_accuracy": 0.9264392256736755,
+      "precision": 0.930597186088562,
+      "recall": 0.922936201095581,
+      "val_precision": 0.9273504018783569,
+      "val_recall": 0.9253731369972229
+    },
+    {
+      "epoch": 16,
+      "loss": 0.2509758472442627,
+      "accuracy": 0.9263663291931152,
+      "val_loss": 0.2792215049266815,
+      "val_accuracy": 0.9200426340103149,
+      "precision": 0.9301572442054749,
+      "recall": 0.9197347164154053,
+      "val_precision": 0.9220085740089417,
+      "val_recall": 0.9200426340103149
+    },
+    {
+      "epoch": 17,
+      "loss": 0.24405671656131744,
+      "accuracy": 0.9275097250938416,
+      "val_loss": 0.2882804572582245,
+      "val_accuracy": 0.9179104566574097,
+      "precision": 0.9304367899894714,
+      "recall": 0.9206494688987732,
+      "val_precision": 0.9188033938407898,
+      "val_recall": 0.916844367980957
+    },
+    {
+      "epoch": 18,
+      "loss": 0.24249614775180817,
+      "accuracy": 0.9284244179725647,
+      "val_loss": 0.2722782790660858,
+      "val_accuracy": 0.9253731369972229,
+      "precision": 0.9307727813720703,
+      "recall": 0.9254516363143921,
+      "val_precision": 0.9259656667709351,
+      "val_recall": 0.9200426340103149
+    },
+    {
+      "epoch": 19,
+      "loss": 0.2301638424396515,
+      "accuracy": 0.9300251603126526,
+      "val_loss": 0.2733239531517029,
+      "val_accuracy": 0.9253731369972229,
+      "precision": 0.9341497421264648,
+      "recall": 0.924536943435669,
+      "val_precision": 0.9272727370262146,
+      "val_recall": 0.9243070483207703
+    },
+    {
+      "epoch": 20,
+      "loss": 0.22548453509807587,
+      "accuracy": 0.9325405955314636,
+      "val_loss": 0.27927732467651367,
+      "val_accuracy": 0.9179104566574097,
+      "precision": 0.9358177781105042,
+      "recall": 0.930253803730011,
+      "val_precision": 0.9197002053260803,
+      "val_recall": 0.9157782793045044
+    },
+    {
+      "epoch": 21,
+      "loss": 0.21892108023166656,
+      "accuracy": 0.9323118925094604,
+      "val_loss": 0.2836495339870453,
+      "val_accuracy": 0.9232409596443176,
+      "precision": 0.9350080490112305,
+      "recall": 0.9277383685112,
+      "val_precision": 0.9252136945724487,
+      "val_recall": 0.9232409596443176
+    },
+    {
+      "epoch": 22,
+      "loss": 0.22279523313045502,
+      "accuracy": 0.9300251603126526,
+      "val_loss": 0.2923979163169861,
+      "val_accuracy": 0.9211087226867676,
+      "precision": 0.9333333373069763,
+      "recall": 0.9252229332923889,
+      "val_precision": 0.9219251275062561,
+      "val_recall": 0.9189765453338623
+    },
+    {
+      "epoch": 23,
+      "loss": 0.214399516582489,
+      "accuracy": 0.9364280700683594,
+      "val_loss": 0.28157198429107666,
+      "val_accuracy": 0.9275053143501282,
+      "precision": 0.9387379288673401,
+      "recall": 0.932083249092102,
+      "val_precision": 0.9274279475212097,
+      "val_recall": 0.9264392256736755
+    },
+    {
+      "epoch": 24,
+      "loss": 0.20668216049671173,
+      "accuracy": 0.9339126348495483,
+      "val_loss": 0.28466081619262695,
+      "val_accuracy": 0.9253731369972229,
+      "precision": 0.9371980428695679,
+      "recall": 0.9316259026527405,
+      "val_precision": 0.9251337051391602,
+      "val_recall": 0.9221748113632202
+    },
+    {
+      "epoch": 25,
+      "loss": 0.20934012532234192,
+      "accuracy": 0.9345986843109131,
+      "val_loss": 0.28779181838035583,
+      "val_accuracy": 0.9243070483207703,
+      "precision": 0.9380326867103577,
+      "recall": 0.9311685562133789,
+      "val_precision": 0.9242262244224548,
+      "val_recall": 0.9232409596443176
+    },
+    {
+      "epoch": 26,
+      "loss": 0.20164622366428375,
+      "accuracy": 0.9398581981658936,
+      "val_loss": 0.29004859924316406,
+      "val_accuracy": 0.9243070483207703,
+      "precision": 0.942692756652832,
+      "recall": 0.9366567730903625,
+      "val_precision": 0.9242262244224548,
+      "val_recall": 0.9232409596443176
+    },
+    {
+      "epoch": 27,
+      "loss": 0.1979391872882843,
+      "accuracy": 0.9382575154304504,
+      "val_loss": 0.295511931180954,
+      "val_accuracy": 0.9232409596443176,
+      "precision": 0.9406896829605103,
+      "recall": 0.9357420802116394,
+      "val_precision": 0.9242262244224548,
+      "val_recall": 0.9232409596443176
+    },
+    {
+      "epoch": 28,
+      "loss": 0.19532935321331024,
+      "accuracy": 0.9391722083091736,
+      "val_loss": 0.2999134063720703,
+      "val_accuracy": 0.9221748113632202,
+      "precision": 0.9420955777168274,
+      "recall": 0.9375714659690857,
+      "val_precision": 0.9231590032577515,
+      "val_recall": 0.9221748113632202
+    },
+    {
+      "epoch": 29,
+      "loss": 0.1907605677843094,
+      "accuracy": 0.9391722083091736,
+      "val_loss": 0.2932727634906769,
+      "val_accuracy": 0.9253731369972229,
+      "precision": 0.9419622421264648,
+      "recall": 0.9352846741676331,
+      "val_precision": 0.9263607263565063,
+      "val_recall": 0.9253731369972229
+    },
+    {
+      "epoch": 30,
+      "loss": 0.19142231345176697,
+      "accuracy": 0.9400869011878967,
+      "val_loss": 0.29761746525764465,
+      "val_accuracy": 0.9243070483207703,
+      "precision": 0.9412439465522766,
+      "recall": 0.9378001093864441,
+      "val_precision": 0.9243070483207703,
+      "val_recall": 0.9243070483207703
+    },
+    {
+      "epoch": 31,
+      "loss": 0.18736526370048523,
+      "accuracy": 0.9391722083091736,
+      "val_loss": 0.2957405745983124,
+      "val_accuracy": 0.9264392256736755,
+      "precision": 0.9420556426048279,
+      "recall": 0.936885416507721,
+      "val_precision": 0.9274279475212097,
+      "val_recall": 0.9264392256736755
+    },
+    {
+      "epoch": 32,
+      "loss": 0.1862386167049408,
+      "accuracy": 0.9396295547485352,
+      "val_loss": 0.29959890246391296,
+      "val_accuracy": 0.9253731369972229,
+      "precision": 0.941879153251648,
+      "recall": 0.9375714659690857,
+      "val_precision": 0.9263607263565063,
+      "val_recall": 0.9253731369972229
+    },
+    {
+      "epoch": 33,
+      "loss": 0.19116902351379395,
+      "accuracy": 0.9405442476272583,
+      "val_loss": 0.2984990179538727,
+      "val_accuracy": 0.9243070483207703,
+      "precision": 0.9436522722244263,
+      "recall": 0.9382575154304504,
+      "val_precision": 0.926203191280365,
+      "val_recall": 0.9232409596443176
+    }
+  ],
+  "training_duration": {
+    "total_seconds": 28.42598,
+    "formatted": "0:00:28.425980"
+  }
+}
