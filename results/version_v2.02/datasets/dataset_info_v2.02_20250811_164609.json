@@ -1,0 +1,139 @@
+{
+  "config": {
+    "model_version": "v2.02",
+    "audio_duration": 10.0,
+    "sample_rate": 16000,
+    "num_classes": 5,
+    "class_names": [
+      "silence",
+      "factory",
+      "fire",
+      "gas",
+      "scream"
+    ]
+  },
+  "generation_stats": {
+    "silence": {
+      "samples_generated": 10,
+      "total_frames": 200,
+      "target_samples": 10
+    },
+    "factory": {
+      "samples_generated": 10,
+      "total_frames": 200,
+      "target_samples": 10
+    },
+    "fire": {
+      "samples_generated": 10,
+      "total_frames": 200,
+      "target_samples": 10
+    },
+    "gas": {
+      "samples_generated": 10,
+      "total_frames": 200,
+      "target_samples": 10
+    },
+    "scream": {
+      "samples_generated": 10,
+      "total_frames": 200,
+      "target_samples": 10
+    },
+    "transitions": {
+      "total_samples": 10,
+      "total_frames": 200,
+      "by_type": {
+        "silence_to_silence": 1,
+        "silence_to_factory": 2,
+        "silence_to_danger": 2,
+        "factory_to_factory": 1,
+        "factory_to_danger": 4
+      }
+    }
+  },
+  "files_used": {
+    "silence": [
+      "generated_silence_0",
+      "generated_silence_1",
+      "generated_silence_2",
+      "generated_silence_3",
+      "generated_silence_4",
+      "generated_silence_5",
+      "generated_silence_6",
+      "generated_silence_7",
+      "generated_silence_8",
+      "generated_silence_9"
+    ],
+    "factory": [
+      "mixture1.wav_seg0",
+      "mixture10.wav_seg0",
+      "mixture100.wav_seg0",
+      "mixture101.wav_seg0",
+      "mixture102.wav_seg0",
+      "mixture103.wav_seg0",
+      "mixture104.wav_seg0",
+      "mixture105.wav_seg0",
+      "mixture106.wav_seg0",
+      "mixture107.wav_seg0"
+    ],
+    "fire": [
+      "17742__krisboruff__fire_cracklesno-room.wav_seg0",
+      "414767__samarobryn__crackling-fire.wav_seg0",
+      "414767__samarobryn__crackling-fire.wav_seg1",
+      "414767__samarobryn__crackling-fire.wav_seg2",
+      "414767__samarobryn__crackling-fire.wav_seg3",
+      "414767__samarobryn__crackling-fire.wav_seg4",
+      "414767__samarobryn__crackling-fire.wav_seg5",
+      "510763__keleti__fire_crackling_1.wav_seg0",
+      "fire_00008014_000.wav_seg0",
+      "fire_00008014_001.wav_seg0"
+    ],
+    "gas": [
+      "655804__nathvandykowi__gas-going-off.wav_seg0",
+      "GAS_LEAK.wav_seg0",
+      "GAS_LEAK.wav_seg1",
+      "GAS_LEAK.wav_seg2",
+      "GAS_LEAK.wav_seg3",
+      "GAS_LEAK.wav_seg4",
+      "GAS_LEAK.wav_seg5",
+      "GAS_LEAK.wav_seg6",
+      "GAS_LEAK.wav_seg7",
+      "GAS_LEAK.wav_seg8"
+    ],
+    "scream": [
+      "07034117.wav_seg0",
+      "07034124.wav_seg0",
+      "07034125.wav_seg0",
+      "07034126.wav_seg0",
+      "328925__robinhood76__06101-scared-male-long-scream.wav_seg0",
+      "338935__natemarler__human-male-scream-scared-pain.wav_seg0",
+      "556976__marc3122__male-screams-1.mp3_seg0",
+      "07034117.wav_seg0",
+      "07034124.wav_seg0",
+      "07034125.wav_seg0"
+    ]
+  },
+  "final_stats": {
+    "total_frames": 1200,
+    "class_distribution": {
+      "silence": 247,
+      "factory": 289,
+      "fire": 228,
+      "gas": 222,
+      "scream": 214
+    }
+  },
+  "split_info": {
+    "train_samples": 840,
+    "validation_samples": 180,
+    "test_samples": 180,
+    "train_ratio": 0.7,
+    "validation_ratio": 0.15,
+    "test_ratio": 0.15,
+    "split_files": {
+      "train": "c:\\Users\\dotor\\Desktop\\Realtime_Sound_Detection\\results\\version_v2.02\\datasets\\split_dataset_v2.02_20250811_164609_train.npz",
+      "validation": "c:\\Users\\dotor\\Desktop\\Realtime_Sound_Detection\\results\\version_v2.02\\datasets\\split_dataset_v2.02_20250811_164609_val.npz",
+      "test": "c:\\Users\\dotor\\Desktop\\Realtime_Sound_Detection\\results\\version_v2.02\\datasets\\split_dataset_v2.02_20250811_164609_test.npz",
+      "metadata": "c:\\Users\\dotor\\Desktop\\Realtime_Sound_Detection\\results\\version_v2.02\\datasets\\split_dataset_v2.02_20250811_164609_metadata.json"
+    }
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "experiment_info": {
+    "timestamp": "2025-08-11T14:04:21.033910",
+    "version": "v2.0",
+    "config": {
+      "model_config": {
+        "version": "v2.0",
+        "audio_duration": 8.0,
+        "sample_rate": 16000
+      },
+      "training_config": {
+        "epochs": 50,
+        "batch_size": 16,
+        "learning_rate": 0.001,
+        "validation_split": 0.2,
+        "random_seed": 42,
+        "normalize_input": true,
+        "use_class_weights": true,
+        "dense_units": 256,
+        "lstm_units": 128,
+        "dropout_rate": 0.3,
+        "save_checkpoints": true,
+        "early_stopping": {
+          "enabled": true,
+          "patience": 10
+        },
+        "learning_rate_schedule": {
+          "enabled": true,
+          "factor": 0.5,
+          "patience": 5,
+          "min_lr": 1e-07
+        }
+      },
+      "data_generation_config": {
+        "target_frames_per_class": 2000,
+        "min_frames_for_augmentation": 500,
+        "transition_data_ratio": 0.2,
+        "auto_balance": true,
+        "allow_user_input": true
+      }
+    }
+  },
+  "results": {
+    "model_path": "C:\\Users\\dotor\\Desktop\\Realtime_Sound_Detection\\results\\version_v2.0\\models\\demo_model.h5",
+    "accuracy": 0.95,
+    "loss": 0.05,
+    "training_time": "30 minutes",
+    "dataset_size": 10000
+  }
+}
