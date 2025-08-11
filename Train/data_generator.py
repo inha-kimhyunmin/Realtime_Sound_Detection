@@ -20,6 +20,7 @@ import tensorflow as tf
 import tensorflow_hub as hub
 from tqdm import tqdm
 import matplotlib.pyplot as plt
+from datetime import datetime
 from config import *
 
 class DataGenerator:
@@ -95,61 +96,134 @@ class DataGenerator:
         print(f"  📁 silence: 무제한 생성 가능")
         
     def calculate_optimal_samples(self):
-        """클래스별 최적 샘플 수 계산"""
+        """클래스별 최적 샘플 수 계산 및 상세 분석"""
         target_frames = DATA_GENERATION_CONFIG['target_frames_per_class']
         frames_per_audio = get_audio_frames_count()
         
-        print("\n📊 클래스별 데이터 분석:")
-        print("-" * 60)
+        print("\n📊 클래스별 상세 데이터 분석:")
+        print("=" * 80)
+        print(f"🎯 목표: 클래스당 {target_frames:,}개 프레임")
+        print(f"📏 오디오당 프레임 수: {frames_per_audio}개")
+        print("=" * 80)
         
         recommendations = {}
         
         for class_name in ALL_CLASSES:
             available_frames = self.total_frames_available.get(class_name, 0)
-            base_samples_possible = available_frames // frames_per_audio
-            
-            # 데이터 증강 고려
-            if AUGMENTATION_CONFIG.get(class_name, {}).get('enabled', False):
-                max_aug = AUGMENTATION_CONFIG[class_name]['max_augmentations']
-                augmented_samples_possible = base_samples_possible * (1 + max_aug)
-            else:
-                augmented_samples_possible = base_samples_possible
+            base_samples_possible = available_frames // frames_per_audio if frames_per_audio > 0 else 0
             
             # 필요한 샘플 수 계산
-            needed_samples = target_frames // frames_per_audio
+            needed_samples = target_frames // frames_per_audio if frames_per_audio > 0 else 0
+            needed_frames_from_samples = needed_samples * frames_per_audio
             
             # 전환 데이터 기여분 계산
             transition_contribution = self._calculate_transition_contribution(class_name, frames_per_audio)
-            actual_needed = max(0, needed_samples - transition_contribution)
+            
+            # 실제 필요한 기본 샘플 수 (전환 데이터 고려)
+            remaining_frames_needed = max(0, target_frames - transition_contribution)
+            actual_needed_samples = remaining_frames_needed // frames_per_audio if frames_per_audio > 0 else 0
+            
+            # 증강 필요 여부 및 필요량 계산
+            shortage = max(0, actual_needed_samples - base_samples_possible)
+            
+            # 무음은 무제한, 다른 클래스는 증강으로 부족분 해결
+            if class_name == 'silence':
+                augmentation_needed = 0  # 무음은 무제한 생성 가능
+                can_achieve_target = True
+            else:
+                # 증강 활성화 확인
+                aug_config = AUGMENTATION_CONFIG.get(class_name, {})
+                if aug_config.get('enabled', False) and shortage > 0:
+                    # 증강으로 부족분 해결 (제한 없음)
+                    augmentation_needed = shortage
+                    can_achieve_target = True
+                else:
+                    # 증강 비활성화 또는 부족분 없음
+                    augmentation_needed = 0
+                    can_achieve_target = base_samples_possible >= actual_needed_samples
+            
+            # 총 예상 프레임 수 계산 (기본 + 증강 + 전환)
+            base_frames = min(base_samples_possible * frames_per_audio, remaining_frames_needed)
+            augmented_frames = augmentation_needed * frames_per_audio
+            total_estimated_frames = base_frames + augmented_frames + transition_contribution
             
             recommendations[class_name] = {
                 'available_frames': available_frames,
+                'target_frames': target_frames,
                 'base_samples_possible': base_samples_possible,
-                'augmented_samples_possible': augmented_samples_possible,
                 'needed_samples': needed_samples,
                 'transition_contribution': transition_contribution,
-                'actual_needed': actual_needed,
-                'need_augmentation': actual_needed > base_samples_possible,
-                'feasible': actual_needed <= augmented_samples_possible or class_name == 'silence'
+                'actual_needed_samples': actual_needed_samples,
+                'shortage_samples': shortage,
+                'augmentation_needed': augmentation_needed,
+                'estimated_total_frames': min(total_estimated_frames, target_frames),
+                'balance_ratio': min(total_estimated_frames, target_frames) / target_frames if target_frames > 0 else 0,
+                'need_augmentation': augmentation_needed > 0,
+                'feasible': can_achieve_target  # 증강 가능 여부를 고려한 실현가능성
             }
             
-            status = "✅" if recommendations[class_name]['feasible'] else "❌"
-            aug_status = "증강필요" if recommendations[class_name]['need_augmentation'] else "원본충분"
+            # 상세 정보 출력
+            print(f"\n📁 {class_name} ({CLASS_NAMES.get(class_name, class_name)}):")
+            print(f"  📊 가용 프레임: {available_frames:,}개")
+            print(f"  🎯 목표 프레임: {target_frames:,}개")
+            print(f"  📝 기본 샘플 가능: {base_samples_possible:,}개 → {base_frames:,}개 프레임")
+            print(f"  🔄 전환 데이터 기여: {transition_contribution:.0f}개 프레임")
+            print(f"  📊 실제 필요 샘플: {actual_needed_samples:,}개")
             
-            print(f"{status} {class_name:10} | 가용: {base_samples_possible:4d} | 필요: {actual_needed:4d} | {aug_status}")
+            if augmentation_needed > 0:
+                print(f"  🔧 증강 필요: {augmentation_needed:,}개 샘플 → {augmented_frames:,}개 프레임")
+                print(f"  ⚡ 증강 배율: {augmentation_needed/base_samples_possible:.1f}배" if base_samples_possible > 0 else "  ⚡ 증강 배율: 무한")
+            else:
+                print(f"  ✅ 증강 불필요")
             
-        print("-" * 60)
+            print(f"  📈 총 예상 프레임: {min(total_estimated_frames, target_frames):,.0f}개")
+            print(f"  ⚖️ 균형도: {min(total_estimated_frames, target_frames)/target_frames*100:.1f}%")
+            
+            # 상태 표시
+            if recommendations[class_name]['feasible']:
+                if augmentation_needed > 0:
+                    print(f"  🟡 상태: 증강 필요하지만 달성 가능")
+                else:
+                    print(f"  🟢 상태: 충분한 데이터 보유")
+            else:
+                aug_config = AUGMENTATION_CONFIG.get(class_name, {})
+                if not aug_config.get('enabled', False):
+                    print(f"  🔴 상태: 목표 달성 불가 (증강 비활성화)")
+                else:
+                    print(f"  🔴 상태: 목표 달성 불가 (데이터 부족)")  # 이 경우는 이제 발생하지 않아야 함
+            
+        print("\n" + "=" * 80)
         
-        # 전체 실현 가능성 확인
+        # 전체 균형 분석
+        balance_ratios = [rec['balance_ratio'] for rec in recommendations.values()]
+        min_balance = min(balance_ratios)
+        max_balance = max(balance_ratios)
+        balance_difference = max_balance - min_balance
+        
+        print(f"📊 전체 균형 분석:")
+        print(f"  - 최소 균형도: {min_balance*100:.1f}%")
+        print(f"  - 최대 균형도: {max_balance*100:.1f}%")
+        print(f"  - 균형 차이: {balance_difference*100:.1f}%p")
+        
+        if balance_difference < 0.05:  # 5% 이내
+            print(f"  ✅ 매우 균등한 분포 (차이 5% 이내)")
+        elif balance_difference < 0.1:  # 10% 이내
+            print(f"  🟡 양호한 분포 (차이 10% 이내)")
+        else:
+            print(f"  🔴 불균등한 분포 (차이 10% 초과)")
+        
+        # 실현 가능성 확인
         all_feasible = all(rec['feasible'] for rec in recommendations.values())
         
         if all_feasible:
-            print("✅ 모든 클래스의 목표 프레임 수 달성 가능")
+            print(f"  ✅ 모든 클래스의 목표 프레임 수 달성 가능")
         else:
-            print("❌ 일부 클래스의 목표 프레임 수 달성 불가능")
             infeasible = [name for name, rec in recommendations.items() if not rec['feasible']]
-            print(f"   문제 클래스: {', '.join(infeasible)}")
+            print(f"  ❌ 일부 클래스의 목표 프레임 수 달성 불가능")
+            print(f"     문제 클래스: {', '.join(infeasible)}")
             
+        print("=" * 80)
+        
         return recommendations
     
     def _calculate_transition_contribution(self, class_name, frames_per_audio):
@@ -160,66 +234,108 @@ class DataGenerator:
         contribution = 0
         transition_ratio = DATA_GENERATION_CONFIG['transition_data_ratio']
         
+        # 디버그 출력을 위한 상세 계산
+        details = []
+        
         # 각 전환 타입에서 해당 클래스가 차지하는 프레임 계산
         for trans_type, config in TRANSITION_CONFIG['types'].items():
             if not config['enabled']:
                 continue
                 
+            base_contribution = frames_per_audio * config['weight'] * transition_ratio
+            
             if trans_type == 'silence_to_silence' and class_name == 'silence':
-                contribution += frames_per_audio * config['weight'] * transition_ratio
+                contrib = base_contribution
+                contribution += contrib
+                details.append(f"    - {trans_type}: {contrib:.1f}프레임 (전체)")
+                
             elif trans_type == 'silence_to_factory' and class_name in ['silence', 'factory']:
                 # 전환 데이터에서 각 클래스가 차지하는 비율 추정 (50:50)
-                contribution += frames_per_audio * config['weight'] * transition_ratio * 0.5
+                contrib = base_contribution * 0.5
+                contribution += contrib
+                details.append(f"    - {trans_type}: {contrib:.1f}프레임 (50% 기여)")
+                
             elif trans_type == 'silence_to_danger' and (class_name == 'silence' or class_name in ACTIVE_DANGER_CLASSES):
-                contribution += frames_per_audio * config['weight'] * transition_ratio * 0.5
+                contrib = base_contribution * 0.5
+                contribution += contrib
+                details.append(f"    - {trans_type}: {contrib:.1f}프레임 (50% 기여)")
+                
             elif trans_type == 'factory_to_factory' and class_name == 'factory':
-                contribution += frames_per_audio * config['weight'] * transition_ratio
+                contrib = base_contribution
+                contribution += contrib
+                details.append(f"    - {trans_type}: {contrib:.1f}프레임 (전체)")
+                
             elif trans_type == 'factory_to_danger' and (class_name == 'factory' or class_name in ACTIVE_DANGER_CLASSES):
-                contribution += frames_per_audio * config['weight'] * transition_ratio * 0.5
+                contrib = base_contribution * 0.5
+                contribution += contrib
+                details.append(f"    - {trans_type}: {contrib:.1f}프레임 (50% 기여)")
+        
+        # 상세 계산 출력 (디버그용, 필요시 주석 해제)
+        # if details:
+        #     print(f"  🔄 {class_name} 전환 데이터 상세:")
+        #     for detail in details:
+        #         print(detail)
+        #     print(f"    💡 총 기여도: {contribution:.1f}프레임")
                 
         return int(contribution)
     
-    def get_user_input_for_samples(self, recommendations):
-        """사용자로부터 실제 생성할 샘플 수 입력받기"""
+    def get_user_input_for_frames(self, recommendations):
+        """사용자로부터 실제 생성할 프레임 수 입력받기"""
         if not DATA_GENERATION_CONFIG['allow_user_input']:
-            # 자동으로 권장값 사용
-            return {name: rec['actual_needed'] for name, rec in recommendations.items()}
+            # 자동으로 목표값 사용
+            target_frames = DATA_GENERATION_CONFIG['target_frames_per_class']
+            return {name: target_frames for name in ALL_CLASSES}
         
-        print(f"\n🎯 각 클래스별 생성할 샘플 수를 결정해주세요:")
-        print(f"💡 목표: 클래스당 {DATA_GENERATION_CONFIG['target_frames_per_class']}개 프레임")
-        print(f"📏 오디오당 프레임: {get_audio_frames_count()}개")
+        print(f"\n🎯 각 클래스별 생성할 프레임 수를 결정해주세요:")
+        print(f"💡 권장: 클래스당 {DATA_GENERATION_CONFIG['target_frames_per_class']}개 프레임 (균등 분배)")
+        print(f"📏 참고: 오디오당 평균 {get_audio_frames_count()}개 프레임")
         print("-" * 60)
         
-        user_samples = {}
+        user_frames = {}
         
         for class_name in ALL_CLASSES:
             rec = recommendations[class_name]
+            target_frames = DATA_GENERATION_CONFIG['target_frames_per_class']
+            
+            # 증강을 고려한 최대 가능 프레임 수 계산
+            if class_name == 'silence':
+                max_possible_frames = 999999  # 무음은 무제한
+            else:
+                # 증강이 활성화된 경우 이론적으로 무제한
+                aug_config = AUGMENTATION_CONFIG.get(class_name, {})
+                if aug_config.get('enabled', False):
+                    max_possible_frames = 999999  # 증강으로 무제한 생성 가능
+                else:
+                    max_possible_frames = rec['available_frames']  # 증강 비활성화시만 원본 제한
             
             print(f"\n📁 {class_name} ({CLASS_NAMES.get(class_name, class_name)}):")
-            print(f"  - 가용 원본 샘플: {rec['base_samples_possible']}개")
-            print(f"  - 증강 포함 최대: {rec['augmented_samples_possible']}개")
-            print(f"  - 권장 생성 수: {rec['actual_needed']}개")
+            if max_possible_frames >= 999999:
+                print(f"  - 가용 최대 프레임: 무제한 (증강 활성화)")
+            else:
+                print(f"  - 가용 최대 프레임: {max_possible_frames:,}개")
+            print(f"  - 권장 프레임 수: {target_frames:,}개")
             print(f"  - 전환 데이터 기여: {rec['transition_contribution']:.0f}개 프레임")
             
             while True:
                 try:
-                    user_input = input(f"  👉 생성할 샘플 수 (권장: {rec['actual_needed']}): ").strip()
+                    user_input = input(f"  👉 생성할 프레임 수 (권장: {target_frames:,}): ").strip()
                     
                     if user_input == "":
-                        samples = rec['actual_needed']
+                        frames = target_frames
                     else:
-                        samples = int(user_input)
+                        frames = int(user_input.replace(',', ''))
                     
-                    if samples < 0:
+                    if frames < 0:
                         print("     ❌ 음수는 입력할 수 없습니다.")
                         continue
                     
-                    if samples > rec['augmented_samples_possible'] and class_name != 'silence':
-                        print(f"     ❌ 최대 {rec['augmented_samples_possible']}개까지 가능합니다.")
+                    # 무제한 클래스가 아닌 경우에만 제한 검사
+                    if max_possible_frames < 999999 and frames > max_possible_frames:
+                        print(f"     ❌ 최대 {max_possible_frames:,}개까지 가능합니다.")
                         continue
                     
-                    user_samples[class_name] = samples
-                    print(f"     ✅ {samples}개 설정됨")
+                    user_frames[class_name] = frames
+                    print(f"     ✅ {frames:,}개 프레임 설정됨")
                     break
                     
                 except ValueError:
@@ -230,19 +346,27 @@ class DataGenerator:
         
         # 최종 확인
         print(f"\n📋 최종 데이터 생성 계획:")
-        total_samples = sum(user_samples.values())
-        for class_name, samples in user_samples.items():
-            frames = samples * get_audio_frames_count() + self._calculate_transition_contribution(class_name, get_audio_frames_count())
-            print(f"  - {class_name}: {samples}개 샘플 → 약 {frames:.0f}개 프레임")
+        total_frames = sum(user_frames.values())
+        for class_name, frames in user_frames.items():
+            percentage = (frames / total_frames) * 100 if total_frames > 0 else 0
+            print(f"  - {class_name}: {frames:,}개 프레임 ({percentage:.1f}%)")
         
-        print(f"\n총 {total_samples}개 샘플 생성 예정")
+        print(f"\n총 {total_frames:,}개 프레임 생성 예정")
+        
+        # 균등성 확인
+        frame_values = list(user_frames.values())
+        if len(set(frame_values)) == 1:
+            print("✅ 모든 클래스가 동일한 프레임 수로 설정됨 (완벽한 균형)")
+        else:
+            max_diff = max(frame_values) - min(frame_values)
+            print(f"⚠️  클래스간 프레임 수 차이: {max_diff:,}개")
         
         confirm = input("\n계속 진행하시겠습니까? (y/N): ").strip().lower()
         if confirm not in ['y', 'yes']:
             print("👋 중단됨")
             return None
             
-        return user_samples
+        return user_frames
     
     def generate_silence_audio(self, duration):
         """무음 오디오 생성 (다양한 배경노이즈 포함)"""
@@ -568,9 +692,9 @@ class DataGenerator:
             print(f"⚠️ YAMNet 임베딩 추출 실패: {e}")
             return None
     
-    def generate_dataset(self, sample_counts):
-        """전체 데이터셋 생성"""
-        print("\n🏭 데이터셋 생성 시작...")
+    def generate_dataset_by_frames(self, target_frames_per_class):
+        """목표 프레임 수에 맞춰 정확한 데이터셋 생성"""
+        print("\n🏭 프레임 기반 데이터셋 생성 시작...")
         
         all_embeddings = []
         all_labels = []
@@ -580,32 +704,33 @@ class DataGenerator:
                 'audio_duration': MODEL_CONFIG['audio_duration'],
                 'sample_rate': MODEL_CONFIG['sample_rate'],
                 'num_classes': NUM_CLASSES,
-                'class_names': ALL_CLASSES
+                'class_names': ALL_CLASSES,
+                'generation_mode': 'frame_based'
             },
             'generation_stats': {},
             'files_used': {}
         }
         
-        total_samples = sum(sample_counts.values())
-        pbar = tqdm(total=total_samples, desc="데이터 생성")
+        total_target_frames = sum(target_frames_per_class.values())
         
-        # 각 클래스별 기본 데이터 생성
-        for class_name, target_count in sample_counts.items():
-            if target_count == 0:
+        # 각 클래스별 정확한 프레임 수 생성
+        for class_name, target_frames in target_frames_per_class.items():
+            if target_frames == 0:
                 continue
                 
-            print(f"\n📁 {class_name} 클래스 생성 중... (목표: {target_count}개)")
-            
-            class_embeddings = []
-            class_labels = []
-            files_used = []
+            print(f"\n📁 {class_name} 클래스 생성 중... (목표: {target_frames:,}개 프레임)")
             
             class_idx = ALL_CLASSES.index(class_name)
-            frames_per_audio = get_audio_frames_count()
+            collected_frames = 0
+            generated_samples = 0
+            files_used = []
             
-            if class_name == 'silence':
-                # 무음 데이터 생성
-                for i in range(target_count):
+            # 프레임 수집 루프
+            while collected_frames < target_frames:
+                frames_needed = target_frames - collected_frames
+                
+                if class_name == 'silence':
+                    # 무음 데이터 생성
                     audio = self.generate_silence_audio(MODEL_CONFIG['audio_duration'])
                     
                     # 데이터 증강 적용 (확률적)
@@ -617,158 +742,152 @@ class DataGenerator:
                     
                     embeddings = self.extract_yamnet_embeddings(audio)
                     if embeddings is not None:
-                        labels = np.full(embeddings.shape[0], class_idx, dtype=int)
-                        class_embeddings.append(embeddings)
-                        class_labels.append(labels)
-                        files_used.append(f"generated_silence_{i}")
+                        available_frames = embeddings.shape[0]
+                        frames_to_use = min(available_frames, frames_needed)
+                        
+                        # 필요한 프레임만 선택
+                        selected_embeddings = embeddings[:frames_to_use]
+                        selected_labels = np.full(frames_to_use, class_idx, dtype=int)
+                        
+                        all_embeddings.extend(selected_embeddings)
+                        all_labels.extend(selected_labels)
+                        
+                        collected_frames += frames_to_use
+                        generated_samples += 1
+                        files_used.append(f"generated_silence_{generated_samples}")
+                        
+                        print(f"\r  진행률: {collected_frames:,}/{target_frames:,} "
+                              f"({collected_frames/target_frames*100:.1f}%)", end='')
+                        
+                else:
+                    # 실제 오디오 파일 사용
+                    if class_name not in self.audio_files or not self.audio_files[class_name]:
+                        print(f"⚠️ {class_name} 클래스의 오디오 파일이 없습니다.")
+                        break
                     
-                    pbar.update(1)
+                    # 랜덤하게 파일 선택
+                    file_path = np.random.choice(self.audio_files[class_name])
+                    audio = self.load_audio_file(file_path)
                     
-            else:
-                # 실제 오디오 파일 사용
-                if class_name not in self.audio_files or not self.audio_files[class_name]:
-                    print(f"⚠️ {class_name} 클래스의 오디오 파일이 없습니다.")
-                    continue
-                
-                files = self.audio_files[class_name]
-                generated_count = 0
-                
-                # 필요한 만큼 반복 생성
-                while generated_count < target_count:
-                    for file_path in files:
-                        if generated_count >= target_count:
-                            break
-                            
-                        audio = self.load_audio_file(file_path)
-                        if audio is None:
-                            continue
+                    if audio is None:
+                        continue
+                    
+                    # 세그먼트 추출
+                    segment = self.extract_audio_segment(audio, MODEL_CONFIG['audio_duration'])
+                    
+                    # 데이터 증강 적용 (필요시)
+                    if AUGMENTATION_CONFIG.get(class_name, {}).get('enabled', False):
+                        # 수집된 프레임이 목표의 50%를 넘으면 증강 적용
+                        if collected_frames > target_frames * 0.5:
+                            methods = AUGMENTATION_CONFIG[class_name]['methods']
+                            method = np.random.choice(methods)
+                            segment = self.apply_augmentation(segment, class_name, method)
+                    
+                    embeddings = self.extract_yamnet_embeddings(segment)
+                    if embeddings is not None:
+                        available_frames = embeddings.shape[0]
+                        frames_to_use = min(available_frames, frames_needed)
                         
-                        # 파일이 충분히 길면 여러 세그먼트 추출 가능
-                        duration = MODEL_CONFIG['audio_duration']
-                        sr = MODEL_CONFIG['sample_rate']
-                        target_length = int(duration * sr)
+                        # 필요한 프레임만 선택
+                        selected_embeddings = embeddings[:frames_to_use]
+                        selected_labels = np.full(frames_to_use, class_idx, dtype=int)
                         
-                        num_segments = max(1, len(audio) // target_length)
+                        all_embeddings.extend(selected_embeddings)
+                        all_labels.extend(selected_labels)
                         
-                        for seg_idx in range(num_segments):
-                            if generated_count >= target_count:
-                                break
-                            
-                            # 세그먼트 추출
-                            if seg_idx == 0:
-                                segment = self.extract_audio_segment(audio, duration)
-                            else:
-                                # 약간씩 겹치게 추출
-                                start_idx = int(seg_idx * target_length * 0.8)
-                                segment = audio[start_idx:start_idx + target_length]
-                                if len(segment) < target_length:
-                                    segment = self.extract_audio_segment(audio, duration)
-                            
-                            # 데이터 증강 적용 (필요시)
-                            if AUGMENTATION_CONFIG.get(class_name, {}).get('enabled', False):
-                                # 증강 필요성 판단
-                                base_samples = len(files) * num_segments
-                                if target_count > base_samples:
-                                    methods = AUGMENTATION_CONFIG[class_name]['methods']
-                                    method = np.random.choice(methods)
-                                    segment = self.apply_augmentation(segment, class_name, method)
-                            
-                            embeddings = self.extract_yamnet_embeddings(segment)
-                            if embeddings is not None:
-                                labels = np.full(embeddings.shape[0], class_idx, dtype=int)
-                                class_embeddings.append(embeddings)
-                                class_labels.append(labels)
-                                files_used.append(f"{os.path.basename(file_path)}_seg{seg_idx}")
-                                generated_count += 1
-                            
-                            pbar.update(1)
+                        collected_frames += frames_to_use
+                        generated_samples += 1
+                        files_used.append(f"{os.path.basename(file_path)}_seg{generated_samples}")
+                        
+                        print(f"\r  진행률: {collected_frames:,}/{target_frames:,} "
+                              f"({collected_frames/target_frames*100:.1f}%)", end='')
+            
+            print()  # 줄바꿈
             
             # 클래스별 통계 저장
-            if class_embeddings:
-                total_frames = sum(emb.shape[0] for emb in class_embeddings)
-                dataset_info['generation_stats'][class_name] = {
-                    'samples_generated': len(class_embeddings),
-                    'total_frames': total_frames,
-                    'target_samples': target_count
-                }
-                dataset_info['files_used'][class_name] = files_used
-                
-                all_embeddings.extend(class_embeddings)
-                all_labels.extend(class_labels)
+            dataset_info['generation_stats'][class_name] = {
+                'target_frames': target_frames,
+                'actual_frames': collected_frames,
+                'samples_generated': generated_samples,
+                'accuracy': collected_frames / target_frames if target_frames > 0 else 0
+            }
+            dataset_info['files_used'][class_name] = files_used
+            
+            print(f"  ✅ {class_name}: {collected_frames:,}/{target_frames:,} 프레임 "
+                  f"({collected_frames/target_frames*100:.1f}%)")
         
-        # 전환 데이터 생성
+        # 전환 데이터 생성 (선택적)
         if TRANSITION_CONFIG['enabled']:
             print(f"\n🔄 전환 데이터 생성 중...")
             
             transition_ratio = DATA_GENERATION_CONFIG['transition_data_ratio']
-            base_samples = len(all_embeddings)
-            transition_samples_needed = int(base_samples * transition_ratio / (1 - transition_ratio))
+            base_frames = len(all_embeddings)
+            transition_frames_needed = int(base_frames * transition_ratio / (1 - transition_ratio))
             
-            transition_embeddings = []
-            transition_labels = []
+            transition_collected = 0
             transition_files = []
             
             for trans_type, config in TRANSITION_CONFIG['types'].items():
                 if not config['enabled']:
                     continue
                     
-                type_samples = int(transition_samples_needed * config['weight'] / 
-                                 sum(c['weight'] for c in TRANSITION_CONFIG['types'].values() if c['enabled']))
+                type_frames_needed = int(transition_frames_needed * config['weight'] / 
+                                       sum(c['weight'] for c in TRANSITION_CONFIG['types'].values() if c['enabled']))
                 
-                for i in range(type_samples):
+                type_collected = 0
+                sample_count = 0
+                
+                while type_collected < type_frames_needed:
+                    frames_needed = type_frames_needed - type_collected
+                    
                     audio, labels = self.generate_transition_audio(trans_type, None, None)
                     embeddings = self.extract_yamnet_embeddings(audio)
                     
                     if embeddings is not None:
+                        available_frames = embeddings.shape[0]
+                        frames_to_use = min(available_frames, frames_needed)
+                        
                         # 라벨 길이 조정
                         if len(labels) != embeddings.shape[0]:
                             if len(labels) < embeddings.shape[0]:
-                                # 패딩
                                 labels = np.pad(labels, (0, embeddings.shape[0] - len(labels)), 
                                               mode='edge')
                             else:
-                                # 자르기
                                 labels = labels[:embeddings.shape[0]]
                         
-                        transition_embeddings.append(embeddings)
-                        transition_labels.append(labels)
-                        transition_files.append(f"{trans_type}_{i}")
+                        # 필요한 프레임만 선택
+                        selected_embeddings = embeddings[:frames_to_use]
+                        selected_labels = labels[:frames_to_use]
                         
-                        pbar.update(1)
+                        all_embeddings.extend(selected_embeddings)
+                        all_labels.extend(selected_labels)
+                        
+                        type_collected += frames_to_use
+                        transition_collected += frames_to_use
+                        sample_count += 1
+                        transition_files.append(f"{trans_type}_{sample_count}")
+                
+                print(f"  - {trans_type}: {type_collected:,}개 프레임")
             
-            if transition_embeddings:
-                all_embeddings.extend(transition_embeddings)
-                all_labels.extend(transition_labels)
-                
-                dataset_info['generation_stats']['transitions'] = {
-                    'total_samples': len(transition_embeddings),
-                    'total_frames': sum(emb.shape[0] for emb in transition_embeddings),
-                    'by_type': {}
-                }
-                
-                for trans_type in TRANSITION_CONFIG['types']:
-                    type_count = sum(1 for f in transition_files if f.startswith(trans_type))
-                    if type_count > 0:
-                        dataset_info['generation_stats']['transitions']['by_type'][trans_type] = type_count
+            dataset_info['generation_stats']['transitions'] = {
+                'target_frames': transition_frames_needed,
+                'actual_frames': transition_collected,
+                'samples_generated': len(transition_files),
+                'by_type': {}
+            }
+            
+            # 전환 타입별 통계
+            for trans_type in TRANSITION_CONFIG['types']:
+                type_count = sum(1 for f in transition_files if f.startswith(trans_type))
+                if type_count > 0:
+                    dataset_info['generation_stats']['transitions']['by_type'][trans_type] = type_count
         
-        pbar.close()
-        
-        # 데이터 정리 및 셔플
+        # 데이터 정리
         print("\n🔄 데이터 정리 중...")
         
-        # 모든 임베딩과 라벨을 하나의 배열로 합치기
         if all_embeddings:
-            # 프레임별 데이터로 변환
-            frame_embeddings = []
-            frame_labels = []
-            
-            for embeddings, labels in zip(all_embeddings, all_labels):
-                for frame_idx in range(embeddings.shape[0]):
-                    frame_embeddings.append(embeddings[frame_idx])
-                    frame_labels.append(labels[frame_idx])
-            
-            X = np.array(frame_embeddings)
-            y = np.array(frame_labels)
+            X = np.array(all_embeddings)
+            y = np.array(all_labels)
             
             # 셔플
             X, y = shuffle(X, y, random_state=42)
@@ -776,16 +895,39 @@ class DataGenerator:
             # 최종 통계
             print(f"\n📊 최종 데이터셋 통계:")
             print(f"  - 총 프레임 수: {len(X):,}개")
+            
+            # 클래스별 실제 프레임 수 확인
+            actual_class_frames = {}
             for class_idx, class_name in enumerate(ALL_CLASSES):
                 count = np.sum(y == class_idx)
                 percentage = count / len(y) * 100
-                print(f"  - {class_name}: {count:,}개 ({percentage:.1f}%)")
+                actual_class_frames[class_name] = count
+                target = target_frames_per_class.get(class_name, 0)
+                accuracy = (count / target * 100) if target > 0 else 0
+                print(f"  - {class_name}: {count:,}개 ({percentage:.1f}%) "
+                      f"[목표: {target:,}, 달성률: {accuracy:.1f}%]")
+            
+            # 균등성 검사
+            class_frame_counts = [actual_class_frames[name] for name in ALL_CLASSES 
+                                if target_frames_per_class.get(name, 0) > 0]
+            if class_frame_counts:
+                max_diff = max(class_frame_counts) - min(class_frame_counts)
+                if max_diff == 0:
+                    print("✅ 완벽한 클래스 균형 달성!")
+                else:
+                    print(f"📊 클래스간 최대 프레임 차이: {max_diff:,}개")
             
             dataset_info['final_stats'] = {
                 'total_frames': len(X),
-                'class_distribution': {
-                    class_name: int(np.sum(y == class_idx))
-                    for class_idx, class_name in enumerate(ALL_CLASSES)
+                'class_distribution': actual_class_frames,
+                'target_vs_actual': {
+                    name: {
+                        'target': target_frames_per_class.get(name, 0),
+                        'actual': actual_class_frames.get(name, 0),
+                        'accuracy': (actual_class_frames.get(name, 0) / target_frames_per_class.get(name, 1) * 100) 
+                                  if target_frames_per_class.get(name, 0) > 0 else 0
+                    }
+                    for name in ALL_CLASSES
                 }
             }
             
@@ -796,7 +938,7 @@ class DataGenerator:
 
 def main():
     """메인 실행 함수"""
-    print("🚀 YAMNet + LSTM 데이터 생성기")
+    print("🚀 YAMNet + LSTM 프레임 기반 데이터 생성기")
     print("=" * 60)
     
     # 설정 검증
@@ -813,16 +955,16 @@ def main():
     # 데이터 생성기 초기화
     generator = DataGenerator()
     
-    # 최적 샘플 수 계산
+    # 최적 샘플 수 계산 (참고용)
     recommendations = generator.calculate_optimal_samples()
     
-    # 사용자 입력 받기
-    sample_counts = generator.get_user_input_for_samples(recommendations)
-    if sample_counts is None:
+    # 프레임 수 입력 받기
+    target_frames_per_class = generator.get_user_input_for_frames(recommendations)
+    if target_frames_per_class is None:
         return
     
-    # 데이터셋 생성
-    X, y, dataset_info = generator.generate_dataset(sample_counts)
+    # 프레임 기반 데이터셋 생성
+    X, y, dataset_info = generator.generate_dataset_by_frames(target_frames_per_class)
     
     if X is not None:
         # 3-way 데이터 분할 (train/validation/test)
@@ -832,8 +974,34 @@ def main():
         # 분할된 데이터셋 저장
         split_paths = save_dataset_splits(X_train, X_val, X_test, y_train, y_val, y_test)
         
-        # 데이터셋 정보 저장
+        # 분할 후 클래스별 통계
+        print(f"\n📊 분할된 데이터셋 클래스별 통계:")
+        for split_name, split_data in [('Train', y_train), ('Validation', y_val), ('Test', y_test)]:
+            print(f"\n{split_name} 셋:")
+            for class_idx, class_name in enumerate(ALL_CLASSES):
+                count = np.sum(split_data == class_idx)
+                percentage = count / len(split_data) * 100 if len(split_data) > 0 else 0
+                print(f"  - {class_name}: {count:,}개 ({percentage:.1f}%)")
+        
+        # 데이터셋 정보 저장 (JSON 직렬화 가능하도록 변환)
         dataset_path = get_dataset_save_path()
+        
+        # NumPy 타입들을 Python 기본 타입으로 변환
+        def convert_numpy_types(obj):
+            if isinstance(obj, np.integer):
+                return int(obj)
+            elif isinstance(obj, np.floating):
+                return float(obj)
+            elif isinstance(obj, np.ndarray):
+                return obj.tolist()
+            elif isinstance(obj, dict):
+                return {key: convert_numpy_types(value) for key, value in obj.items()}
+            elif isinstance(obj, list):
+                return [convert_numpy_types(item) for item in obj]
+            return obj
+        
+        dataset_info = convert_numpy_types(dataset_info)
+        
         dataset_info['split_info'] = {
             'train_samples': len(X_train),
             'validation_samples': len(X_val),
@@ -841,7 +1009,15 @@ def main():
             'train_ratio': TRAINING_CONFIG['data_split']['train_ratio'],
             'validation_ratio': TRAINING_CONFIG['data_split']['validation_ratio'],
             'test_ratio': TRAINING_CONFIG['data_split']['test_ratio'],
-            'split_files': split_paths
+            'split_files': split_paths,
+            'split_class_distribution': {
+                'train': {class_name: int(np.sum(y_train == class_idx)) 
+                         for class_idx, class_name in enumerate(ALL_CLASSES)},
+                'validation': {class_name: int(np.sum(y_val == class_idx)) 
+                              for class_idx, class_name in enumerate(ALL_CLASSES)},
+                'test': {class_name: int(np.sum(y_test == class_idx)) 
+                        for class_idx, class_name in enumerate(ALL_CLASSES)}
+            }
         }
         
         with open(dataset_path, 'w', encoding='utf-8') as f:
@@ -849,12 +1025,100 @@ def main():
         
         print(f"\n💾 데이터셋 정보 저장: {dataset_path}")
         
+        # 분할된 데이터셋 통계를 별도 파일로 저장
+        split_stats_path = dataset_path.replace('dataset_info_', 'split_statistics_')
+        
+        # 분할 통계 상세 정보 생성
+        split_statistics = {
+            'metadata': {
+                'creation_time': datetime.now().isoformat(),
+                'model_version': MODEL_CONFIG['version'],
+                'total_samples': len(X),
+                'split_ratios': {
+                    'train': TRAINING_CONFIG['data_split']['train_ratio'],
+                    'validation': TRAINING_CONFIG['data_split']['validation_ratio'],
+                    'test': TRAINING_CONFIG['data_split']['test_ratio']
+                }
+            },
+            'split_summary': {
+                'train': {
+                    'total_samples': len(X_train),
+                    'percentage': len(X_train) / len(X) * 100
+                },
+                'validation': {
+                    'total_samples': len(X_val),
+                    'percentage': len(X_val) / len(X) * 100
+                },
+                'test': {
+                    'total_samples': len(X_test),
+                    'percentage': len(X_test) / len(X) * 100
+                }
+            },
+            'class_distribution': {
+                'train': {},
+                'validation': {},
+                'test': {}
+            },
+            'class_statistics': {}
+        }
+        
+        # 각 분할별 클래스 분포 계산
+        for split_name, y_split in [('train', y_train), ('validation', y_val), ('test', y_test)]:
+            total_split_samples = len(y_split)
+            
+            for class_idx, class_name in enumerate(ALL_CLASSES):
+                class_count = int(np.sum(y_split == class_idx))
+                class_percentage = (class_count / total_split_samples) * 100 if total_split_samples > 0 else 0
+                
+                split_statistics['class_distribution'][split_name][class_name] = {
+                    'count': class_count,
+                    'percentage': round(class_percentage, 1)
+                }
+        
+        # 클래스별 전체 통계
+        for class_idx, class_name in enumerate(ALL_CLASSES):
+            train_count = int(np.sum(y_train == class_idx))
+            val_count = int(np.sum(y_val == class_idx))
+            test_count = int(np.sum(y_test == class_idx))
+            total_class_count = train_count + val_count + test_count
+            
+            split_statistics['class_statistics'][class_name] = {
+                'total_samples': total_class_count,
+                'train': {
+                    'count': train_count,
+                    'percentage_of_class': round((train_count / total_class_count) * 100, 1) if total_class_count > 0 else 0,
+                    'percentage_of_split': round((train_count / len(X_train)) * 100, 1) if len(X_train) > 0 else 0
+                },
+                'validation': {
+                    'count': val_count,
+                    'percentage_of_class': round((val_count / total_class_count) * 100, 1) if total_class_count > 0 else 0,
+                    'percentage_of_split': round((val_count / len(X_val)) * 100, 1) if len(X_val) > 0 else 0
+                },
+                'test': {
+                    'count': test_count,
+                    'percentage_of_class': round((test_count / total_class_count) * 100, 1) if total_class_count > 0 else 0,
+                    'percentage_of_split': round((test_count / len(X_test)) * 100, 1) if len(X_test) > 0 else 0
+                }
+            }
+        
+        # 분할 통계 파일 저장
+        with open(split_stats_path, 'w', encoding='utf-8') as f:
+            json.dump(split_statistics, f, indent=2, ensure_ascii=False)
+        
+        print(f"📊 분할 통계 저장: {split_stats_path}")
+        
         # 전체 데이터도 저장 (호환성 유지)
         data_path = dataset_path.replace('.json', '.npz')
         np.savez_compressed(data_path, X=X, y=y)
         print(f"💾 전체 데이터 저장: {data_path}")
         
-        print("\n✅ 데이터 생성 및 분할 완료!")
+        # 최종 요약
+        print(f"\n✅ 프레임 기반 데이터 생성 및 분할 완료!")
+        print(f"📊 총 프레임: {len(X):,}개")
+        print(f"📂 Train: {len(X_train):,}개 ({len(X_train)/len(X)*100:.1f}%)")
+        print(f"📂 Validation: {len(X_val):,}개 ({len(X_val)/len(X)*100:.1f}%)")
+        print(f"📂 Test: {len(X_test):,}개 ({len(X_test)/len(X)*100:.1f}%)")
+        
         return data_path, dataset_path, split_paths
     else:
         print("\n❌ 데이터 생성 실패")

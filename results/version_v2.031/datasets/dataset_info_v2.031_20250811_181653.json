@@ -1,0 +1,171 @@
+{
+  "config": {
+    "model_version": "v2.031",
+    "audio_duration": 10.0,
+    "sample_rate": 16000,
+    "num_classes": 5,
+    "class_names": [
+      "silence",
+      "factory",
+      "fire",
+      "gas",
+      "scream"
+    ],
+    "generation_mode": "frame_based"
+  },
+  "generation_stats": {
+    "silence": {
+      "target_frames": 100,
+      "actual_frames": 100,
+      "samples_generated": 5,
+      "accuracy": 1.0
+    },
+    "factory": {
+      "target_frames": 100,
+      "actual_frames": 100,
+      "samples_generated": 5,
+      "accuracy": 1.0
+    },
+    "fire": {
+      "target_frames": 100,
+      "actual_frames": 100,
+      "samples_generated": 5,
+      "accuracy": 1.0
+    },
+    "gas": {
+      "target_frames": 100,
+      "actual_frames": 100,
+      "samples_generated": 5,
+      "accuracy": 1.0
+    },
+    "scream": {
+      "target_frames": 100,
+      "actual_frames": 100,
+      "samples_generated": 5,
+      "accuracy": 1.0
+    },
+    "transitions": {
+      "target_frames": 125,
+      "actual_frames": 123,
+      "samples_generated": 9,
+      "by_type": {
+        "silence_to_silence": 1,
+        "silence_to_factory": 2,
+        "silence_to_danger": 2,
+        "factory_to_factory": 1,
+        "factory_to_danger": 3
+      }
+    }
+  },
+  "files_used": {
+    "silence": [
+      "generated_silence_1",
+      "generated_silence_2",
+      "generated_silence_3",
+      "generated_silence_4",
+      "generated_silence_5"
+    ],
+    "factory": [
+      "mixture216.wav_seg1",
+      "mixture132.wav_seg2",
+      "mixture258.wav_seg3",
+      "mixture201.wav_seg4",
+      "mixture290.wav_seg5"
+    ],
+    "fire": [
+      "fire_07025148_052.wav_seg1",
+      "fire_NHU05002102_088.wav_seg2",
+      "fire_07025148_020.wav_seg3",
+      "fire_0009043_012.wav_seg4",
+      "510763__keleti__fire_crackling_1.wav_seg5"
+    ],
+    "gas": [
+      "GAS_LEAK.wav_seg1",
+      "GAS_LEAK.wav_seg2",
+      "655804__nathvandykowi__gas-going-off.wav_seg3",
+      "655804__nathvandykowi__gas-going-off.wav_seg4",
+      "Gas_Leak_Sound_Effect.wav_seg5"
+    ],
+    "scream": [
+      "338935__natemarler__human-male-scream-scared-pain.wav_seg1",
+      "338935__natemarler__human-male-scream-scared-pain.wav_seg2",
+      "07034117.wav_seg3",
+      "07034125.wav_seg4",
+      "338935__natemarler__human-male-scream-scared-pain.wav_seg5"
+    ]
+  },
+  "final_stats": {
+    "total_frames": 623,
+    "class_distribution": {
+      "silence": 133,
+      "factory": 154,
+      "fire": 107,
+      "gas": 120,
+      "scream": 109
+    },
+    "target_vs_actual": {
+      "silence": {
+        "target": 100,
+        "actual": 133,
+        "accuracy": 133.0
+      },
+      "factory": {
+        "target": 100,
+        "actual": 154,
+        "accuracy": 154.0
+      },
+      "fire": {
+        "target": 100,
+        "actual": 107,
+        "accuracy": 107.0
+      },
+      "gas": {
+        "target": 100,
+        "actual": 120,
+        "accuracy": 120.0
+      },
+      "scream": {
+        "target": 100,
+        "actual": 109,
+        "accuracy": 109.00000000000001
+      }
+    }
+  },
+  "split_info": {
+    "train_samples": 435,
+    "validation_samples": 94,
+    "test_samples": 94,
+    "train_ratio": 0.7,
+    "validation_ratio": 0.15,
+    "test_ratio": 0.15,
+    "split_files": {
+      "train": "c:\\Users\\dotor\\Desktop\\Realtime_Sound_Detection\\results\\version_v2.031\\datasets\\split_dataset_v2.031_20250811_181653_train.npz",
+      "validation": "c:\\Users\\dotor\\Desktop\\Realtime_Sound_Detection\\results\\version_v2.031\\datasets\\split_dataset_v2.031_20250811_181653_val.npz",
+      "test": "c:\\Users\\dotor\\Desktop\\Realtime_Sound_Detection\\results\\version_v2.031\\datasets\\split_dataset_v2.031_20250811_181653_test.npz",
+      "metadata": "c:\\Users\\dotor\\Desktop\\Realtime_Sound_Detection\\results\\version_v2.031\\datasets\\split_dataset_v2.031_20250811_181653_metadata.json"
+    },
+    "split_class_distribution": {
+      "train": {
+        "silence": 93,
+        "factory": 108,
+        "fire": 75,
+        "gas": 84,
+        "scream": 75
+      },
+      "validation": {
+        "silence": 20,
+        "factory": 23,
+        "fire": 16,
+        "gas": 18,
+        "scream": 17
+      },
+      "test": {
+        "silence": 20,
+        "factory": 23,
+        "fire": 16,
+        "gas": 18,
+        "scream": 17
+      }
+    }
+  }
+}

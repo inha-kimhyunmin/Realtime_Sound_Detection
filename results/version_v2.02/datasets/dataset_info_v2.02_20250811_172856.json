@@ -1,0 +1,186 @@
+{
+  "config": {
+    "model_version": "v2.02",
+    "audio_duration": 10.0,
+    "sample_rate": 16000,
+    "num_classes": 5,
+    "class_names": [
+      "silence",
+      "factory",
+      "fire",
+      "gas",
+      "scream"
+    ],
+    "generation_mode": "frame_based"
+  },
+  "generation_stats": {
+    "silence": {
+      "target_frames": 146,
+      "actual_frames": 146,
+      "samples_generated": 8,
+      "accuracy": 1.0
+    },
+    "factory": {
+      "target_frames": 146,
+      "actual_frames": 146,
+      "samples_generated": 8,
+      "accuracy": 1.0
+    },
+    "fire": {
+      "target_frames": 146,
+      "actual_frames": 146,
+      "samples_generated": 8,
+      "accuracy": 1.0
+    },
+    "gas": {
+      "target_frames": 146,
+      "actual_frames": 146,
+      "samples_generated": 8,
+      "accuracy": 1.0
+    },
+    "scream": {
+      "target_frames": 146,
+      "actual_frames": 146,
+      "samples_generated": 8,
+      "accuracy": 1.0
+    },
+    "transitions": {
+      "target_frames": 182,
+      "actual_frames": 180,
+      "samples_generated": 13,
+      "by_type": {
+        "silence_to_silence": 2,
+        "silence_to_factory": 2,
+        "silence_to_danger": 3,
+        "factory_to_factory": 2,
+        "factory_to_danger": 4
+      }
+    }
+  },
+  "files_used": {
+    "silence": [
+      "generated_silence_1",
+      "generated_silence_2",
+      "generated_silence_3",
+      "generated_silence_4",
+      "generated_silence_5",
+      "generated_silence_6",
+      "generated_silence_7",
+      "generated_silence_8"
+    ],
+    "factory": [
+      "mixture367.wav_seg1",
+      "mixture17.wav_seg2",
+      "mixture158.wav_seg3",
+      "mixture315.wav_seg4",
+      "mixture38.wav_seg5",
+      "mixture182.wav_seg6",
+      "mixture360.wav_seg7",
+      "mixture400.wav_seg8"
+    ],
+    "fire": [
+      "fire_07025148_032.wav_seg1",
+      "fire_NHU05010073_104.wav_seg2",
+      "fire_NHU05010073_094.wav_seg3",
+      "fire_NHU10242809_120.wav_seg4",
+      "fire_0009039_003.wav_seg5",
+      "fire_NHU05010073_100.wav_seg6",
+      "fire_07059050_057.wav_seg7",
+      "fire_NHU05002101_079.wav_seg8"
+    ],
+    "gas": [
+      "655804__nathvandykowi__gas-going-off.wav_seg1",
+      "655804__nathvandykowi__gas-going-off.wav_seg2",
+      "Gas_Leak_Sound_Effect.wav_seg3",
+      "Gas_Leak_Sound_Effect.wav_seg4",
+      "Gas_Leak_Sound_Effect.wav_seg5",
+      "655804__nathvandykowi__gas-going-off.wav_seg6",
+      "Gas_Leak_Sound_Effect.wav_seg7",
+      "655804__nathvandykowi__gas-going-off.wav_seg8"
+    ],
+    "scream": [
+      "556976__marc3122__male-screams-1.mp3_seg1",
+      "338935__natemarler__human-male-scream-scared-pain.wav_seg2",
+      "07034126.wav_seg3",
+      "328925__robinhood76__06101-scared-male-long-scream.wav_seg4",
+      "338935__natemarler__human-male-scream-scared-pain.wav_seg5",
+      "07034124.wav_seg6",
+      "07034124.wav_seg7",
+      "328925__robinhood76__06101-scared-male-long-scream.wav_seg8"
+    ]
+  },
+  "final_stats": {
+    "total_frames": 910,
+    "class_distribution": {
+      "silence": 196,
+      "factory": 221,
+      "fire": 168,
+      "gas": 167,
+      "scream": 158
+    },
+    "target_vs_actual": {
+      "silence": {
+        "target": 146,
+        "actual": 196,
+        "accuracy": 134.24657534246575
+      },
+      "factory": {
+        "target": 146,
+        "actual": 221,
+        "accuracy": 151.36986301369865
+      },
+      "fire": {
+        "target": 146,
+        "actual": 168,
+        "accuracy": 115.06849315068493
+      },
+      "gas": {
+        "target": 146,
+        "actual": 167,
+        "accuracy": 114.3835616438356
+      },
+      "scream": {
+        "target": 146,
+        "actual": 158,
+        "accuracy": 108.21917808219179
+      }
+    }
+  },
+  "split_info": {
+    "train_samples": 636,
+    "validation_samples": 137,
+    "test_samples": 137,
+    "train_ratio": 0.7,
+    "validation_ratio": 0.15,
+    "test_ratio": 0.15,
+    "split_files": {
+      "train": "C:\\Users\\dotor\\Desktop\\Realtime_Sound_Detection\\results\\version_v2.02\\datasets\\split_dataset_v2.02_20250811_172856_train.npz",
+      "validation": "C:\\Users\\dotor\\Desktop\\Realtime_Sound_Detection\\results\\version_v2.02\\datasets\\split_dataset_v2.02_20250811_172856_val.npz",
+      "test": "C:\\Users\\dotor\\Desktop\\Realtime_Sound_Detection\\results\\version_v2.02\\datasets\\split_dataset_v2.02_20250811_172856_test.npz",
+      "metadata": "C:\\Users\\dotor\\Desktop\\Realtime_Sound_Detection\\results\\version_v2.02\\datasets\\split_dataset_v2.02_20250811_172856_metadata.json"
+    },
+    "split_class_distribution": {
+      "train": {
+        "silence": 136,
+        "factory": 155,
+        "fire": 118,
+        "gas": 117,
+        "scream": 110
+      },
+      "validation": {
+        "silence": 30,
+        "factory": 33,
+        "fire": 25,
+        "gas": 25,
+        "scream": 24
+      },
+      "test": {
+        "silence": 30,
+        "factory": 33,
+        "fire": 25,
+        "gas": 25,
+        "scream": 24
+      }
+    }
+  }
+}

@@ -70,7 +70,7 @@ def initialize_paths():
 # 모델 및 훈련 설정
 # ================================
 MODEL_CONFIG = {
-    'version': 'v2.02',                    # 모델 버전
+    'version': 'v2.031',                    # 모델 버전
     'audio_duration': 10.0,                # 오디오 입력 길이 (초) [5.0 ~ 10.0]
     'sample_rate': 16000,                 # 샘플링 주파수
 }
@@ -149,7 +149,6 @@ AUGMENTATION_CONFIG = {
         'methods': ['noise_variation', 'volume_change'],
         'noise_types': ['white', 'pink', 'brown'],        # 노이즈 종류
         'volume_range': (0.1, 0.8),                       # 볼륨 범위
-        'max_augmentations': 3,                            # 원본당 최대 증강 수
     },
     'factory': {
         'enabled': True,
@@ -158,7 +157,6 @@ AUGMENTATION_CONFIG = {
         'reverb_decay': (0.1, 0.5),                       # 리버브 감쇠 시간
         'room_size': (0.1, 0.9),                          # 룸 크기
         'speed_range': (0.9, 1.1),                        # 속도 변화 범위
-        'max_augmentations': 4,                            # 원본당 최대 증강 수
     },
     'fire': {
         'enabled': True,
@@ -166,7 +164,6 @@ AUGMENTATION_CONFIG = {
         'snr_range': (5, 20),                             # SNR 범위 (dB)
         'volume_range': (0.8, 1.2),                       # 볼륨 범위
         'noise_level': (0.01, 0.05),                      # 노이즈 레벨
-        'max_augmentations': 500,                            # 원본당 최대 증강 수
     },
     'gas': {
         'enabled': True,
@@ -174,15 +171,14 @@ AUGMENTATION_CONFIG = {
         'snr_range': (8, 25),                             # SNR 범위 (dB)
         'volume_range': (0.8, 1.2),                       # 볼륨 범위
         'noise_level': (0.01, 0.05),                      # 노이즈 레벨
-        'max_augmentations': 500,                            # 원본당 최대 증강 수
     },
     'scream': {
         'enabled': True,
-        'methods': ['factory_mix', 'volume_change', 'reverb'],
+        'methods': ['factory_mix', 'volume_change', 'reverb', 'room_effect'],
         'snr_range': (10, 30),                            # SNR 범위 (dB)
-        'volume_range': (0.9, 1.1),                       # 볼륨 범위
+        'volume_range': (0.7, 1.3),                       # 볼륨 범위
+        'room_size': (0.1, 0.9),                          # 룸 크기
         'reverb_decay': (0.1, 0.3),                       # 리버브 감쇠 시간
-        'max_augmentations': 500,                            # 원본당 최대 증강 수
     }
 }
 
@@ -191,7 +187,7 @@ AUGMENTATION_CONFIG = {
 # ================================
 TRANSITION_CONFIG = {
     'enabled': True,
-    'fade_duration': 0.5,                                 # 페이드 전환 시간 (초)
+    'fade_duration': 0.2,                                 # 페이드 전환 시간 (초)
     
     # 전환 타입별 설정
     'types': {
@@ -233,11 +229,11 @@ TRANSITION_CONFIG = {
 # 데이터 생성 목표 설정
 # ================================
 DATA_GENERATION_CONFIG = {
-    'target_frames_per_class': 2000,                      # 클래스당 목표 프레임 수
+    'target_frames_per_class': 1000,                      # 클래스당 목표 프레임 수 (수정: 2000 → 1000)
     'min_frames_for_augmentation': 500,                   # 데이터 증강 시작 임계값
     'transition_data_ratio': 0.2,                         # 전환 데이터 비율 (전체의 20%)
     'auto_balance': True,                                  # 자동 클래스 균형 조정
-    'allow_user_input': True,                             # 사용자 입력 허용
+    'allow_user_input': True,                             # 사용자 입력 허용 (수정: True → False)
 }
 
 # ================================

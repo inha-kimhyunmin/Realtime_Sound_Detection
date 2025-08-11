@@ -82,9 +82,8 @@ def show_menu():
     print(f"  3. 📊 모델 평가 (evaluation.py)")
     print(f"  4. 🔄 전체 파이프라인 실행 (1→2→3)")
     print(f"  5. ⚙️ 설정 확인 및 수정")
-    print(f"  6. 🎵 평가용 오디오 경로 설정")
-    print(f"  7. 📁 결과 폴더 열기")
-    print(f"  8. ❓ 도움말")
+    print(f"  6. 📁 결과 폴더 열기")
+    print(f"  7. ❓ 도움말")
     print(f"  0. 🚪 종료")
 
 def run_data_generation():
@@ -183,11 +182,10 @@ def run_model_training(data_path=None):
         traceback.print_exc()
         return None
 
-def run_model_evaluation(model_path=None, custom_paths=None):
+def run_model_evaluation(model_path=None):
     """모델 평가 실행
     Args:
         model_path: 평가할 모델 파일 경로
-        custom_paths: 사용자 정의 오디오 파일 경로 딕셔너리
     """
     print(f"\n📊 모델 평가 시작...")
     print("=" * 60)
@@ -247,11 +245,6 @@ def run_model_evaluation(model_path=None, custom_paths=None):
         
         evaluator = ModelEvaluator(model_path)
         
-        # 사용자 정의 경로가 있으면 실제 오디오 테스트에서 사용
-        if custom_paths:
-            print(f"🎵 사용자 정의 경로로 실제 오디오 테스트 진행...")
-            # custom_paths를 test_audio_dir 형태로 변환하거나 나중에 사용
-        
         # 모델 로드
         if not evaluator.load_model():
             print(f"❌ 모델 로드 실패")
@@ -267,12 +260,16 @@ def run_model_evaluation(model_path=None, custom_paths=None):
             # 결과 출력
             evaluator.print_summary()
             
-            # 시각화
-            evaluator.plot_confusion_matrix()
-            evaluator.plot_class_accuracy()
+            # 평가 결과 저장을 위한 타임스탬프 생성
+            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
             
-            # 실제 오디오 테스트
-            evaluator.test_real_audio_files(num_samples=3)
+            # 시각화 이미지 저장 경로 설정
+            confusion_matrix_path = os.path.join(EVALUATION_RESULTS_DIR, f'confusion_matrix_{timestamp}.png')
+            f1_score_path = os.path.join(EVALUATION_RESULTS_DIR, f'f1_score_by_class_{timestamp}.png')
+            
+            # 시각화 (이미지 저장)
+            evaluator.plot_confusion_matrix(save_path=confusion_matrix_path)
+            evaluator.plot_class_accuracy(save_path=f1_score_path)
             
             # 보고서 저장
             evaluator.save_evaluation_report()
@@ -280,10 +277,6 @@ def run_model_evaluation(model_path=None, custom_paths=None):
             accuracy = results['accuracy']
             print(f"\n✅ 모델 평가 완료!")
             print(f"🎯 테스트 정확도: {accuracy:.4f}")
-            
-            if 'real_audio_test' in evaluator.evaluation_results:
-                real_acc = evaluator.evaluation_results['real_audio_test']['overall_accuracy']
-                print(f"🎵 실제 오디오 정확도: {real_acc:.4f}")
             
             print(f"📁 결과 폴더: {EVALUATION_RESULTS_DIR}")
             return results
@@ -372,63 +365,6 @@ def run_full_pipeline():
         }
         results['success'] = True
         
-        # 결과 저장
-        from config import save_experiment_summary
-        # datetime 객체는 JSON 직렬화 불가능하므로 복사본에서 처리
-        results_copy = results.copy()
-        
-        # 안전한 model_evaluation 처리
-        if ('model_evaluation' in results_copy and 
-            results_copy['model_evaluation'] is not None and 
-            isinstance(results_copy['model_evaluation'], dict) and
-            results_copy['model_evaluation'].get('evaluation_results')):
-            
-            # 복잡한 numpy 배열 등은 제거
-            eval_results = results_copy['model_evaluation']['evaluation_results']
-            if isinstance(eval_results, dict) and 'test_results' in eval_results:
-                eval_copy = eval_results.copy()
-                if 'test_results' in eval_copy and isinstance(eval_copy['test_results'], dict):
-                    eval_copy['test_results'] = {
-                        'overall_metrics': eval_copy['test_results'].get('overall_metrics', {})
-                    }
-                results_copy['model_evaluation']['evaluation_results'] = eval_copy
-        
-        save_experiment_summary(results_copy)
-        
-        print(f"\n🎉 전체 파이프라인 완료!")
-        print(f"⏱️ 총 소요 시간: {pipeline_duration}")
-        print(f"� 실험 요약이 저장되었습니다.")
-        
-        # 최종 성능 요약
-        model_eval = results.get('model_evaluation')
-        if (model_eval and 
-            isinstance(model_eval, dict) and 
-            model_eval.get('success') and 
-            model_eval.get('evaluation_results')):
-            
-            eval_results = model_eval['evaluation_results']
-            if (isinstance(eval_results, dict) and 
-                'test_results' in eval_results and 
-                isinstance(eval_results['test_results'], dict)):
-                
-                test_results = eval_results['test_results']
-                overall_metrics = test_results.get('overall_metrics', {})
-                
-                if 'accuracy' in overall_metrics:
-                    test_acc = overall_metrics['accuracy']
-                    print(f"\n📊 최종 성능 요약:")
-                    print(f"🎯 테스트 정확도: {test_acc:.4f}")
-                
-                # 실제 오디오 테스트 결과 확인
-                evaluation_results = eval_results.get('evaluation_results', {})
-                if (isinstance(evaluation_results, dict) and 
-                    'real_audio_test' in evaluation_results):
-                    
-                    real_audio_test = evaluation_results['real_audio_test']
-                    if isinstance(real_audio_test, dict) and 'overall_accuracy' in real_audio_test:
-                        real_acc = real_audio_test['overall_accuracy']
-                        print(f"🎵 실제 오디오 정확도: {real_acc:.4f}")
-        
         return results
         
     except Exception as e:
@@ -472,97 +408,14 @@ def show_config():
     
     # 평가용 경로 설정 출력 추가
     print(f"\n📂 평가용 오디오 경로:")
-    try:
-        import config
-        config.print_evaluation_paths()
-    except Exception as e:
-        print(f"⚠️ 평가 경로 정보를 가져올 수 없습니다: {e}")
+    print(f"  ⚠️ 현재 evaluation.py에서는 실제 오디오 테스트가 비활성화되어 있습니다.")
+    print(f"  📊 테스트는 훈련 시 분할된 테스트 데이터셋으로만 수행됩니다.")
 
 def configure_evaluation_paths():
-    """평가용 오디오 경로 설정"""
-    
-    print(f"\n🎵 평가용 오디오 경로 설정")
-    
-    try:
-        import config
-        print(f"📋 현재 클래스: {config.CLASS_NAMES}")
-        
-        # 현재 설정 출력
-        config.print_evaluation_paths()
-        
-        print(f"\n설정 옵션:")
-        print(f"  1. 현재 설정 그대로 사용")
-        print(f"  2. 특정 클래스 경로 변경")
-        print(f"  3. 모든 경로를 같은 폴더로 설정")
-        
-        choice = input("\n선택 (1-3): ").strip()
-        
-        custom_paths = None
-        
-        if choice == '1':
-            print("✅ 현재 설정을 사용합니다.")
-            
-        elif choice == '2':
-            custom_paths = config.EVALUATION_AUDIO_PATHS.copy()
-            
-            while True:
-                print(f"\n변경할 클래스를 선택하세요:")
-                class_names_list = list(config.CLASS_NAMES.keys())
-                for i, class_name in enumerate(class_names_list, 1):
-                    if class_name == 'silence':
-                        continue
-                    current_path = custom_paths.get(class_name, 'None')
-                    print(f"  {i}. {class_name}: {current_path}")
-                print(f"  0. 설정 완료")
-                
-                class_choice = input("\n클래스 번호: ").strip()
-                
-                if class_choice == '0':
-                    break
-                    
-                try:
-                    class_idx = int(class_choice) - 1
-                    class_names_list = list(config.CLASS_NAMES.keys())
-                    if 0 <= class_idx < len(class_names_list):
-                        selected_class = class_names_list[class_idx]
-                        if selected_class == 'silence':
-                            print("⚠️ silence 클래스는 설정할 수 없습니다.")
-                            continue
-                            
-                        new_path = input(f"\n{selected_class} 클래스의 새 경로: ").strip()
-                        if os.path.exists(new_path):
-                            custom_paths[selected_class] = new_path
-                            print(f"✅ {selected_class} 경로 업데이트: {new_path}")
-                        else:
-                            print(f"❌ 경로가 존재하지 않습니다: {new_path}")
-                    else:
-                        print("❌ 잘못된 번호입니다.")
-                except ValueError:
-                    print("❌ 숫자를 입력하세요.")
-                    
-        elif choice == '3':
-            folder_path = input("\n모든 클래스가 들어있는 폴더 경로: ").strip()
-            if os.path.exists(folder_path):
-                custom_paths = {}
-                for class_name in config.CLASS_NAMES:
-                    if class_name == 'silence':
-                        continue
-                    class_folder = os.path.join(folder_path, class_name)
-                    if os.path.exists(class_folder):
-                        custom_paths[class_name] = class_folder
-                        print(f"✅ {class_name}: {class_folder}")
-                    else:
-                        print(f"⚠️ {class_name} 폴더가 없습니다: {class_folder}")
-            else:
-                print(f"❌ 폴더가 존재하지 않습니다: {folder_path}")
-        else:
-            print("❌ 잘못된 선택입니다.")
-        
-        return custom_paths
-        
-    except Exception as e:
-        print(f"❌ 설정 중 오류 발생: {e}")
-        return None
+    """평가용 오디오 경로 설정 - 현재 비활성화됨"""
+    print(f"\n⚠️  실제 오디오 테스트는 현재 비활성화되어 있습니다.")
+    print(f"📊 평가는 훈련 시 분할된 테스트 데이터셋으로만 수행됩니다.")
+    return None
     print(f"  - 검증 분할: {TRAINING_CONFIG['validation_split']:.1%}")
     
     # 설정 수정 옵션
@@ -729,7 +582,7 @@ def main():
     while True:
         try:
             show_menu()
-            choice = input(f"\n선택하세요 (0-8): ").strip()
+            choice = input(f"\n선택하세요 (0-7): ").strip()
             
             if choice == '0':
                 print(f"\n👋 YAMNet + LSTM 훈련 시스템을 종료합니다.")
@@ -751,21 +604,16 @@ def main():
                 show_config()
                 
             elif choice == '6':
-                custom_paths = configure_evaluation_paths()
-                if custom_paths:
-                    print(f"✅ 평가용 경로가 설정되었습니다.")
-                
-            elif choice == '7':
                 open_results_folder()
                 
-            elif choice == '8':
+            elif choice == '7':
                 show_help()
                 
             else:
-                print(f"❌ 0-8 범위의 숫자를 입력해주세요.")
+                print(f"❌ 0-7 범위의 숫자를 입력해주세요.")
             
             # 계속 진행
-            if choice in ['1', '2', '3', '4', '6']:
+            if choice in ['1', '2', '3', '4']:
                 input(f"\n⏸️ 계속하려면 Enter를 누르세요...")
                 
         except KeyboardInterrupt:

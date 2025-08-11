@@ -1,0 +1,72 @@
+{
+  "experiment_info": {
+    "timestamp": "2025-08-11T17:53:25.746297",
+    "version": "v2.03",
+    "config": {
+      "model_config": {
+        "version": "v2.03",
+        "audio_duration": 10.0,
+        "sample_rate": 16000
+      },
+      "training_config": {
+        "epochs": 50,
+        "batch_size": 16,
+        "learning_rate": 0.001,
+        "validation_split": 0.2,
+        "random_seed": 42,
+        "normalize_input": true,
+        "use_class_weights": true,
+        "data_split": {
+          "train_ratio": 0.7,
+          "validation_ratio": 0.15,
+          "test_ratio": 0.15,
+          "stratify": true,
+          "shuffle": true
+        },
+        "dense_units": 256,
+        "lstm_units": 128,
+        "dropout_rate": 0.3,
+        "save_checkpoints": true,
+        "early_stopping": {
+          "enabled": true,
+          "patience": 10
+        },
+        "learning_rate_schedule": {
+          "enabled": true,
+          "factor": 0.5,
+          "patience": 5,
+          "min_lr": 1e-07
+        }
+      },
+      "data_generation_config": {
+        "target_frames_per_class": 1000,
+        "min_frames_for_augmentation": 500,
+        "transition_data_ratio": 0.2,
+        "auto_balance": true,
+        "allow_user_input": true
+      }
+    }
+  },
+  "results": {
+    "data_generation": {
+      "data_path": "c:\\Users\\dotor\\Desktop\\Realtime_Sound_Detection\\results\\version_v2.03\\datasets\\dataset_info_v2.03_20250811_175311.npz",
+      "info_path": "c:\\Users\\dotor\\Desktop\\Realtime_Sound_Detection\\results\\version_v2.03\\datasets\\dataset_info_v2.03_20250811_175311.json",
+      "success": true
+    },
+    "model_training": {
+      "model_path": "c:\\Users\\dotor\\Desktop\\Realtime_Sound_Detection\\results\\version_v2.03\\training\\yamnet_lstm_model_20250811_175324.h5",
+      "success": true
+    },
+    "model_evaluation": {
+      "success": false,
+      "error": "Dataset not found or evaluation failed"
+    },
+    "start_time": "2025-08-11T17:52:59.883415",
+    "success": true,
+    "end_time": "2025-08-11T17:53:25.746297",
+    "duration": {
+      "total_seconds": 25.862882,
+      "formatted": "0:00:25.862882"
+    }
+  }
+}

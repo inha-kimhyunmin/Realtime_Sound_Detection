@@ -277,11 +277,6 @@ class ModelEvaluator:
             print(f"📈 매크로 평균 F1-Score: {report['macro avg']['f1-score']:.4f}")
             print(f"📈 가중 평균 F1-Score: {report['weighted avg']['f1-score']:.4f}")
         
-        if 'real_audio_test' in self.evaluation_results:
-            real_test = self.evaluation_results['real_audio_test']
-            if 'overall' in real_test:
-                print(f"🎵 실제 오디오 테스트 정확도: {real_test['overall']['accuracy']:.4f}")
-        
         print("="*60)
 
 def find_latest_model(model_dir=None):

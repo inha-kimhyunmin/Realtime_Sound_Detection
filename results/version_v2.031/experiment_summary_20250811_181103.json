@@ -1,0 +1,108 @@
+{
+  "experiment_info": {
+    "timestamp": "2025-08-11T18:11:03.024302",
+    "version": "v2.031",
+    "config": {
+      "model_config": {
+        "version": "v2.031",
+        "audio_duration": 10.0,
+        "sample_rate": 16000
+      },
+      "training_config": {
+        "epochs": 50,
+        "batch_size": 16,
+        "learning_rate": 0.001,
+        "validation_split": 0.2,
+        "random_seed": 42,
+        "normalize_input": true,
+        "use_class_weights": true,
+        "data_split": {
+          "train_ratio": 0.7,
+          "validation_ratio": 0.15,
+          "test_ratio": 0.15,
+          "stratify": true,
+          "shuffle": true
+        },
+        "dense_units": 256,
+        "lstm_units": 128,
+        "dropout_rate": 0.3,
+        "save_checkpoints": true,
+        "early_stopping": {
+          "enabled": true,
+          "patience": 10
+        },
+        "learning_rate_schedule": {
+          "enabled": true,
+          "factor": 0.5,
+          "patience": 5,
+          "min_lr": 1e-07
+        }
+      },
+      "data_generation_config": {
+        "target_frames_per_class": 1000,
+        "min_frames_for_augmentation": 500,
+        "transition_data_ratio": 0.2,
+        "auto_balance": true,
+        "allow_user_input": true
+      }
+    }
+  },
+  "results": {
+    "data_generation": {
+      "data_path": "c:\\Users\\dotor\\Desktop\\Realtime_Sound_Detection\\results\\version_v2.031\\datasets\\dataset_info_v2.031_20250811_181049.npz",
+      "info_path": "c:\\Users\\dotor\\Desktop\\Realtime_Sound_Detection\\results\\version_v2.031\\datasets\\dataset_info_v2.031_20250811_181049.json",
+      "success": true
+    },
+    "model_training": {
+      "model_path": "c:\\Users\\dotor\\Desktop\\Realtime_Sound_Detection\\results\\version_v2.031\\training\\yamnet_lstm_model_20250811_181100.h5",
+      "success": true
+    },
+    "model_evaluation": {
+      "evaluation_results": {
+        "accuracy": 0.9893617021276596,
+        "classification_report": {
+          "Silence": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1-score": 1.0,
+            "support": 22.0
+          },
+          "Factory": {
+            "precision": 0.96,
+            "recall": 1.0,
+            "f1-score": 0.9795918367346939,
+            "support": 24.0
+          },
+          "Fire": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1-score": 1.0,
+            "support": 15.0
+          },
+          "Gas Leak": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1-score": 1.0,
+            "support": 17.0
+          },
+          "Scream": {
+            "precision": 1.0,
+            "recall": 0.9375,
+            "f1-score": 0.967741935483871,
+            "support": 16.0
+          },
+          "accuracy": 0.9893617021276596,
+          "macro avg": {
+            "precision": 0.992,
+            "recall": 0.9875,
+            "f1-score": 0.989466754443713,
+            "support": 94.0
+          },
+          "weighted avg": {
+            "precision": 0.9897872340425531,
+            "recall": 0.9893617021276596,
+            "f1-score": 0.9892986707380275,
+            "support": 94.0
+          }
+        },
+        "confusion_matrix": 
