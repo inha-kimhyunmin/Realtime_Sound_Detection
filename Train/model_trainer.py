@@ -80,7 +80,7 @@ class ModelTrainer:
         return X, y
     
     def load_presplit_data(self, data_base_name=None):
-        """미리 분할된 데이터 로드"""
+        """미리 분할된 데이터 로드 (길이 정보 포함)"""
         print("\n📊 분할된 데이터 로딩 중...")
         
         if data_base_name is None:
@@ -98,6 +98,45 @@ class ModelTrainer:
         # 분할된 파일 경로
         train_path = os.path.join(DATASET_SAVE_DIR, f"split_dataset_{data_base_name}_train.npz")
         val_path = os.path.join(DATASET_SAVE_DIR, f"split_dataset_{data_base_name}_val.npz")
+        test_path = os.path.join(DATASET_SAVE_DIR, f"split_dataset_{data_base_name}_test.npz")
+        
+        # 파일 존재 확인
+        for path in [train_path, val_path, test_path]:
+            if not os.path.exists(path):
+                print(f"⚠️ 분할 파일이 없습니다: {path}")
+                return None, None, None, None, None, None
+        
+        # 데이터 로드
+        train_data = np.load(train_path)
+        val_data = np.load(val_path)
+        
+        X_train = train_data['X']
+        y_train = train_data['y']
+        X_val = val_data['X']
+        y_val = val_data['y']
+        
+        # 길이 정보 로드 (있는 경우)
+        lengths_train = train_data.get('lengths', None)
+        lengths_val = val_data.get('lengths', None)
+        
+        print(f"📂 Train 데이터: {train_path}")
+        print(f"📂 Validation 데이터: {val_path}")
+        print(f"  - 훈련 데이터: {len(X_train):,}개")
+        print(f"  - 검증 데이터: {len(X_val):,}개")
+        
+        if lengths_train is not None:
+            print(f"  - 시퀀스 길이 정보 포함됨")
+            print(f"    훈련 데이터 길이: 평균 {np.mean(lengths_train):.1f}, 범위 {np.min(lengths_train)}-{np.max(lengths_train)}")
+            print(f"    검증 데이터 길이: 평균 {np.mean(lengths_val):.1f}, 범위 {np.min(lengths_val)}-{np.max(lengths_val)}")
+        
+        # 클래스별 분포 출력
+        print(f"\n📊 클래스별 분포:")
+        for class_idx, class_name in enumerate(ALL_CLASSES):
+            train_count = np.sum(y_train == class_idx)
+            val_count = np.sum(y_val == class_idx)
+            print(f"  - {class_name}: Train {train_count}, Val {val_count}")
+        
+        return X_train, X_val, y_train, y_val, train_path, val_path
         
         if not (os.path.exists(train_path) and os.path.exists(val_path)):
             print(f"⚠️ 분할된 데이터가 없습니다: {train_path}, {val_path}")
@@ -137,16 +176,28 @@ class ModelTrainer:
                 X_train, X_val, y_train, y_val, train_path, val_path = split_data
                 print("✅ 기존 분할된 데이터 사용")
                 
-                # 클래스 가중치 계산 (훈련 데이터 기준)
+                # 클래스 가중치 계산 또는 로드
                 if TRAINING_CONFIG['use_class_weights']:
-                    print("  - 클래스 가중치 계산")
-                    unique_classes = np.unique(y_train)
-                    class_weights_array = compute_class_weight(
-                        'balanced', 
-                        classes=unique_classes, 
-                        y=y_train
-                    )
-                    self.class_weights = dict(zip(unique_classes, class_weights_array))
+                    print("  - 클래스 가중치 설정")
+                    
+                    # 데이터셋 정보에서 사전 계산된 가중치 로드 시도
+                    if (hasattr(self, 'training_info') and 
+                        'dataset_info' in self.training_info and 
+                        'class_weights' in self.training_info['dataset_info']):
+                        
+                        print("    기존 계산된 클래스 가중치 사용")
+                        saved_weights = self.training_info['dataset_info']['class_weights']
+                        self.class_weights = {int(k): float(v) for k, v in saved_weights.items()}
+                        
+                    else:
+                        print("    훈련 데이터 기준 클래스 가중치 계산")
+                        unique_classes = np.unique(y_train)
+                        class_weights_array = compute_class_weight(
+                            'balanced', 
+                            classes=unique_classes, 
+                            y=y_train
+                        )
+                        self.class_weights = dict(zip(unique_classes, class_weights_array))
                     
                     print("    클래스 가중치:")
                     for class_idx, weight in self.class_weights.items():
@@ -175,16 +226,28 @@ class ModelTrainer:
                 'std': X_std.tolist()
             }
         
-        # 클래스 가중치 계산
+        # 클래스 가중치 계산 또는 로드
         if TRAINING_CONFIG['use_class_weights']:
-            print("  - 클래스 가중치 계산")
-            unique_classes = np.unique(y)
-            class_weights_array = compute_class_weight(
-                'balanced', 
-                classes=unique_classes, 
-                y=y
-            )
-            self.class_weights = dict(zip(unique_classes, class_weights_array))
+            print("  - 클래스 가중치 설정")
+            
+            # 데이터셋 정보에서 사전 계산된 가중치 로드 시도
+            if (hasattr(self, 'training_info') and 
+                'dataset_info' in self.training_info and 
+                'class_weights' in self.training_info['dataset_info']):
+                
+                print("    기존 계산된 클래스 가중치 사용")
+                saved_weights = self.training_info['dataset_info']['class_weights']
+                self.class_weights = {int(k): float(v) for k, v in saved_weights.items()}
+                
+            else:
+                print("    전체 데이터 기준 클래스 가중치 계산")
+                unique_classes = np.unique(y)
+                class_weights_array = compute_class_weight(
+                    'balanced', 
+                    classes=unique_classes, 
+                    y=y
+                )
+                self.class_weights = dict(zip(unique_classes, class_weights_array))
             
             print("    클래스 가중치:")
             for class_idx, weight in self.class_weights.items():
@@ -225,6 +288,9 @@ class ModelTrainer:
         
         model = keras.Sequential([
             layers.Input(shape=input_shape),
+            
+            # Masking 레이어 - 패딩된 부분 (0으로 채워진 부분) 무시
+            layers.Masking(mask_value=0.0, name='masking'),
             
             # 첫 번째 LSTM 레이어 - 시퀀스를 유지하며 패턴 학습
             layers.LSTM(

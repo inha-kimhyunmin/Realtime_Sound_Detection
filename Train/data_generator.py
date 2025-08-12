@@ -699,9 +699,365 @@ class DataGenerator:
             print(f"⚠️ YAMNet 임베딩 추출 실패: {e}")
             return None
     
-    def generate_sequence_dataset(self, target_samples_per_class):
-        """시퀀스 기반 데이터셋 생성 (LSTM용)"""
+    def generate_transition_sequences(self, total_base_sequences):
+        """전환 데이터 시퀀스 생성 - 설정 비율에 맞게"""
+        transition_sequences = []
+        transition_labels = []
+        transition_frame_counts = []
+        
+        # 전환 데이터 총 개수 계산 (설정 비율 적용)
+        transition_ratio = DATA_GENERATION_CONFIG['transition_data_ratio']
+        total_transition_sequences = int(total_base_sequences * transition_ratio / (1 - transition_ratio))
+        
+        print(f"🔄 전환 데이터 생성:")
+        print(f"  - 기본 시퀀스: {total_base_sequences}개")
+        print(f"  - 전환 비율: {transition_ratio:.1%}")
+        print(f"  - 전환 시퀀스 목표: {total_transition_sequences}개")
+        
+        # 활성화된 전환 타입들의 총 가중치 계산
+        enabled_types = {k: v for k, v in TRANSITION_CONFIG['types'].items() if v.get('enabled', True)}
+        total_weight = sum(config['weight'] for config in enabled_types.values())
+        
+        # 각 전환 타입별 생성 개수 계산
+        for trans_type, config in enabled_types.items():
+            type_weight = config['weight']
+            samples_for_type = int(total_transition_sequences * type_weight / total_weight)
+            
+            print(f"  🔄 {trans_type}: 가중치 {type_weight:.1f} → {samples_for_type}개 생성")
+            
+            for i in range(samples_for_type):
+                try:
+                    # 전환 오디오 생성
+                    if 'silence_to_' in trans_type:
+                        # 무음에서 다른 소리로 전환
+                        target_class = trans_type.replace('silence_to_', '')
+                        if target_class == 'danger':
+                            target_class = np.random.choice(ACTIVE_DANGER_CLASSES)
+                        
+                        transition_audio, labels = self.generate_transition_audio(trans_type, 'silence', target_class)
+                        
+                    elif '_to_silence' in trans_type:
+                        # 다른 소리에서 무음으로 전환
+                        source_class = trans_type.replace('_to_silence', '')
+                        if source_class == 'danger':
+                            source_class = np.random.choice(ACTIVE_DANGER_CLASSES)
+                            
+                        transition_audio, labels = self.generate_transition_audio(trans_type, source_class, 'silence')
+                        
+                    elif 'danger_to_danger' in trans_type:
+                        # 위험 소리 간 전환
+                        source_class = np.random.choice(ACTIVE_DANGER_CLASSES)
+                        target_class = np.random.choice(ACTIVE_DANGER_CLASSES)
+                        while target_class == source_class:
+                            target_class = np.random.choice(ACTIVE_DANGER_CLASSES)
+                            
+                        transition_audio, labels = self.generate_transition_audio(trans_type, source_class, target_class)
+                    
+                    elif 'factory_to_factory' in trans_type:
+                        # 공장 소리 내 전환
+                        transition_audio, labels = self.generate_transition_audio(trans_type, 'factory', 'factory')
+                        
+                    elif 'factory_to_danger' in trans_type:
+                        # 공장에서 위험 소리로 전환
+                        target_class = np.random.choice(ACTIVE_DANGER_CLASSES)
+                        transition_audio, labels = self.generate_transition_audio(trans_type, 'factory', target_class)
+                    
+                    else:
+                        continue
+                    
+                    if transition_audio is not None:
+                        embeddings = self.extract_yamnet_embeddings(transition_audio)
+                        if embeddings is not None:
+                            transition_sequences.append(embeddings)
+                            
+                            # 전환 지점 기준으로 라벨 결정
+                            transition_point = len(labels) // 2
+                            if len(labels) > transition_point:
+                                # 전환 후 클래스를 주 라벨로 사용
+                                main_label = labels[transition_point:]
+                                if len(main_label) > 0:
+                                    label_counts = np.bincount(main_label)
+                                    majority_label = np.argmax(label_counts)
+                                else:
+                                    majority_label = labels[-1] if len(labels) > 0 else 0
+                            else:
+                                majority_label = labels[-1] if len(labels) > 0 else 0
+                            
+                            transition_labels.append(majority_label)
+                            transition_frame_counts.append(embeddings.shape[0])
+                            
+                except Exception as e:
+                    print(f"    ⚠️ 전환 데이터 생성 실패: {e}")
+                    continue
+            
+            print(f"    ✅ {trans_type}: 생성 완료")
+        
+        actual_generated = len(transition_sequences)
+        print(f"  📊 실제 생성된 전환 시퀀스: {actual_generated}개")
+        print(f"  📊 목표 대비 달성률: {actual_generated/total_transition_sequences*100:.1f}%")
+        
+        return transition_sequences, transition_labels, transition_frame_counts
+    
+    def generate_sequence_dataset(self, samples_per_class):
+        """시퀀스 기반 데이터셋 생성 (오디오별 완전한 시퀀스)"""
         print("\n🏭 시퀀스 기반 데이터셋 생성 시작...")
+        
+        all_sequences = []
+        all_labels = []
+        all_frame_counts = []  # 각 시퀀스의 유효 프레임 수 저장
+        sequence_lengths = []  # 패딩 전 실제 길이 저장
+        
+        dataset_info = {
+            'config': {
+                'model_version': MODEL_CONFIG['version'],
+                'audio_duration': MODEL_CONFIG['audio_duration'],
+                'sample_rate': MODEL_CONFIG['sample_rate'],
+                'num_classes': NUM_CLASSES,
+                'class_names': ALL_CLASSES,
+                'generation_mode': 'full_sequence'
+            },
+            'generation_stats': {},
+            'files_used': {},
+            'frame_statistics': {}
+        }
+        
+        # 각 클래스별 시퀀스 생성
+        for class_name, target_samples in samples_per_class.items():
+            if target_samples == 0:
+                continue
+                
+            print(f"\n📁 {class_name} 클래스 생성 중... (목표: {target_samples:,}개 시퀀스)")
+            
+            class_idx = ALL_CLASSES.index(class_name)
+            collected_samples = 0
+            files_used = []
+            class_frame_counts = []
+            
+            while collected_samples < target_samples:
+                if class_name == 'silence':
+                    # 무음 데이터 생성
+                    audio = self.generate_silence_audio(MODEL_CONFIG['audio_duration'])
+                    
+                    # 데이터 증강 적용
+                    if AUGMENTATION_CONFIG.get(class_name, {}).get('enabled', False):
+                        if np.random.random() < 0.3:
+                            methods = AUGMENTATION_CONFIG[class_name]['methods']
+                            method = np.random.choice(methods)
+                            audio = self.apply_augmentation(audio, class_name, method)
+                    
+                    embeddings = self.extract_yamnet_embeddings(audio)
+                    if embeddings is not None:
+                        # 전체 시퀀스를 하나의 샘플로 저장
+                        all_sequences.append(embeddings)
+                        all_labels.append(class_idx)
+                        class_frame_counts.append(embeddings.shape[0])
+                        sequence_lengths.append(embeddings.shape[0])  # 실제 길이 저장
+                        collected_samples += 1
+                        files_used.append(f"silence_{collected_samples}")
+                
+                elif class_name == 'factory':
+                    # 공장 소리 처리
+                    if not self.audio_files.get(class_name):
+                        print(f"⚠️ {class_name} 오디오 파일이 없습니다.")
+                        break
+                    
+                    audio_file = np.random.choice(self.audio_files[class_name])
+                    audio = self.load_audio_segment(audio_file, duration=MODEL_CONFIG['audio_duration'])
+                    
+                    if audio is not None:
+                        if AUGMENTATION_CONFIG.get(class_name, {}).get('enabled', False):
+                            if np.random.random() < 0.4:
+                                methods = AUGMENTATION_CONFIG[class_name]['methods']
+                                method = np.random.choice(methods)
+                                audio = self.apply_augmentation(audio, class_name, method)
+                        
+                        embeddings = self.extract_yamnet_embeddings(audio)
+                        if embeddings is not None:
+                            all_sequences.append(embeddings)
+                            all_labels.append(class_idx)
+                            class_frame_counts.append(embeddings.shape[0])
+                            sequence_lengths.append(embeddings.shape[0])  # 실제 길이 저장
+                            collected_samples += 1
+                            files_used.append(os.path.basename(audio_file))
+                
+                else:
+                    # 위험 소리 클래스들
+                    if not self.audio_files.get(class_name):
+                        print(f"⚠️ {class_name} 오디오 파일이 없습니다.")
+                        break
+                    
+                    audio_file = np.random.choice(self.audio_files[class_name])
+                    audio = self.load_audio_segment(audio_file, duration=MODEL_CONFIG['audio_duration'])
+                    
+                    if audio is not None:
+                        if AUGMENTATION_CONFIG.get(class_name, {}).get('enabled', False):
+                            if np.random.random() < 0.6:
+                                methods = AUGMENTATION_CONFIG[class_name]['methods']
+                                method = np.random.choice(methods)
+                                audio = self.apply_augmentation(audio, class_name, method)
+                        
+                        embeddings = self.extract_yamnet_embeddings(audio)
+                        if embeddings is not None:
+                            all_sequences.append(embeddings)
+                            all_labels.append(class_idx)
+                            class_frame_counts.append(embeddings.shape[0])
+                            sequence_lengths.append(embeddings.shape[0])  # 실제 길이 저장
+                            collected_samples += 1
+                            files_used.append(os.path.basename(audio_file))
+                
+                # 무한 루프 방지
+                if len(files_used) > target_samples * 3:
+                    print(f"⚠️ {class_name}: 너무 많은 시도 후 중단")
+                    break
+            
+            print(f"  ✅ {class_name}: {collected_samples:,}개 시퀀스 생성")
+            
+            # 클래스별 프레임 통계
+            if class_frame_counts:
+                total_frames = sum(class_frame_counts)
+                avg_frames = np.mean(class_frame_counts)
+                dataset_info['frame_statistics'][class_name] = {
+                    'total_frames': total_frames,
+                    'avg_frames_per_sequence': avg_frames,
+                    'sequences_count': len(class_frame_counts),
+                    'min_frames': min(class_frame_counts),
+                    'max_frames': max(class_frame_counts)
+                }
+                all_frame_counts.extend(class_frame_counts)
+            
+            dataset_info['generation_stats'][class_name] = {
+                'target_samples': target_samples,
+                'actual_samples': collected_samples,
+                'files_used': len(set(files_used))
+            }
+            dataset_info['files_used'][class_name] = list(set(files_used))
+        
+        # 전환 데이터 생성
+        if TRANSITION_CONFIG['enabled']:
+            print(f"\n🔄 전환 데이터 생성 중...")
+            
+            # 기본 시퀀스 총 개수 계산
+            total_base_sequences = sum(samples_per_class.values())
+            
+            # 설정 비율에 맞게 전환 데이터 생성
+            transition_sequences, transition_labels, transition_frame_counts = self.generate_transition_sequences(total_base_sequences)
+            
+            if transition_sequences:
+                all_sequences.extend(transition_sequences)
+                all_labels.extend(transition_labels)
+                all_frame_counts.extend(transition_frame_counts)
+                sequence_lengths.extend(transition_frame_counts)  # 전환 데이터의 실제 길이도 저장
+                
+                # 전환 데이터 프레임 통계
+                dataset_info['frame_statistics']['transitions'] = {
+                    'total_frames': sum(transition_frame_counts),
+                    'avg_frames_per_sequence': np.mean(transition_frame_counts),
+                    'sequences_count': len(transition_frame_counts),
+                    'min_frames': min(transition_frame_counts),
+                    'max_frames': max(transition_frame_counts)
+                }
+                
+                print(f"  ✅ 전환 데이터: {len(transition_sequences):,}개 시퀀스 생성")
+        
+        # 시퀀스 길이 통일 (패딩/자르기)
+        if all_sequences:
+            print("\n🔄 시퀀스 길이 통일 중...")
+            
+            # 시퀀스 길이 분석
+            seq_lengths = [seq.shape[0] for seq in all_sequences]
+            max_length = max(seq_lengths)
+            target_length = max_length  # 최대 길이로 통일
+            
+            print(f"  📏 시퀀스 길이 통계:")
+            print(f"    - 최소: {min(seq_lengths)}, 최대: {max_length}, 평균: {np.mean(seq_lengths):.1f}")
+            print(f"    - 목표 길이: {target_length} 프레임")
+            
+            # 시퀀스 길이 통일 (제로 패딩 또는 자르기)
+            unified_sequences = []
+            for seq in all_sequences:
+                if seq.shape[0] < target_length:
+                    # 제로 패딩
+                    pad_length = target_length - seq.shape[0]
+                    padded_seq = np.pad(seq, ((0, pad_length), (0, 0)), mode='constant', constant_values=0)
+                    unified_sequences.append(padded_seq)
+                elif seq.shape[0] > target_length:
+                    # 자르기 (앞부분 사용)
+                    unified_sequences.append(seq[:target_length])
+                else:
+                    unified_sequences.append(seq)
+            
+            X = np.array(unified_sequences)  # (samples, time_steps, features)
+            y = np.array(all_labels)         # (samples,)
+            original_lengths = np.array(sequence_lengths)  # (samples,) - 패딩 전 실제 길이
+            
+            # 셔플 (모든 배열을 동일하게)
+            shuffle_indices = np.random.permutation(len(X))
+            X = X[shuffle_indices]
+            y = y[shuffle_indices]
+            original_lengths = original_lengths[shuffle_indices]
+            
+            print(f"\n📊 최종 시퀀스 데이터셋 통계:")
+            print(f"  - 총 시퀀스 수: {len(X):,}개")
+            print(f"  - 시퀀스 형태: {X.shape}")
+            print(f"  - 시간 스텝: {X.shape[1]}")
+            print(f"  - 특성 수: {X.shape[2]}")
+            
+            # 클래스별 분포 확인
+            actual_class_samples = {}
+            class_frame_totals = {}
+            
+            for class_idx, class_name in enumerate(ALL_CLASSES):
+                count = np.sum(y == class_idx)
+                actual_class_samples[class_name] = count
+                percentage = count / len(y) * 100
+                
+                # 해당 클래스의 총 프레임 수 계산
+                if class_name in dataset_info['frame_statistics']:
+                    total_frames = dataset_info['frame_statistics'][class_name]['total_frames']
+                    class_frame_totals[class_name] = total_frames
+                else:
+                    class_frame_totals[class_name] = 0
+                
+                print(f"  - {class_name}: {count:,}개 시퀀스 ({percentage:.1f}%), {class_frame_totals[class_name]:,} 프레임")
+            
+            # 전환 데이터 비율 통계 추가
+            total_sequences = len(X)
+            base_sequences = sum(samples_per_class.values())
+            actual_transition_sequences = total_sequences - base_sequences
+            actual_transition_ratio = actual_transition_sequences / total_sequences if total_sequences > 0 else 0
+            target_transition_ratio = DATA_GENERATION_CONFIG['transition_data_ratio']
+            
+            print(f"\n📊 최종 데이터 구성 비율:")
+            print(f"  - 기본 시퀀스: {base_sequences:,}개 ({(1-actual_transition_ratio):.1%})")
+            print(f"  - 전환 시퀀스: {actual_transition_sequences:,}개 ({actual_transition_ratio:.1%})")
+            print(f"  - 목표 전환 비율: {target_transition_ratio:.1%}")
+            print(f"  - 실제 전환 비율: {actual_transition_ratio:.1%}")
+            
+            dataset_info['final_stats'] = {
+                'total_sequences': len(X),
+                'sequence_shape': list(X.shape),
+                'target_length': target_length,
+                'class_distribution': actual_class_samples,
+                'class_frame_totals': class_frame_totals,
+                'sequence_length_stats': {
+                    'min_length': int(np.min(original_lengths)),
+                    'max_length': int(np.max(original_lengths)),
+                    'mean_length': float(np.mean(original_lengths)),
+                    'padded_length': target_length
+                },
+                'transition_data_stats': {
+                    'target_ratio': target_transition_ratio,
+                    'actual_ratio': actual_transition_ratio,
+                    'base_sequences': base_sequences,
+                    'transition_sequences': actual_transition_sequences,
+                    'total_sequences': total_sequences
+                }
+            }
+            
+            return X, y, dataset_info, original_lengths
+        else:
+            print("❌ 생성된 데이터가 없습니다.")
+            return None, None, None
         
         all_sequences = []
         all_labels = []
@@ -1114,7 +1470,7 @@ class DataGenerator:
 
 def main():
     """메인 실행 함수"""
-    print("🚀 YAMNet + LSTM 프레임 기반 데이터 생성기")
+    print("🚀 YAMNet + LSTM 시퀀스 기반 데이터 생성기")
     print("=" * 60)
     
     # 설정 검증
@@ -1131,24 +1487,114 @@ def main():
     # 데이터 생성기 초기화
     generator = DataGenerator()
     
-    # 최적 샘플 수 계산 (참고용)
-    recommendations = generator.calculate_optimal_samples()
+    # 시퀀스 기반 데이터 생성을 위한 샘플 수 입력
+    print("\n📊 시퀀스 기반 데이터 생성 설정")
+    print("각 클래스별로 생성할 시퀀스 수를 입력하세요.")
+    print("(한 시퀀스는 하나의 완전한 오디오 파일입니다)")
     
-    # 프레임 수 입력 받기
-    target_frames_per_class = generator.get_user_input_for_frames(recommendations)
-    if target_frames_per_class is None:
+    samples_per_class = {}
+    
+    # 기본 시퀀스 수 설정
+    default_samples = {
+        'silence': 500,
+        'factory': 300,
+        'fire': 200,
+        'gas': 200,
+        'scream': 200
+    }
+    
+    print(f"\n🎯 권장 시퀀스 수:")
+    for class_name in ALL_CLASSES:
+        recommended = default_samples.get(class_name, 200)
+        print(f"  - {class_name}: {recommended}개")
+    
+    print(f"\n⚙️ 시퀀스 수 설정:")
+    use_defaults = input("권장 설정을 사용하시겠습니까? (Y/n): ").strip().lower()
+    
+    if use_defaults in ['', 'y', 'yes']:
+        samples_per_class = default_samples.copy()
+        print("✅ 권장 설정 적용됨")
+    else:
+        for class_name in ALL_CLASSES:
+            while True:
+                try:
+                    default_val = default_samples.get(class_name, 200)
+                    user_input = input(f"{class_name} 시퀀스 수 (기본값: {default_val}): ").strip()
+                    if not user_input:
+                        samples_per_class[class_name] = default_val
+                    else:
+                        samples_per_class[class_name] = max(0, int(user_input))
+                    break
+                except ValueError:
+                    print("⚠️ 숫자를 입력해주세요.")
+    
+    # 총 시퀀스 수 확인
+    total_sequences = sum(samples_per_class.values())
+    print(f"\n📊 설정된 시퀀스 수:")
+    for class_name, count in samples_per_class.items():
+        percentage = (count / total_sequences) * 100 if total_sequences > 0 else 0
+        print(f"  - {class_name}: {count:,}개 ({percentage:.1f}%)")
+    print(f"  총 {total_sequences:,}개 시퀀스 생성 예정")
+    
+    confirm = input("\n계속 진행하시겠습니까? (Y/n): ").strip().lower()
+    if confirm not in ['', 'y', 'yes']:
+        print("👋 중단됨")
         return
     
-    # 프레임 기반 데이터셋 생성
-    X, y, dataset_info = generator.generate_dataset_by_frames(target_frames_per_class)
+    # 시퀀스 기반 데이터셋 생성
+    result = generator.generate_sequence_dataset(samples_per_class)
+    
+    if len(result) == 4:
+        X, y, dataset_info, original_lengths = result
+    else:
+        # 이전 버전 호환성
+        X, y, dataset_info = result
+        original_lengths = None
     
     if X is not None:
+        # 클래스 가중치 계산
+        print("\n⚖️ 클래스 가중치 계산 중...")
+        class_weights = {}
+        
+        # 각 클래스별 실제 프레임 수 계산 (패딩 제외)
+        class_frame_counts = {class_name: 0 for class_name in ALL_CLASSES}
+        
+        for i, (label, length) in enumerate(zip(y, original_lengths)):
+            class_name = ALL_CLASSES[label]
+            class_frame_counts[class_name] += length  # 실제 길이만 더함
+        
+        # 전체 실제 프레임 수
+        total_frames = sum(class_frame_counts.values())
+        
+        for class_idx, class_name in enumerate(ALL_CLASSES):
+            frames = class_frame_counts[class_name]
+            if frames > 0:
+                # 실제 프레임 수에 반비례하는 가중치
+                weight = total_frames / (len(ALL_CLASSES) * frames)
+            else:
+                weight = 1.0
+            
+            class_weights[class_idx] = weight
+            print(f"  📊 {class_name}: {frames:,} 프레임 (실제), 가중치: {weight:.3f}")
+        
+        # 클래스 가중치 정보를 데이터셋 정보에 추가
+        dataset_info['class_weights'] = {str(k): float(v) for k, v in class_weights.items()}
+        dataset_info['actual_frame_counts'] = {class_name: int(count) for class_name, count in class_frame_counts.items()}
+        
         # 3-way 데이터 분할 (train/validation/test)
         print("\n🔄 데이터를 train/validation/test로 분할 중...")
-        X_train, X_val, X_test, y_train, y_val, y_test = split_dataset_3way(X, y)
+        if original_lengths is not None:
+            X_train, X_val, X_test, y_train, y_val, y_test, lengths_train, lengths_val, lengths_test = split_dataset_3way_with_lengths(X, y, original_lengths)
+        else:
+            X_train, X_val, X_test, y_train, y_val, y_test = split_dataset_3way(X, y)
+            lengths_train = lengths_val = lengths_test = None
         
         # 분할된 데이터셋 저장
-        split_paths = save_dataset_splits(X_train, X_val, X_test, y_train, y_val, y_test)
+        if lengths_train is not None:
+            split_paths = save_dataset_splits_with_lengths(X_train, X_val, X_test, y_train, y_val, y_test, 
+                                                          lengths_train, lengths_val, lengths_test)
+        else:
+            split_paths = save_dataset_splits(X_train, X_val, X_test, y_train, y_val, y_test)
         
         # 분할 후 클래스별 통계
         print(f"\n📊 분할된 데이터셋 클래스별 통계:")
@@ -1177,6 +1623,9 @@ def main():
             return obj
         
         dataset_info = convert_numpy_types(dataset_info)
+        
+        # 클래스 가중치 정보 추가
+        dataset_info['class_weights'] = {str(k): float(v) for k, v in class_weights.items()}
         
         dataset_info['split_info'] = {
             'train_samples': len(X_train),

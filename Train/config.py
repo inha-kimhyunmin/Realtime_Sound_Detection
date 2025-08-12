@@ -70,7 +70,7 @@ def initialize_paths():
 # 모델 및 훈련 설정
 # ================================
 MODEL_CONFIG = {
-    'version': 'v2.11',                    # 모델 버전
+    'version': 'v2.2',                    # 모델 버전
     'audio_duration': 10.0,                # 오디오 입력 길이 (초) [5.0 ~ 10.0]
     'sample_rate': 16000,                 # 샘플링 주파수
 }
@@ -95,7 +95,6 @@ TRAINING_CONFIG = {
     'dense_units': 256,                   # Dense 레이어 유닛 수
     'lstm_units': 128,                    # LSTM 레이어 유닛 수
     'dropout_rate': 0.3,                  # 드롭아웃 비율
-    'sequence_length': 21,                # LSTM 시퀀스 길이 (YAMNet 10초 ≈ 21프레임)
     'save_checkpoints': True,             # 체크포인트 저장
     'early_stopping': {
         'enabled': True,
@@ -515,6 +514,70 @@ def split_dataset_3way(X, y, random_seed=None):
     
     return X_train, X_val, X_test, y_train, y_val, y_test
 
+def split_dataset_3way_with_lengths(X, y, lengths, random_seed=None):
+    """데이터를 train/validation/test로 3-way 분할 (길이 정보 포함)"""
+    from sklearn.model_selection import train_test_split
+    
+    if random_seed is None:
+        random_seed = TRAINING_CONFIG['random_seed']
+    
+    split_config = TRAINING_CONFIG['data_split']
+    train_ratio = split_config['train_ratio']
+    val_ratio = split_config['validation_ratio'] 
+    test_ratio = split_config['test_ratio']
+    stratify = split_config['stratify']
+    shuffle = split_config['shuffle']
+    
+    print(f"📊 데이터 3-way 분할 (Train:{train_ratio:.1%} / Val:{val_ratio:.1%} / Test:{test_ratio:.1%})")
+    print(f"  - 총 데이터: {len(X):,}개")
+    
+    # 1단계: Train + Validation vs Test 분할
+    train_val_ratio = train_ratio + val_ratio  # 남은 비율
+    test_size_step1 = test_ratio
+    
+    stratify_step1 = y if stratify else None
+    
+    X_train_val, X_test, y_train_val, y_test, lengths_train_val, lengths_test = train_test_split(
+        X, y, lengths,
+        test_size=test_size_step1,
+        random_state=random_seed,
+        stratify=stratify_step1,
+        shuffle=shuffle
+    )
+    
+    # 2단계: Train vs Validation 분할
+    val_size_step2 = val_ratio / train_val_ratio  # train_val 내에서의 validation 비율
+    
+    stratify_step2 = y_train_val if stratify else None
+    
+    X_train, X_val, y_train, y_val, lengths_train, lengths_val = train_test_split(
+        X_train_val, y_train_val, lengths_train_val,
+        test_size=val_size_step2,
+        random_state=random_seed + 1,  # 다른 시드 사용
+        stratify=stratify_step2,
+        shuffle=shuffle
+    )
+    
+    # 결과 출력
+    print(f"  - Train: {len(X_train):,}개 ({len(X_train)/len(X):.1%})")
+    print(f"  - Validation: {len(X_val):,}개 ({len(X_val)/len(X):.1%})")
+    print(f"  - Test: {len(X_test):,}개 ({len(X_test)/len(X):.1%})")
+    
+    # 클래스별 분포 확인
+    if hasattr(y, '__iter__'):
+        print(f"\n📈 클래스별 분포 확인:")
+        unique_classes = np.unique(y)
+        for class_idx in unique_classes:
+            train_count = np.sum(y_train == class_idx)
+            val_count = np.sum(y_val == class_idx)
+            test_count = np.sum(y_test == class_idx)
+            total_count = train_count + val_count + test_count
+            
+            class_name = ALL_CLASSES[class_idx] if class_idx < len(ALL_CLASSES) else f"Class_{class_idx}"
+            print(f"  - {class_name}: Train {train_count}, Val {val_count}, Test {test_count} (총 {total_count})")
+    
+    return X_train, X_val, X_test, y_train, y_val, y_test, lengths_train, lengths_val, lengths_test
+
 def save_dataset_splits(X_train, X_val, X_test, y_train, y_val, y_test, base_name=None):
     """분할된 데이터셋을 개별 파일로 저장"""
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -559,6 +622,84 @@ def save_dataset_splits(X_train, X_val, X_test, y_train, y_val, y_test, base_nam
         json.dump(metadata, f, indent=2, ensure_ascii=False)
     
     print(f"💾 분할된 데이터셋 저장:")
+    print(f"  - Train: {train_path}")
+    print(f"  - Validation: {val_path}")
+    print(f"  - Test: {test_path}")
+    print(f"  - Metadata: {metadata_path}")
+    
+    return {
+        'train': train_path,
+        'validation': val_path,
+        'test': test_path,
+        'metadata': metadata_path
+    }
+
+def save_dataset_splits_with_lengths(X_train, X_val, X_test, y_train, y_val, y_test, 
+                                   lengths_train, lengths_val, lengths_test, base_name=None):
+    """분할된 데이터셋을 개별 파일로 저장 (길이 정보 포함)"""
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    if base_name is None:
+        base_name = f"split_dataset_{MODEL_CONFIG['version']}_{timestamp}"
+    
+    # 각 분할을 개별 파일로 저장 (길이 정보 포함)
+    train_path = os.path.join(DATASET_SAVE_DIR, f"{base_name}_train.npz")
+    val_path = os.path.join(DATASET_SAVE_DIR, f"{base_name}_val.npz")
+    test_path = os.path.join(DATASET_SAVE_DIR, f"{base_name}_test.npz")
+    
+    np.savez_compressed(train_path, X=X_train, y=y_train, lengths=lengths_train)
+    np.savez_compressed(val_path, X=X_val, y=y_val, lengths=lengths_val)
+    np.savez_compressed(test_path, X=X_test, y=y_test, lengths=lengths_test)
+    
+    # 메타데이터 저장 (길이 정보 포함)
+    metadata = {
+        'split_info': {
+            'train_ratio': TRAINING_CONFIG['data_split']['train_ratio'],
+            'validation_ratio': TRAINING_CONFIG['data_split']['validation_ratio'],
+            'test_ratio': TRAINING_CONFIG['data_split']['test_ratio'],
+            'stratify': TRAINING_CONFIG['data_split']['stratify'],
+            'random_seed': TRAINING_CONFIG['random_seed']
+        },
+        'data_counts': {
+            'train': len(X_train),
+            'validation': len(X_val),
+            'test': len(X_test),
+            'total': len(X_train) + len(X_val) + len(X_test)
+        },
+        'sequence_length_stats': {
+            'train': {
+                'min': int(np.min(lengths_train)),
+                'max': int(np.max(lengths_train)),
+                'mean': float(np.mean(lengths_train)),
+                'std': float(np.std(lengths_train))
+            },
+            'validation': {
+                'min': int(np.min(lengths_val)),
+                'max': int(np.max(lengths_val)),
+                'mean': float(np.mean(lengths_val)),
+                'std': float(np.std(lengths_val))
+            },
+            'test': {
+                'min': int(np.min(lengths_test)),
+                'max': int(np.max(lengths_test)),
+                'mean': float(np.mean(lengths_test)),
+                'std': float(np.std(lengths_test))
+            }
+        },
+        'files': {
+            'train': train_path,
+            'validation': val_path,
+            'test': test_path
+        },
+        'creation_time': datetime.now().isoformat(),
+        'model_version': MODEL_CONFIG['version'],
+        'includes_sequence_lengths': True
+    }
+    
+    metadata_path = os.path.join(DATASET_SAVE_DIR, f"{base_name}_metadata.json")
+    with open(metadata_path, 'w', encoding='utf-8') as f:
+        json.dump(metadata, f, indent=2, ensure_ascii=False)
+    
+    print(f"💾 분할된 데이터셋 저장 (길이 정보 포함):")
     print(f"  - Train: {train_path}")
     print(f"  - Validation: {val_path}")
     print(f"  - Test: {test_path}")
