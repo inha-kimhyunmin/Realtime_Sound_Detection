@@ -1,0 +1,186 @@
+{
+  "metadata": {
+    "creation_time": "2025-08-12T14:59:05.392030",
+    "model_version": "v2.22",
+    "total_samples": 2123,
+    "split_ratios": {
+      "train": 0.7,
+      "validation": 0.15,
+      "test": 0.15
+    }
+  },
+  "split_summary": {
+    "train": {
+      "total_samples": 1485,
+      "percentage": 69.94818652849742
+    },
+    "validation": {
+      "total_samples": 319,
+      "percentage": 15.025906735751295
+    },
+    "test": {
+      "total_samples": 319,
+      "percentage": 15.025906735751295
+    }
+  },
+  "class_distribution": {
+    "train": {
+      "silence": {
+        "count": 333,
+        "percentage": 22.4
+      },
+      "factory": {
+        "count": 414,
+        "percentage": 27.9
+      },
+      "fire": {
+        "count": 250,
+        "percentage": 16.8
+      },
+      "gas": {
+        "count": 243,
+        "percentage": 16.4
+      },
+      "scream": {
+        "count": 245,
+        "percentage": 16.5
+      }
+    },
+    "validation": {
+      "silence": {
+        "count": 72,
+        "percentage": 22.6
+      },
+      "factory": {
+        "count": 89,
+        "percentage": 27.9
+      },
+      "fire": {
+        "count": 53,
+        "percentage": 16.6
+      },
+      "gas": {
+        "count": 52,
+        "percentage": 16.3
+      },
+      "scream": {
+        "count": 53,
+        "percentage": 16.6
+      }
+    },
+    "test": {
+      "silence": {
+        "count": 72,
+        "percentage": 22.6
+      },
+      "factory": {
+        "count": 89,
+        "percentage": 27.9
+      },
+      "fire": {
+        "count": 54,
+        "percentage": 16.9
+      },
+      "gas": {
+        "count": 52,
+        "percentage": 16.3
+      },
+      "scream": {
+        "count": 52,
+        "percentage": 16.3
+      }
+    }
+  },
+  "class_statistics": {
+    "silence": {
+      "total_samples": 477,
+      "train": {
+        "count": 333,
+        "percentage_of_class": 69.8,
+        "percentage_of_split": 22.4
+      },
+      "validation": {
+        "count": 72,
+        "percentage_of_class": 15.1,
+        "percentage_of_split": 22.6
+      },
+      "test": {
+        "count": 72,
+        "percentage_of_class": 15.1,
+        "percentage_of_split": 22.6
+      }
+    },
+    "factory": {
+      "total_samples": 592,
+      "train": {
+        "count": 414,
+        "percentage_of_class": 69.9,
+        "percentage_of_split": 27.9
+      },
+      "validation": {
+        "count": 89,
+        "percentage_of_class": 15.0,
+        "percentage_of_split": 27.9
+      },
+      "test": {
+        "count": 89,
+        "percentage_of_class": 15.0,
+        "percentage_of_split": 27.9
+      }
+    },
+    "fire": {
+      "total_samples": 357,
+      "train": {
+        "count": 250,
+        "percentage_of_class": 70.0,
+        "percentage_of_split": 16.8
+      },
+      "validation": {
+        "count": 53,
+        "percentage_of_class": 14.8,
+        "percentage_of_split": 16.6
+      },
+      "test": {
+        "count": 54,
+        "percentage_of_class": 15.1,
+        "percentage_of_split": 16.9
+      }
+    },
+    "gas": {
+      "total_samples": 347,
+      "train": {
+        "count": 243,
+        "percentage_of_class": 70.0,
+        "percentage_of_split": 16.4
+      },
+      "validation": {
+        "count": 52,
+        "percentage_of_class": 15.0,
+        "percentage_of_split": 16.3
+      },
+      "test": {
+        "count": 52,
+        "percentage_of_class": 15.0,
+        "percentage_of_split": 16.3
+      }
+    },
+    "scream": {
+      "total_samples": 350,
+      "train": {
+        "count": 245,
+        "percentage_of_class": 70.0,
+        "percentage_of_split": 16.5
+      },
+      "validation": {
+        "count": 53,
+        "percentage_of_class": 15.1,
+        "percentage_of_split": 16.6
+      },
+      "test": {
+        "count": 52,
+        "percentage_of_class": 14.9,
+        "percentage_of_split": 16.3
+      }
+    }
+  }
+}

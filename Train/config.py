@@ -70,8 +70,8 @@ def initialize_paths():
 # 모델 및 훈련 설정
 # ================================
 MODEL_CONFIG = {
-    'version': 'v2.2',                    # 모델 버전
-    'audio_duration': 10.0,                # 오디오 입력 길이 (초) [5.0 ~ 10.0]
+    'version': 'v2.23',                    # 모델 버전
+    'audio_duration': 5.0,                # 오디오 입력 길이 (초) [5.0 ~ 10.0]
     'sample_rate': 16000,                 # 샘플링 주파수
 }
 
@@ -160,21 +160,21 @@ AUGMENTATION_CONFIG = {
     },
     'fire': {
         'enabled': True,
-        'methods': ['volume_change', 'noise_add'],
-        'snr_range': (5, 20),                             # SNR 범위 (dB)
+        'methods': ['factory_mix', 'volume_change'],
+        'snr_range': (10, 30),                             # SNR 범위 (dB)
         'volume_range': (0.8, 1.2),                       # 볼륨 범위
         'noise_level': (0.01, 0.05),                      # 노이즈 레벨
     },
     'gas': {
         'enabled': True,
-        'methods': ['volume_change', 'noise_add'],
-        'snr_range': (8, 25),                             # SNR 범위 (dB)
+        'methods': ['factory_mix', 'volume_change'],
+        'snr_range': (10, 25),                             # SNR 범위 (dB)
         'volume_range': (0.8, 1.2),                       # 볼륨 범위
         'noise_level': (0.01, 0.05),                      # 노이즈 레벨
     },
     'scream': {
         'enabled': True,
-        'methods': ['volume_change', 'reverb', 'room_effect'],
+        'methods': ['factory_mix', 'volume_change', 'reverb', 'room_effect'],
         'snr_range': (10, 30),                            # SNR 범위 (dB)
         'volume_range': (0.7, 1.3),                       # 볼륨 범위
         'room_size': (0.1, 0.9),                          # 룸 크기
@@ -216,11 +216,11 @@ TRANSITION_CONFIG = {
             'weight': 1.0,                                 # 생성 가중치
         },
         'factory_to_danger': {
-            'enabled': True,
+            'enabled': False,
             'description': '공장소리 → 위험소리 (사고 발생)',
             'transition_point_range': (0.2, 0.8),         # 전환 시점 범위
             'danger_volume_ratio': (0.8, 1.5),            # 위험소리 볼륨 비율
-            'weight': 1.5,                                 # 생성 가중치 (가장 중요)
+            'weight': 2.0,                                 # 생성 가중치 (가장 중요)
         }
     }
 }
