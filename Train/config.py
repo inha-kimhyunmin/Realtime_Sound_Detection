@@ -70,7 +70,7 @@ def initialize_paths():
 # 모델 및 훈련 설정
 # ================================
 MODEL_CONFIG = {
-    'version': 'v2.23',                    # 모델 버전
+    'version': 'v2.24',                    # 모델 버전
     'audio_duration': 5.0,                # 오디오 입력 길이 (초) [5.0 ~ 10.0]
     'sample_rate': 16000,                 # 샘플링 주파수
 }
@@ -160,21 +160,21 @@ AUGMENTATION_CONFIG = {
     },
     'fire': {
         'enabled': True,
-        'methods': ['factory_mix', 'volume_change'],
+        'methods': ['volume_change'],
         'snr_range': (10, 30),                             # SNR 범위 (dB)
         'volume_range': (0.8, 1.2),                       # 볼륨 범위
         'noise_level': (0.01, 0.05),                      # 노이즈 레벨
     },
     'gas': {
         'enabled': True,
-        'methods': ['factory_mix', 'volume_change'],
+        'methods': ['volume_change'],
         'snr_range': (10, 25),                             # SNR 범위 (dB)
         'volume_range': (0.8, 1.2),                       # 볼륨 범위
         'noise_level': (0.01, 0.05),                      # 노이즈 레벨
     },
     'scream': {
         'enabled': True,
-        'methods': ['factory_mix', 'volume_change', 'reverb', 'room_effect'],
+        'methods': ['volume_change', 'reverb', 'room_effect'],
         'snr_range': (10, 30),                            # SNR 범위 (dB)
         'volume_range': (0.7, 1.3),                       # 볼륨 범위
         'room_size': (0.1, 0.9),                          # 룸 크기
@@ -392,6 +392,276 @@ def save_experiment_summary(results_dict):
     
     print(f"📋 실험 요약 저장: {summary_path}")
     return summary_path
+
+def create_training_report(results, model_config=None, best_epoch=1, dataset_stats=None, class_weights=None, user_samples=None):
+    """상세 훈련 보고서 생성 (텍스트 + 시각화)"""
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    version = MODEL_CONFIG['version']
+    
+    # 텍스트 보고서 경로
+    report_path = os.path.join(TRAINING_RESULTS_DIR, f"training_report_{version}_{timestamp}.txt")
+    
+    with open(report_path, 'w', encoding='utf-8') as f:
+        f.write("=" * 80 + "\n")
+        f.write("🎵 YAMNet + LSTM 모델 훈련 보고서\n")
+        f.write("=" * 80 + "\n\n")
+        
+        # 1. 기본 정보
+        f.write("📋 실험 정보\n")
+        f.write("-" * 40 + "\n")
+        f.write(f"실험 일시: {datetime.now().strftime('%Y년 %m월 %d일 %H시 %M분')}\n")
+        f.write(f"모델 버전: {MODEL_CONFIG['version']}\n")
+        f.write(f"오디오 길이: {MODEL_CONFIG['audio_duration']}초\n")
+        f.write(f"샘플링 레이트: {MODEL_CONFIG['sample_rate']:,} Hz\n\n")
+        
+        # 2. 데이터셋 구성 정보
+        f.write("📊 데이터셋 구성\n")
+        f.write("-" * 40 + "\n")
+        
+        if dataset_stats and 'final_stats' in dataset_stats:
+            stats = dataset_stats['final_stats']
+            f.write(f"총 시퀀스 수: {stats['total_sequences']:,}개\n")
+            f.write(f"시퀀스 형태: {stats['sequence_shape']}\n")
+            f.write(f"패딩 길이: {stats['target_length']}개 프레임\n\n")
+            
+            # 시퀀스 길이 통계
+            if 'sequence_length_stats' in stats:
+                length_stats = stats['sequence_length_stats']
+                f.write("시퀀스 길이 통계 (패딩 전):\n")
+                f.write(f"  최소: {length_stats['min_length']}프레임\n")
+                f.write(f"  최대: {length_stats['max_length']}프레임\n")
+                f.write(f"  평균: {length_stats['mean_length']:.1f}프레임\n")
+                f.write(f"  패딩: {length_stats['padded_length']}프레임\n\n")
+            
+            # 클래스별 분포
+            f.write("클래스별 시퀀스 분포:\n")
+            total_sequences = stats['total_sequences']
+            for class_name, count in stats['class_distribution'].items():
+                percentage = (count / total_sequences) * 100
+                frame_total = stats.get('class_frame_totals', {}).get(class_name, 0)
+                f.write(f"  {class_name:8}: {count:4,}개 ({percentage:5.1f}%) - {frame_total:,} 실제프레임\n")
+            
+            f.write("\n")
+        
+        # 3. 사용자 설정 샘플 수 (있는 경우)
+        if user_samples:
+            f.write("🎯 사용자 설정 샘플 수\n")
+            f.write("-" * 40 + "\n")
+            total_user_samples = sum(user_samples.values())
+            for class_name, sample_count in user_samples.items():
+                percentage = (sample_count / total_user_samples) * 100
+                f.write(f"  {class_name:8}: {sample_count:4,}개 ({percentage:5.1f}%)\n")
+            f.write(f"  총합:      {total_user_samples:4,}개\n\n")
+        
+        # 4. 클래스 가중치 정보
+        if class_weights:
+            f.write("⚖️ 클래스 가중치\n")
+            f.write("-" * 40 + "\n")
+            for class_idx, weight in class_weights.items():
+                class_name = ALL_CLASSES[int(class_idx)]
+                f.write(f"  {class_name:8}: {weight:.3f}\n")
+            f.write("\n")
+        
+        # 5. 훈련 설정
+        f.write("🧠 훈련 설정\n")
+        f.write("-" * 40 + "\n")
+        f.write(f"에포크 수: {TRAINING_CONFIG['epochs']}\n")
+        f.write(f"배치 크기: {TRAINING_CONFIG['batch_size']}\n")
+        f.write(f"학습률: {TRAINING_CONFIG['learning_rate']}\n")
+        f.write(f"LSTM 유닛: {TRAINING_CONFIG['lstm_units']}\n")
+        f.write(f"드롭아웃: {TRAINING_CONFIG['dropout_rate']}\n")
+        f.write(f"클래스 가중치: {'사용' if TRAINING_CONFIG['use_class_weights'] else '미사용'}\n")
+        f.write(f"조기 종료: {'사용' if TRAINING_CONFIG['early_stopping']['enabled'] else '미사용'}\n")
+        f.write(f"학습률 스케줄링: {'사용' if TRAINING_CONFIG['learning_rate_schedule']['enabled'] else '미사용'}\n\n")
+        
+        # 6. 데이터 분할 정보
+        split_config = TRAINING_CONFIG['data_split']
+        f.write("📊 데이터 분할 설정\n")
+        f.write("-" * 40 + "\n")
+        f.write(f"훈련: {split_config['train_ratio']:.1%}\n")
+        f.write(f"검증: {split_config['validation_ratio']:.1%}\n")
+        f.write(f"테스트: {split_config['test_ratio']:.1%}\n")
+        f.write(f"계층 분할: {'사용' if split_config['stratify'] else '미사용'}\n")
+        f.write(f"데이터 셔플: {'사용' if split_config['shuffle'] else '미사용'}\n\n")
+        
+        # 7. 데이터 증강 설정
+        f.write("🎨 데이터 증강 설정\n")
+        f.write("-" * 40 + "\n")
+        for class_name in ALL_CLASSES:
+            if class_name in AUGMENTATION_CONFIG:
+                config = AUGMENTATION_CONFIG[class_name]
+                enabled = config.get('enabled', False)
+                f.write(f"  {class_name:8}: {'사용' if enabled else '미사용'}")
+                if enabled and 'methods' in config:
+                    f.write(f" - {', '.join(config['methods'])}")
+                f.write("\n")
+        f.write("\n")
+        
+        # 8. 전환 데이터 설정
+        f.write("🔄 전환 데이터 설정\n")
+        f.write("-" * 40 + "\n")
+        f.write(f"전환 데이터: {'사용' if TRANSITION_CONFIG['enabled'] else '미사용'}\n")
+        if TRANSITION_CONFIG['enabled']:
+            f.write(f"페이드 시간: {TRANSITION_CONFIG['fade_duration']}초\n")
+            f.write("전환 타입별 설정:\n")
+            for trans_type, config in TRANSITION_CONFIG['types'].items():
+                enabled = config.get('enabled', False)
+                weight = config.get('weight', 1.0)
+                f.write(f"  {trans_type:20}: {'사용' if enabled else '미사용'} (가중치: {weight})\n")
+        f.write("\n")
+        
+        # 9. 훈련 결과
+        if 'evaluation' in results:
+            eval_results = results['evaluation']
+            f.write("🎯 훈련 결과\n")
+            f.write("-" * 40 + "\n")
+            f.write(f"검증 정확도: {eval_results.get('accuracy', 0):.4f} ({eval_results.get('accuracy', 0)*100:.2f}%)\n")
+            f.write(f"검증 손실: {eval_results.get('loss', 0):.4f}\n")
+            
+            if 'precision' in eval_results:
+                f.write(f"정밀도: {eval_results['precision']:.4f}\n")
+            if 'recall' in eval_results:
+                f.write(f"재현율: {eval_results['recall']:.4f}\n")
+            
+            # 클래스별 성능
+            if 'class_report' in results:
+                f.write("\n클래스별 성능:\n")
+                class_report = results['class_report']
+                for class_name in ALL_CLASSES:
+                    if class_name in class_report:
+                        report = class_report[class_name]
+                        f.write(f"  {class_name:8}: P={report['precision']:.3f}, R={report['recall']:.3f}, F1={report['f1-score']:.3f}\n")
+            f.write("\n")
+        
+        # 10. 모델 파일 정보
+        if 'model_paths' in results:
+            f.write("💾 생성된 파일\n")
+            f.write("-" * 40 + "\n")
+            for path in results['model_paths']:
+                f.write(f"모델: {os.path.basename(path)}\n")
+        
+        f.write("\n")
+        f.write("=" * 80 + "\n")
+        f.write("보고서 생성 완료\n")
+        f.write("=" * 80 + "\n")
+    
+    print(f"📋 훈련 보고서 저장: {report_path}")
+    return {'training_report': report_path}
+
+def create_dataset_visualization(dataset_info, save_dir=None):
+    """데이터셋 구성 시각화"""
+    import matplotlib.pyplot as plt
+    import numpy as np
+    
+    if save_dir is None:
+        save_dir = TRAINING_RESULTS_DIR
+    
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    
+    # 한글 폰트 설정
+    plt.rcParams['font.family'] = ['Malgun Gothic', 'DejaVu Sans']
+    plt.rcParams['axes.unicode_minus'] = False
+    
+    if 'final_stats' not in dataset_info:
+        return None
+    
+    stats = dataset_info['final_stats']
+    
+    # 1. 클래스별 시퀀스 분포 파이 차트
+    if 'class_distribution' in stats:
+        fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(15, 6))
+        
+        # 파이 차트
+        class_names = list(stats['class_distribution'].keys())
+        class_counts = list(stats['class_distribution'].values())
+        
+        colors = ['#ff9999', '#66b3ff', '#99ff99', '#ffcc99', '#ff99cc']
+        
+        wedges, texts, autotexts = ax1.pie(class_counts, labels=class_names, autopct='%1.1f%%',
+                                          colors=colors[:len(class_names)], startangle=90)
+        ax1.set_title('클래스별 시퀀스 분포', fontsize=14, fontweight='bold')
+        
+        # 막대 그래프
+        bars = ax2.bar(class_names, class_counts, color=colors[:len(class_names)])
+        ax2.set_title('클래스별 시퀀스 수', fontsize=14, fontweight='bold')
+        ax2.set_ylabel('시퀀스 수')
+        ax2.tick_params(axis='x', rotation=45)
+        
+        # 막대 위에 값 표시
+        for bar, count in zip(bars, class_counts):
+            height = bar.get_height()
+            ax2.text(bar.get_x() + bar.get_width()/2., height + max(class_counts)*0.01,
+                    f'{count:,}', ha='center', va='bottom')
+        
+        plt.tight_layout()
+        
+        # 저장
+        pie_chart_path = os.path.join(save_dir, f'dataset_distribution_{timestamp}.png')
+        plt.savefig(pie_chart_path, dpi=300, bbox_inches='tight')
+        plt.close()
+        
+        print(f"📊 데이터셋 분포 차트 저장: {pie_chart_path}")
+    
+    # 2. 클래스별 실제 프레임 수 비교
+    if 'class_frame_totals' in stats:
+        fig, ax = plt.subplots(figsize=(12, 6))
+        
+        frame_totals = stats['class_frame_totals']
+        class_names = list(frame_totals.keys())
+        frame_counts = list(frame_totals.values())
+        
+        bars = ax.bar(class_names, frame_counts, color=colors[:len(class_names)])
+        ax.set_title('클래스별 실제 프레임 수 (패딩 제외)', fontsize=14, fontweight='bold')
+        ax.set_ylabel('프레임 수')
+        ax.tick_params(axis='x', rotation=45)
+        
+        # 막대 위에 값 표시
+        for bar, count in zip(bars, frame_counts):
+            height = bar.get_height()
+            ax.text(bar.get_x() + bar.get_width()/2., height + max(frame_counts)*0.01,
+                   f'{count:,}', ha='center', va='bottom')
+        
+        plt.tight_layout()
+        
+        # 저장
+        frame_chart_path = os.path.join(save_dir, f'frame_distribution_{timestamp}.png')
+        plt.savefig(frame_chart_path, dpi=300, bbox_inches='tight')
+        plt.close()
+        
+        print(f"📊 프레임 분포 차트 저장: {frame_chart_path}")
+    
+    # 3. 클래스 가중치 시각화
+    if 'class_weights' in dataset_info:
+        fig, ax = plt.subplots(figsize=(10, 6))
+        
+        weights = dataset_info['class_weights']
+        class_indices = [int(k) for k in weights.keys()]
+        class_names = [ALL_CLASSES[i] for i in class_indices]
+        weight_values = [float(weights[str(i)]) for i in class_indices]
+        
+        bars = ax.bar(class_names, weight_values, color=colors[:len(class_names)])
+        ax.set_title('클래스별 가중치', fontsize=14, fontweight='bold')
+        ax.set_ylabel('가중치')
+        ax.tick_params(axis='x', rotation=45)
+        ax.axhline(y=1.0, color='red', linestyle='--', alpha=0.7, label='기준선 (1.0)')
+        
+        # 막대 위에 값 표시
+        for bar, weight in zip(bars, weight_values):
+            height = bar.get_height()
+            ax.text(bar.get_x() + bar.get_width()/2., height + max(weight_values)*0.01,
+                   f'{weight:.3f}', ha='center', va='bottom')
+        
+        ax.legend()
+        plt.tight_layout()
+        
+        # 저장
+        weight_chart_path = os.path.join(save_dir, f'class_weights_{timestamp}.png')
+        plt.savefig(weight_chart_path, dpi=300, bbox_inches='tight')
+        plt.close()
+        
+        print(f"📊 클래스 가중치 차트 저장: {weight_chart_path}")
+    
+    return True
 
 def get_model_save_path():
     """모델 저장 경로 생성"""
@@ -769,6 +1039,194 @@ def print_config_summary():
             print(f"  - {class_name}: ⏭️ 스킵")
     
     print("=" * 60)
+
+def save_config_info(user_samples=None):
+    """설정 정보를 텍스트 파일로 저장"""
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    version = MODEL_CONFIG['version']
+    
+    config_path = os.path.join(TRAINING_RESULTS_DIR, f"config_{version}_{timestamp}.txt")
+    
+    with open(config_path, 'w', encoding='utf-8') as f:
+        f.write("=" * 80 + "\n")
+        f.write("⚙️ YAMNet + LSTM 모델 설정 정보\n")
+        f.write("=" * 80 + "\n\n")
+        
+        # 1. 기본 모델 설정
+        f.write("📱 모델 기본 설정\n")
+        f.write("-" * 40 + "\n")
+        f.write(f"모델 버전: {MODEL_CONFIG['version']}\n")
+        f.write(f"오디오 길이: {MODEL_CONFIG['audio_duration']}초\n")
+        f.write(f"샘플링 레이트: {MODEL_CONFIG['sample_rate']:,} Hz\n")
+        f.write(f"YAMNet 프레임 수: {get_audio_frames_count()}개\n")
+        f.write(f"YAMNet 특성 수: 1024차원\n\n")
+        
+        # 2. 클래스 설정
+        f.write("🎯 클래스 설정\n")
+        f.write("-" * 40 + "\n")
+        f.write(f"총 클래스 수: {NUM_CLASSES}개\n")
+        f.write("활성 클래스:\n")
+        for i, class_name in enumerate(ALL_CLASSES):
+            korean_name = CLASS_NAMES.get(class_name, class_name)
+            f.write(f"  {i}. {class_name} ({korean_name})\n")
+        
+        f.write("\n위험 클래스 활성화:\n")
+        for danger_class, enabled in DANGER_CLASSES.items():
+            f.write(f"  {danger_class}: {'✅' if enabled else '❌'}\n")
+        f.write("\n")
+        
+        # 3. 훈련 설정
+        f.write("🧠 훈련 설정\n")
+        f.write("-" * 40 + "\n")
+        f.write(f"에포크 수: {TRAINING_CONFIG['epochs']}\n")
+        f.write(f"배치 크기: {TRAINING_CONFIG['batch_size']}\n")
+        f.write(f"학습률: {TRAINING_CONFIG['learning_rate']}\n")
+        f.write(f"랜덤 시드: {TRAINING_CONFIG['random_seed']}\n")
+        f.write(f"입력 정규화: {'✅' if TRAINING_CONFIG['normalize_input'] else '❌'}\n")
+        f.write(f"클래스 가중치 사용: {'✅' if TRAINING_CONFIG['use_class_weights'] else '❌'}\n\n")
+        
+        # 4. 모델 아키텍처 설정
+        f.write("🏗️ 모델 아키텍처\n")
+        f.write("-" * 40 + "\n")
+        f.write(f"LSTM 유닛 수: {TRAINING_CONFIG['lstm_units']}\n")
+        f.write(f"Dense 유닛 수: {TRAINING_CONFIG['dense_units']}\n")
+        f.write(f"드롭아웃 비율: {TRAINING_CONFIG['dropout_rate']}\n")
+        f.write("LSTM 구조:\n")
+        f.write(f"  1층: {TRAINING_CONFIG['lstm_units']}유닛 (return_sequences=True)\n")
+        f.write(f"  2층: {TRAINING_CONFIG['lstm_units']//2}유닛 (return_sequences=True)\n")
+        f.write(f"  3층: {TRAINING_CONFIG['lstm_units']//4}유닛 (return_sequences=False)\n")
+        f.write("Dense 구조:\n")
+        f.write(f"  1층: {TRAINING_CONFIG['dense_units']}유닛 (ReLU)\n")
+        f.write(f"  2층: {TRAINING_CONFIG['dense_units']//2}유닛 (ReLU)\n")
+        f.write(f"  출력: {NUM_CLASSES}유닛 (Softmax)\n\n")
+        
+        # 5. 데이터 분할 설정
+        split_config = TRAINING_CONFIG['data_split']
+        f.write("📊 데이터 분할 설정\n")
+        f.write("-" * 40 + "\n")
+        f.write(f"훈련 비율: {split_config['train_ratio']:.1%}\n")
+        f.write(f"검증 비율: {split_config['validation_ratio']:.1%}\n")
+        f.write(f"테스트 비율: {split_config['test_ratio']:.1%}\n")
+        f.write(f"계층 분할: {'✅' if split_config['stratify'] else '❌'}\n")
+        f.write(f"데이터 셔플: {'✅' if split_config['shuffle'] else '❌'}\n\n")
+        
+        # 6. 콜백 설정
+        f.write("📞 콜백 설정\n")
+        f.write("-" * 40 + "\n")
+        f.write(f"체크포인트 저장: {'✅' if TRAINING_CONFIG['save_checkpoints'] else '❌'}\n")
+        
+        if TRAINING_CONFIG['early_stopping']['enabled']:
+            f.write(f"조기 종료: ✅ (patience: {TRAINING_CONFIG['early_stopping']['patience']})\n")
+        else:
+            f.write("조기 종료: ❌\n")
+        
+        if TRAINING_CONFIG['learning_rate_schedule']['enabled']:
+            lr_config = TRAINING_CONFIG['learning_rate_schedule']
+            f.write(f"학습률 스케줄링: ✅\n")
+            f.write(f"  감소 비율: {lr_config['factor']}\n")
+            f.write(f"  대기 에포크: {lr_config['patience']}\n")
+            f.write(f"  최소 학습률: {lr_config['min_lr']}\n")
+        else:
+            f.write("학습률 스케줄링: ❌\n")
+        f.write("\n")
+        
+        # 7. 데이터 생성 설정
+        data_config = DATA_GENERATION_CONFIG
+        f.write("🏭 데이터 생성 설정\n")
+        f.write("-" * 40 + "\n")
+        f.write(f"클래스당 목표 프레임: {data_config['target_frames_per_class']:,}개\n")
+        f.write(f"증강 시작 임계값: {data_config['min_frames_for_augmentation']:,}개\n")
+        f.write(f"전환 데이터 비율: {data_config['transition_data_ratio']:.1%}\n")
+        f.write(f"자동 균형 조정: {'✅' if data_config['auto_balance'] else '❌'}\n")
+        f.write(f"사용자 입력 허용: {'✅' if data_config['allow_user_input'] else '❌'}\n\n")
+        
+        # 8. 사용자 입력 샘플 수
+        if user_samples:
+            f.write("🎯 사용자 설정 샘플 수\n")
+            f.write("-" * 40 + "\n")
+            total_user_samples = sum(user_samples.values())
+            for class_name, sample_count in user_samples.items():
+                percentage = (sample_count / total_user_samples) * 100
+                f.write(f"  {class_name:8}: {sample_count:4,}개 ({percentage:5.1f}%)\n")
+            f.write(f"  총합:      {total_user_samples:4,}개\n\n")
+        
+        # 9. 데이터 증강 설정
+        f.write("🎨 데이터 증강 설정\n")
+        f.write("-" * 40 + "\n")
+        for class_name in ALL_CLASSES:
+            if class_name in AUGMENTATION_CONFIG:
+                config = AUGMENTATION_CONFIG[class_name]
+                enabled = config.get('enabled', False)
+                f.write(f"{class_name:8}: {'✅' if enabled else '❌'}")
+                
+                if enabled:
+                    methods = config.get('methods', [])
+                    f.write(f" - 방법: {', '.join(methods)}")
+                    
+                    if 'volume_range' in config:
+                        vol_range = config['volume_range']
+                        f.write(f", 볼륨: {vol_range[0]}-{vol_range[1]}")
+                    
+                    if 'snr_range' in config:
+                        snr_range = config['snr_range']
+                        f.write(f", SNR: {snr_range[0]}-{snr_range[1]}dB")
+                
+                f.write("\n")
+        f.write("\n")
+        
+        # 10. 전환 데이터 설정
+        f.write("🔄 전환 데이터 설정\n")
+        f.write("-" * 40 + "\n")
+        f.write(f"전환 데이터 사용: {'✅' if TRANSITION_CONFIG['enabled'] else '❌'}\n")
+        
+        if TRANSITION_CONFIG['enabled']:
+            f.write(f"페이드 시간: {TRANSITION_CONFIG['fade_duration']}초\n")
+            f.write("전환 타입별 설정:\n")
+            
+            for trans_type, config in TRANSITION_CONFIG['types'].items():
+                enabled = config.get('enabled', False)
+                weight = config.get('weight', 1.0)
+                description = config.get('description', trans_type)
+                
+                f.write(f"  {trans_type:20}: {'✅' if enabled else '❌'}")
+                if enabled:
+                    f.write(f" (가중치: {weight:.1f}) - {description}")
+                f.write("\n")
+        f.write("\n")
+        
+        # 11. 경로 설정
+        f.write("📁 경로 설정\n")
+        f.write("-" * 40 + "\n")
+        f.write(f"환경음 디렉토리: {ENVSOUND_DIR}\n")
+        f.write(f"공장음 디렉토리: {MIXTURE_DIR}\n")
+        f.write(f"결과 저장 디렉토리: {VERSION_DIR}\n")
+        f.write(f"모델 저장 디렉토리: {MODEL_SAVE_DIR}\n")
+        f.write(f"데이터셋 저장 디렉토리: {DATASET_SAVE_DIR}\n\n")
+        
+        # 12. 시스템 정보
+        f.write("💻 시스템 정보\n")
+        f.write("-" * 40 + "\n")
+        f.write(f"설정 생성 시간: {datetime.now().strftime('%Y년 %m월 %d일 %H시 %M분 %S초')}\n")
+        
+        try:
+            import sys
+            f.write(f"Python 버전: {sys.version.split()[0]}\n")
+        except:
+            f.write("Python 버전: 확인 불가\n")
+        
+        try:
+            import tensorflow as tf
+            f.write(f"TensorFlow 버전: {tf.__version__}\n")
+        except:
+            f.write("TensorFlow 버전: 확인 불가\n")
+        
+        f.write("\n")
+        f.write("=" * 80 + "\n")
+        f.write("설정 정보 저장 완료\n")
+        f.write("=" * 80 + "\n")
+    
+    print(f"⚙️ 설정 정보 저장: {config_path}")
+    return config_path
 
 if __name__ == "__main__":
     # 설정 검증

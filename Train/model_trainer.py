@@ -26,6 +26,7 @@ except ImportError:
 from tqdm import tqdm
 from datetime import datetime
 from config import *
+from config import create_training_report, create_dataset_visualization, save_config_info
 
 class ModelTrainer:
     def __init__(self):
@@ -877,16 +878,88 @@ class ModelTrainer:
             # 6. 모델 저장
             model_paths = self.save_model(model_name)
             
+            # 7. 종합 보고서 생성
+            print("\n📊 종합 보고서 생성 중...")
+            
+            # 데이터셋 통계 수집
+            dataset_stats = {}
+            if dataset_info_path and os.path.exists(dataset_info_path):
+                try:
+                    with open(dataset_info_path, 'r', encoding='utf-8') as f:
+                        dataset_info = json.load(f)
+                        dataset_stats = dataset_info.get('dataset_info', {})
+                except Exception as e:
+                    print(f"⚠️ 데이터셋 정보 로드 실패: {e}")
+            
+            # 훈련 결과 정리
+            training_results = {
+                'evaluation': evaluation,
+                'class_report': class_report,
+                'confusion_matrix': conf_matrix.tolist() if hasattr(conf_matrix, 'tolist') else conf_matrix,
+                'training_info': self.training_info
+            }
+            
+            # 모델 설정 정보
+            model_config = self.model.get_config() if hasattr(self.model, 'get_config') else {}
+            
+            # 최고 성능 에포크 찾기
+            best_epoch = 1
+            if 'epoch_logs' in self.training_info:
+                best_accuracy = 0
+                for epoch_info in self.training_info['epoch_logs']:
+                    if epoch_info.get('val_accuracy', 0) > best_accuracy:
+                        best_accuracy = epoch_info.get('val_accuracy', 0)
+                        best_epoch = epoch_info.get('epoch', 1)
+            
+            # 클래스 가중치 정보
+            class_weights = None
+            if hasattr(self, 'class_weights'):
+                class_weights = self.class_weights
+            
+            # 사용자 샘플 정보 (데이터셋 정보에서 추출)
+            user_samples = None
+            if 'user_samples' in dataset_stats:
+                user_samples = dataset_stats['user_samples']
+            
+            # 보고서 생성
+            report_paths = create_training_report(
+                results=training_results,
+                model_config=model_config,
+                best_epoch=best_epoch,
+                dataset_stats=dataset_stats,
+                class_weights=class_weights,
+                user_samples=user_samples
+            )
+            
+            # 데이터셋 시각화 생성
+            if dataset_stats:
+                viz_path = create_dataset_visualization(dataset_stats, class_weights)
+                if viz_path:
+                    report_paths['visualization'] = viz_path
+            
+            # 설정 정보 저장
+            config_path = save_config_info(user_samples)
+            if config_path:
+                report_paths['config'] = config_path
+            
+            print(f"📋 보고서 생성 완료:")
+            for report_type, path in report_paths.items():
+                print(f"  - {report_type}: {path}")
+            
             print(f"\n🎉 모든 훈련 과정이 완료되었습니다!")
             print(f"📁 결과 폴더: {TRAINING_RESULTS_DIR}")
             
-            return {
+            # 최종 결과에 보고서 경로 추가
+            final_results = {
                 'model_paths': model_paths,
                 'evaluation': evaluation,
                 'class_report': class_report,
                 'confusion_matrix': conf_matrix,
-                'training_info': self.training_info
+                'training_info': self.training_info,
+                'report_paths': report_paths
             }
+            
+            return final_results
             
         except Exception as e:
             print(f"❌ 훈련 중 오류 발생: {e}")

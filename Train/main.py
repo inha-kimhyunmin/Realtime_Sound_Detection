@@ -162,14 +162,11 @@ def run_model_training(data_path=None):
             print(f"🎯 검증 정확도: {accuracy:.4f}")
             print(f"📂 모델 파일: {model_paths[0]}")
             
-            # 실험 요약 저장
-            from config import save_experiment_summary
-            results_dict = {
-                'model_paths': model_paths,
-                'accuracy': accuracy,
-                'evaluation_results': results['evaluation']
-            }
-            save_experiment_summary(results_dict)
+            # 종합 보고서 생성됨
+            if 'report_paths' in results:
+                print(f"\n📋 생성된 보고서:")
+                for report_type, path in results['report_paths'].items():
+                    print(f"  - {report_type}: {path}")
             
             return model_paths[0]
         else:
