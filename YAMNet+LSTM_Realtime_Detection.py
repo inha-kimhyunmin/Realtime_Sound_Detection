@@ -62,7 +62,7 @@ DURATION = 10.0  # LSTM 모델 입력 길이 (10초)
 THRESHOLD = 0.7  # 위험 소리 감지 임계값
 
 # --- 모델 경로 설정 ---
-MODEL_PATH = 'results/version_v2.23/models/yamnet_lstm_model_20250812_154123.h5'  # 기본 모델 경로
+MODEL_PATH = 'results/version_v2.25/models/yamnet_lstm_model_20250812_173732.h5'  # 기본 모델 경로
 # MODEL_PATH = 'model_results_v1.2_20250808_170648/yamnet_lstm_model_v1.2.h5'
 # MODEL_PATH = 'model_results_v1.0_20250808_123555/yamnet_lstm_model_v1.0.h5'  # 버전별 모델 경로 예시
 

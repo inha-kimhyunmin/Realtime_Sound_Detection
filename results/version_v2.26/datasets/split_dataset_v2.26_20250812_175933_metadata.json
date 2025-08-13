@@ -1,0 +1,43 @@
+{
+  "split_info": {
+    "train_ratio": 0.7,
+    "validation_ratio": 0.15,
+    "test_ratio": 0.15,
+    "stratify": true,
+    "random_seed": 42
+  },
+  "data_counts": {
+    "train": 2972,
+    "validation": 637,
+    "test": 638,
+    "total": 4247
+  },
+  "sequence_length_stats": {
+    "train": {
+      "min": 10,
+      "max": 10,
+      "mean": 10.0,
+      "std": 0.0
+    },
+    "validation": {
+      "min": 10,
+      "max": 10,
+      "mean": 10.0,
+      "std": 0.0
+    },
+    "test": {
+      "min": 10,
+      "max": 10,
+      "mean": 10.0,
+      "std": 0.0
+    }
+  },
+  "files": {
+    "train": "c:\\Users\\dotor\\Desktop\\Realtime_Sound_Detection_Ver2\\results\\version_v2.26\\datasets\\split_dataset_v2.26_20250812_175933_train.npz",
+    "validation": "c:\\Users\\dotor\\Desktop\\Realtime_Sound_Detection_Ver2\\results\\version_v2.26\\datasets\\split_dataset_v2.26_20250812_175933_val.npz",
+    "test": "c:\\Users\\dotor\\Desktop\\Realtime_Sound_Detection_Ver2\\results\\version_v2.26\\datasets\\split_dataset_v2.26_20250812_175933_test.npz"
+  },
+  "creation_time": "2025-08-12T17:59:35.507239",
+  "model_version": "v2.26",
+  "includes_sequence_lengths": true
+}
